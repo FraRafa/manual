@@ -22,6 +22,10 @@ Al terminar este capítulo vas a poder:
 - entender qué es el **directorio de trabajo** y por qué importa.
 :::
 
+---
+
+## 1. Comentarios, texto y variables
+
 ::: {.column-margin}
 <details>
 <summary><strong>Glosario</strong></summary>
@@ -35,10 +39,6 @@ Al terminar este capítulo vas a poder:
 
 </details>
 :::
-
----
-
-## 1. Comentarios, texto y variables
 
 ### Comentarios
 
@@ -269,6 +269,7 @@ pip install wooldridge yfinance pandas_datareader
 
 ---
 
+::: {.content-visible when-format="pdf"}
 ## Glosario (para Colab)
 
 - **comentario**: texto que Python ignora (`# ...`).
@@ -277,3 +278,4 @@ pip install wooldridge yfinance pandas_datareader
 - **módulo**: “paquete” con código reutilizable (`math`, `os`).
 - **import**: traer un módulo para usarlo (`import math`).
 - **directorio de trabajo**: carpeta actual donde Python busca/guarda archivos.
+:::
