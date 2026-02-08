@@ -4,17 +4,6 @@ title: "Capítulo 1 — Empezando en Python"
 
 [🚀 Abrir este capítulo en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/01-empezando-en-python.ipynb){.btn .btn-success target="_blank"}
 
-::: {.column-margin}
-### Glosario
-
-- **comentario**: texto que Python ignora (`# ...`).
-- **string**: texto entre comillas (`"hola"`).
-- **variable**: nombre que guarda un valor (`x = 10`).
-- **módulo**: “paquete” con código reutilizable (`math`, `os`).
-- **import**: traer un módulo para usarlo (`import math`).
-- **directorio de trabajo**: carpeta actual donde Python busca/guarda archivos.
-:::
-
 ```{python}
 #| include: false
 # Setup interno (se ejecuta, pero no se muestra en HTML/PDF)
@@ -31,6 +20,20 @@ Al terminar este capítulo vas a poder:
 - imprimir resultados con `print()` y f-strings,
 - importar módulos (`math`, `os`) y usarlos correctamente,
 - entender qué es el **directorio de trabajo** y por qué importa.
+:::
+
+::: {.column-margin}
+<details>
+<summary><strong>Glosario</strong></summary>
+
+- **comentario**: texto que Python ignora (`# ...`).
+- **string**: texto entre comillas (`"hola"`).
+- **variable**: nombre que guarda un valor (`x = 10`).
+- **módulo**: “paquete” con código reutilizable (`math`, `os`).
+- **import**: traer un módulo para usarlo (`import math`).
+- **directorio de trabajo**: carpeta actual donde Python busca/guarda archivos.
+
+</details>
 :::
 
 ---
