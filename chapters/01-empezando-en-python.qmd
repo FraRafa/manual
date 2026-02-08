@@ -19,14 +19,14 @@ title: "Capítulo 1 — Empezando en Python"
 #| include: false
 # Setup interno (se ejecuta, pero no se muestra en HTML/PDF)
 import sys
-import os
-import math as m
 ```
 
 ::: {.callout-note}
 ## Objetivos del capítulo
 
-- Escribir y ejecutar tus primeras líneas de Python,
+Al terminar este capítulo vas a poder:
+
+- escribir y ejecutar tus primeras líneas de Python,
 - crear variables y usarlas en cálculos,
 - imprimir resultados con `print()` y f-strings,
 - importar módulos (`math`, `os`) y usarlos correctamente,
@@ -143,8 +143,13 @@ Un **módulo** es código ya escrito y listo para usar (funciones y constantes).
 
 ### Importar y usar `math`
 
-En este capítulo ya importamos `math` con alias `m` (de forma interna).  
-Ahora solo lo usamos.
+Primero importamos el módulo `math`. Usaremos un **alias** (`m`) para escribir menos.
+
+```{python}
+import math as m
+```
+
+Ahora puedes usar funciones/constantes con `m.`:
 
 ```{python}
 raiz = m.sqrt(16)   # raíz cuadrada
@@ -165,6 +170,12 @@ print(f"e = {e}")
 ---
 
 ### Directorio de trabajo con `os`
+
+Para trabajar con carpetas y archivos usamos el módulo `os`.
+
+```{python}
+import os
+```
 
 El **directorio de trabajo** es la carpeta desde donde Python “mira” para leer/guardar archivos.
 
