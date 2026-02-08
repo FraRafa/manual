@@ -1,0 +1,326 @@
+---
+title: "Capítulo 6 — Limpieza y transformación de datos con pandas"
+---
+
+[🚀 Abrir este capítulo en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/06-limpieza-y-transformacion-pandas.ipynb){.btn .btn-success target="_blank"}
+
+```{python}
+#| include: false
+# Setup interno (se ejecuta, pero no se muestra en HTML/PDF)
+import sys
+import numpy as np
+import pandas as pd
+```
+
+::: {.callout-note}
+## Objetivos del capítulo
+
+Al terminar este capítulo vas a poder:
+
+- filtrar filas con condiciones (más de una condición a la vez),
+- crear nuevas columnas de forma clara y segura,
+- tratar valores faltantes (`NaN`) con `isna`, `fillna`, `dropna`,
+- ordenar y resumir datos con `sort_values` y `groupby`,
+- combinar tablas con `merge` (joins).
+:::
+
+---
+
+## 1. Preparar un DataFrame de ejemplo (local)
+
+Trabajaremos con un ejemplo pequeño (sin internet) para enfocarnos en la **sintaxis**.
+
+```{python}
+import numpy as np
+import pandas as pd
+
+df = pd.DataFrame({
+    "id": [1, 2, 3, 4, 5, 6],
+    "ciudad": ["Quito", "Quito", "Cuenca", "Cuenca", "Quito", "Cuenca"],
+    "ventas": [100, 120, np.nan, 90, 130, 110],
+    "clientes": [20, 25, 18, np.nan, 30, 22]
+})
+df
+```
+
+::: {.callout-note}
+### Sintaxis clave (DataFrame)
+
+- `pd.DataFrame({columna: lista, ...})` crea una tabla.
+- `np.nan` representa un valor faltante.
+:::
+
+::: {.column-margin}
+<details>
+<summary><strong>Glosario</strong></summary>
+
+- **NaN**: “Not a Number”; en `pandas` significa “faltante”.
+- **filtro**: seleccionar filas que cumplen una condición.
+- **booleano**: `True`/`False`.
+- **operadores lógicos**: `&` (y), `|` (o), `~` (no).
+- **join / merge**: unir tablas por una llave (clave).
+- **llave (key)**: columna usada para unir (por ejemplo `id`).
+</details>
+:::
+
+---
+
+## 2. Filtrar filas (condiciones)
+
+### 2.1 Una condición simple
+
+```{python}
+df[df["ciudad"] == "Quito"]
+```
+
+::: {.callout-note}
+### Sintaxis clave (filtros)
+
+- La condición va **entre corchetes**: `df[condicion]`
+- La condición produce una serie de `True/False`
+:::
+
+---
+
+### 2.2 Dos condiciones a la vez
+
+Para combinar condiciones usa **paréntesis** y `&` o `|`.
+
+```{python}
+df[(df["ciudad"] == "Quito") & (df["ventas"] >= 120)]
+```
+
+::: {.callout-note}
+### Sintaxis clave (AND / OR)
+
+- AND: `(cond1) & (cond2)`
+- OR: `(cond1) | (cond2)`
+- NOT: `~(condicion)`
+- Siempre usa paréntesis en cada condición para evitar errores.
+:::
+
+---
+
+## 3. Crear nuevas columnas (transformación)
+
+### 3.1 Una columna calculada
+
+```{python}
+df["ventas_por_cliente"] = df["ventas"] / df["clientes"]
+df
+```
+
+::: {.callout-warning}
+**Ojo**  
+Si hay `NaN`, el resultado también puede quedar en `NaN`. Eso es normal.
+:::
+
+---
+
+### 3.2 Transformación con `where` (condición dentro de la columna)
+
+Ejemplo: si `clientes` es 0 o faltante, no calculamos la razón.
+
+```{python}
+df["ventas_por_cliente_segura"] = np.where(
+    df["clientes"].isna() | (df["clientes"] == 0),
+    np.nan,
+    df["ventas"] / df["clientes"]
+)
+df[["ventas", "clientes", "ventas_por_cliente_segura"]]
+```
+
+::: {.callout-note}
+### Sintaxis clave (`np.where`)
+
+- `np.where(cond, valor_si_true, valor_si_false)`
+- Útil para crear columnas con reglas claras.
+:::
+
+---
+
+## 4. Valores faltantes (`NaN`)
+
+### 4.1 Detectar faltantes
+
+```{python}
+df.isna()
+```
+
+```{python}
+df["ventas"].isna()
+```
+
+---
+
+### 4.2 Contar faltantes por columna
+
+```{python}
+df.isna().sum()
+```
+
+---
+
+### 4.3 Eliminar filas con faltantes
+
+```{python}
+df_sin_na = df.dropna()
+df_sin_na
+```
+
+::: {.callout-note}
+### Sintaxis clave (`dropna`)
+
+- `df.dropna()` elimina filas que tengan **algún** `NaN`.
+- Es simple, pero puede botar demasiados datos si hay muchos faltantes.
+:::
+
+---
+
+### 4.4 Rellenar faltantes (imputación simple)
+
+Ejemplo: rellenar faltantes de `ventas` con el promedio.
+
+```{python}
+prom_ventas = df["ventas"].mean()
+df["ventas_fill"] = df["ventas"].fillna(prom_ventas)
+df[["ventas", "ventas_fill"]]
+```
+
+::: {.callout-note}
+### Sintaxis clave (`fillna`)
+
+- `serie.fillna(valor)` reemplaza `NaN` por `valor`.
+- Es común usar promedios o medianas, según el caso.
+:::
+
+---
+
+## 5. Ordenar y resumir
+
+### 5.1 Ordenar
+
+```{python}
+df.sort_values("ventas", ascending=False)
+```
+
+---
+
+### 5.2 Resumir por grupos (`groupby`)
+
+Promedio de ventas por ciudad:
+
+```{python}
+df.groupby("ciudad")["ventas"].mean()
+```
+
+Más de una estadística:
+
+```{python}
+df.groupby("ciudad")[["ventas", "clientes"]].agg(["mean", "count"])
+```
+
+::: {.callout-note}
+### Sintaxis clave (`groupby`)
+
+- `df.groupby("col")["y"].mean()` → promedio de `y` por grupo.
+- `agg([...])` permite varias estadísticas.
+:::
+
+---
+
+## 6. Unir tablas con `merge`
+
+Imagina que tienes otra tabla con información de cada ciudad:
+
+```{python}
+ciudades = pd.DataFrame({
+    "ciudad": ["Quito", "Cuenca"],
+    "region": ["Sierra", "Sierra"],
+    "altitud_m": [2850, 2550]
+})
+ciudades
+```
+
+Unimos por la columna `ciudad`:
+
+```{python}
+df_merged = df.merge(ciudades, on="ciudad", how="left")
+df_merged
+```
+
+::: {.callout-note}
+### Sintaxis clave (`merge`)
+
+- `df.merge(otra, on="llave", how="left")`
+- `how="left"` conserva todas las filas del `df` original.
+- `how="inner"` conserva solo coincidencias en ambas tablas.
+:::
+
+---
+
+## 7. Aplicación con datos reales (opcional, online)
+
+En el manual no lo ejecutamos (`eval: false`). En Colab suele funcionar mejor.
+
+```{python}
+#| eval: false
+# !pip -q install wooldridge
+import wooldridge as woo
+
+wage1 = woo.dataWoo("wage1")
+
+# Ejemplo: crear una variable transformada y resumir
+wage1["lwage"] = np.log(wage1["wage"])
+wage1.groupby("female")[["wage", "lwage"]].mean()
+```
+
+---
+
+## Ejercicios propuestos
+
+1) **Filtro con dos condiciones**  
+   Con el `df` del capítulo, selecciona filas donde `ciudad` sea `"Cuenca"` y `ventas` sea mayor o igual a 100.
+
+   **Respuesta esperada:** solo la fila de Cuenca con `ventas=110` (y cualquier otra que cumpla si cambiaste datos).
+
+2) **Columna con regla**  
+   Crea una columna `ventas_altas` que sea `True` si `ventas >= 120` y `False` en caso contrario.
+
+   **Respuesta esperada:** `True` en las filas con ventas 120 y 130; `False` en 100, 90, 110; y `False` o `NaN` para el faltante dependiendo de tu implementación (pero debe ser consistente).
+
+3) **Imputación**  
+   Rellena los `NaN` de `ventas` con la mediana de `ventas`.
+
+   **Respuesta esperada:** la columna de `ventas` ya no tiene `NaN` (la fila faltante toma la mediana).
+
+4) **Groupby con dos columnas**  
+   Calcula el promedio de `ventas` y `clientes` por `ciudad`.
+
+   **Respuesta esperada:** dos promedios por ciudad (Quito y Cuenca) para ambas variables.
+
+5) **Merge (left join)**  
+   Crea un `DataFrame` de ciudades con una columna extra (por ejemplo `pais="Ecuador"`) y haz un `left merge` sobre `ciudad`.
+
+   **Respuesta esperada:** `df_merged` conserva el mismo número de filas que `df` y agrega las nuevas columnas.
+
+6) **Mini-proyecto**  
+   Crea un `DataFrame` con 10 filas (inventado) con columnas `grupo` y `valor`.  
+   - Inserta 2 valores faltantes en `valor`.  
+   - Imputa los faltantes con el promedio del grupo.  
+   - Luego calcula el promedio final por grupo.
+
+   **Respuesta esperada:** no quedan `NaN` y obtienes un promedio final por cada grupo.
+
+---
+
+::: {.content-visible when-format="pdf"}
+## Glosario (para Colab)
+
+- **NaN**: valor faltante.
+- **filtro**: selección de filas que cumplen una condición.
+- **booleano**: `True/False`.
+- **& / | / ~**: operadores lógicos (y / o / no).
+- **merge**: unir tablas por una llave.
+- **llave**: columna usada para unir.
+:::
