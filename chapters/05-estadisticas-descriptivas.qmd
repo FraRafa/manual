@@ -1,0 +1,409 @@
+---
+title: "Capítulo 5 — Estadísticas descriptivas (tablas, gráficos y resumen)"
+---
+
+[🚀 Abrir este capítulo en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/05-estadisticas-descriptivas.ipynb){.btn .btn-success target="_blank"}
+
+```{python}
+#| include: false
+# Setup interno (se ejecuta, pero no se muestra en HTML/PDF)
+import sys
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+plt.rcParams["figure.figsize"] = (8, 4.5)
+plt.rcParams["figure.dpi"] = 120
+```
+
+::: {.callout-note}
+## Objetivos del capítulo
+
+Al terminar este capítulo vas a poder:
+
+- construir **tablas de frecuencia** y **proporciones** con `value_counts`,
+- construir **tablas de contingencia** con `pd.crosstab`,
+- crear gráficos a partir de tablas: **pastel**, **barras**, **apiladas** y **agrupadas**,
+- visualizar distribuciones numéricas: **histograma**, **densidad** (opcional) y **boxplot**,
+- construir una **ECDF** (función de distribución acumulada empírica),
+- calcular estadísticos: `mean`, `median`, `var`, `std`, `cov`, `corr` y `describe`.
+:::
+
+---
+
+## 1. Qué haremos (enfocado en Python)
+
+Este capítulo no es para “explicar estadística”. Tú ya la sabes.  
+Aquí nos enfocamos en **cómo** se hacen estos resúmenes con Python.
+
+::: {.column-margin}
+<details>
+<summary><strong>Glosario</strong></summary>
+
+- **frecuencia**: cuántas veces aparece un valor.
+- **proporción**: frecuencia / total.
+- **crosstab**: tabla cruzada (contingencia).
+- **densidad**: histograma escalado para que el área sea 1 (`density=True`).
+- **KDE**: estimación de densidad (Kernel Density Estimation).
+- **boxplot**: gráfico de caja y bigotes.
+- **cov / corr**: covarianza / correlación.
+</details>
+:::
+
+---
+
+## 2. Datos de ejemplo (local)
+
+En el notebook base se usan bases reales (`wooldridge`).  
+En el manual usamos datos pequeños **locales** para aprender la sintaxis sin depender de internet.
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+np.random.seed(123)
+
+df = pd.DataFrame({
+    "marriage": np.random.choice(["mala", "regular", "buena"], size=80, p=[0.2, 0.35, 0.45]),
+    "haskids":  np.random.choice(["sin hijos", "con hijos"], size=80, p=[0.55, 0.45]),
+    "roe":      np.clip(np.random.normal(loc=12, scale=6, size=80), -10, 40),
+    "salary":   np.clip(np.random.normal(loc=120, scale=35, size=80), 20, 300)
+})
+df.head()
+```
+
+---
+
+## 3. Distribuciones discretas: tablas de frecuencia
+
+### 3.1 Tabla de frecuencia (conteos)
+
+```{python}
+freq = df["marriage"].value_counts()
+freq
+```
+
+Proporciones (porcentaje):
+
+```{python}
+prop = df["marriage"].value_counts(normalize=True) * 100
+prop
+```
+
+::: {.callout-note}
+### Sintaxis clave (`value_counts`)
+
+- `serie.value_counts()` → conteos.
+- `serie.value_counts(normalize=True)` → proporciones (suman 1).
+:::
+
+---
+
+### 3.2 Gráfico de pastel (desde frecuencias)
+
+```{python}
+freq.plot(kind="pie", autopct="%1.1f%%")
+plt.ylabel("")  # quita etiqueta fea del eje y en pastel
+plt.title("marriage — gráfico de pastel")
+plt.show()
+```
+
+---
+
+### 3.3 Barras (horizontal)
+
+```{python}
+freq.sort_values().plot(kind="barh")
+plt.title("marriage — barras (frecuencia)")
+plt.xlabel("frecuencia")
+plt.ylabel("categoría")
+plt.show()
+```
+
+---
+
+### 3.4 Frecuencia por subgrupos (segmentación)
+
+Ejemplo: ¿cómo se distribuye `marriage` entre “con hijos” y “sin hijos”?
+
+```{python}
+tabla_sub = pd.crosstab(df["marriage"], df["haskids"])
+tabla_sub
+```
+
+#### Barras apiladas
+
+```{python}
+tabla_sub.plot(kind="bar", stacked=True)
+plt.title("marriage vs haskids — barras apiladas")
+plt.xlabel("marriage")
+plt.ylabel("frecuencia")
+plt.show()
+```
+
+#### Barras agrupadas
+
+```{python}
+tabla_sub.plot(kind="bar", stacked=False)
+plt.title("marriage vs haskids — barras agrupadas")
+plt.xlabel("marriage")
+plt.ylabel("frecuencia")
+plt.show()
+```
+
+---
+
+### 3.5 Tabla de contingencia y proporciones
+
+```{python}
+pd.crosstab(df["marriage"], df["haskids"])
+```
+
+Proporción del total:
+
+```{python}
+pd.crosstab(df["marriage"], df["haskids"], normalize=True)
+```
+
+Proporción por filas:
+
+```{python}
+pd.crosstab(df["marriage"], df["haskids"], normalize="index")
+```
+
+Proporción por columnas:
+
+```{python}
+pd.crosstab(df["marriage"], df["haskids"], normalize="columns")
+```
+
+::: {.callout-note}
+### Sintaxis clave (`crosstab`)
+
+- `normalize=True` → proporción del total.
+- `normalize="index"` → cada fila suma 1.
+- `normalize="columns"` → cada columna suma 1.
+:::
+
+---
+
+## 4. Distribuciones continuas: histogramas y densidades
+
+### 4.1 Histograma (frecuencia)
+
+```{python}
+plt.hist(df["roe"], bins=12)
+plt.title("Histograma de ROE (frecuencia)")
+plt.xlabel("roe")
+plt.ylabel("frecuencia")
+plt.show()
+```
+
+### 4.2 Histograma como densidad
+
+```{python}
+plt.hist(df["roe"], bins=12, density=True)
+plt.title("Histograma de ROE (densidad)")
+plt.xlabel("roe")
+plt.ylabel("densidad")
+plt.show()
+```
+
+::: {.callout-note}
+### Sintaxis clave (`density=True`)
+
+- `density=True` cambia la escala: el área total del histograma ≈ 1.
+- Útil para comparar distribuciones con tamaños distintos.
+:::
+
+---
+
+### 4.3 Densidad KDE (opcional)
+
+En algunos entornos `Series.plot(kind="density")` requiere dependencias (puede fallar).  
+Por eso lo dejamos **opcional** y desactivado en Quarto.
+
+```{python}
+#| eval: false
+df["roe"].plot(kind="density")
+plt.title("KDE de ROE (opcional)")
+plt.xlabel("roe")
+plt.show()
+```
+
+---
+
+## 5. ECDF (función de distribución acumulada empírica)
+
+```{python}
+x = np.sort(df["roe"].to_numpy())
+y = np.arange(1, len(x) + 1) / len(x)
+
+plt.plot(x, y)
+plt.title("ECDF de ROE")
+plt.xlabel("roe (x)")
+plt.ylabel("F(x) acumulada")
+plt.ylim(0, 1)
+plt.show()
+```
+
+---
+
+## 6. Estadísticos descriptivos principales
+
+### 6.1 Resumen rápido con `describe`
+
+```{python}
+df[["roe", "salary"]].describe()
+```
+
+### 6.2 Media, mediana, varianza, desviación estándar
+
+```{python}
+roe_mean = df["roe"].mean()
+roe_med  = df["roe"].median()
+roe_var  = df["roe"].var()
+roe_std  = df["roe"].std()
+
+roe_mean, roe_med, roe_var, roe_std
+```
+
+### 6.3 Covarianza y correlación
+
+```{python}
+df[["salary", "roe"]].cov()
+```
+
+```{python}
+df[["salary", "roe"]].corr()
+```
+
+::: {.callout-note}
+### Sintaxis clave (cov/corr)
+
+- `df[cols].cov()` → matriz de covarianza.
+- `df[cols].corr()` → matriz de correlación.
+:::
+
+---
+
+## 7. Boxplots (gráficos de caja)
+
+```{python}
+plt.boxplot(df["roe"].dropna())
+plt.title("Boxplot de ROE")
+plt.ylabel("roe")
+plt.show()
+```
+
+Boxplot por grupo (por ejemplo, según `haskids`):
+
+```{python}
+df.boxplot(column="roe", by="haskids")
+plt.title("ROE por haskids (boxplot)")
+plt.suptitle("")  # quita título automático feo
+plt.xlabel("haskids")
+plt.ylabel("roe")
+plt.show()
+```
+
+---
+
+## 8. Aplicación con datos reales (opcional, online)
+
+Esto replica más fielmente el notebook base, pero depende de instalación/internet.  
+En Quarto lo dejamos desactivado (`eval: false`). En Colab suele funcionar.
+
+```{python}
+#| eval: false
+# En VSCode: pip install wooldridge
+# En Colab:  !pip -q install wooldridge
+import wooldridge as woo
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+affairs = woo.dataWoo("affairs")
+
+# Frecuencias y tablas
+affairs["ratemarr"].value_counts()
+pd.crosstab(affairs["ratemarr"], affairs["kids"])
+
+# Continuas: ceosal1
+ceosal1 = woo.dataWoo("ceosal1")
+
+plt.hist(ceosal1["roe"], bins=20)
+plt.title("Histograma de ROE (ceosal1)")
+plt.show()
+
+plt.hist(ceosal1["roe"], bins=20, density=True)
+plt.title("Histograma de ROE (densidad, ceosal1)")
+plt.show()
+
+# ECDF
+x = np.sort(ceosal1["roe"].to_numpy())
+y = np.arange(1, len(x) + 1) / len(x)
+plt.plot(x, y)
+plt.title("ECDF de ROE (ceosal1)")
+plt.ylim(0, 1)
+plt.show()
+
+# Estadísticos y matrices
+ceosal1[["salary", "roe"]].describe()
+ceosal1[["salary", "roe"]].cov()
+ceosal1[["salary", "roe"]].corr()
+
+# Boxplot
+ceosal1.boxplot(column="roe")
+plt.title("Boxplot de ROE (ceosal1)")
+plt.show()
+```
+
+---
+
+## Ejercicios propuestos
+
+1) **Frecuencias + gráfico**  
+   Obtén `value_counts()` de `marriage` y genera un gráfico de barras horizontal.
+
+   **Respuesta esperada:** 3 barras con los conteos por categoría.
+
+2) **Crosstab + normalización**  
+   Crea `pd.crosstab(marriage, haskids, normalize="index")`.
+
+   **Respuesta esperada:** cada fila suma 1.
+
+3) **Histograma (frecuencia vs densidad)**  
+   Grafica dos histogramas de `roe`: uno normal y otro con `density=True`.
+
+   **Respuesta esperada:** cambian las escalas del eje y (frecuencia vs densidad).
+
+4) **ECDF + percentil**  
+   Construye la ECDF de `roe` y estima el valor que deja 90% por debajo.
+
+   **Respuesta esperada:** un número cercano a `df["roe"].quantile(0.9)`.
+
+5) **Cov y Corr**  
+   Calcula `cov()` y `corr()` para `salary` y `roe`.
+
+   **Respuesta esperada:** dos matrices 2×2 (covarianza y correlación).
+
+6) **Boxplot por grupo**  
+   Crea un boxplot de `roe` por `haskids`.
+
+   **Respuesta esperada:** 2 cajas (una por cada categoría de `haskids`).
+
+---
+
+::: {.content-visible when-format="pdf"}
+## Glosario (para Colab)
+
+- **frecuencia**: conteos.
+- **proporción**: conteos / total.
+- **crosstab**: tabla cruzada.
+- **densidad**: histograma escalado (`density=True`).
+- **KDE**: densidad estimada (kernel).
+- **boxplot**: gráfico de caja.
+- **cov / corr**: covarianza / correlación.
+:::

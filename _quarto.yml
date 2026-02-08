@@ -12,7 +12,9 @@ book:
     - chapters/02-objetos-en-python.qmd
     - chapters/03-datos-externos.qmd
     - chapters/04-graficos-basicos-matplotlib.qmd
-    - chapters/05-control-de-flujo-y-funciones.qmd
+    - chapters/05-estadisticas-descriptivas.qmd
+    - chapters/06-limpieza-y-transformacion-pandas.qmd
+
 
 
 
