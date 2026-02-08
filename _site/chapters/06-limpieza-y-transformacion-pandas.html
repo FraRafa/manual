@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Capítulo 6 — Limpieza y transformación de datos con pandas – Manual de Python</title>
+<title>7&nbsp; Capítulo 6 — Distribuciones de probabilidad (scipy.stats) – Manual de Python</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/05-control-de-flujo-y-funciones.html" rel="prev">
+<link href="../chapters/05-estadisticas-descriptivas.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -123,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/06-limpieza-y-transformacion-pandas.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 6 — Limpieza y transformación de datos con pandas</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/06-limpieza-y-transformacion-pandas.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 6 — Distribuciones de probabilidad (scipy.stats)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -180,14 +180,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/05-control-de-flujo-y-funciones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Capítulo 5 — Control de flujo y funciones (if, for, while, def)</span></span></a>
+  <a href="../chapters/05-estadisticas-descriptivas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Capítulo 5 — Estadísticas descriptivas (tablas, gráficos y resumen)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/06-limpieza-y-transformacion-pandas.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 6 — Limpieza y transformación de datos con pandas</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 6 — Distribuciones de probabilidad (scipy.stats)</span></span></a>
   </div>
 </li>
     </ul>
@@ -200,32 +200,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preparar-un-dataframe-de-ejemplo-local" id="toc-preparar-un-dataframe-de-ejemplo-local" class="nav-link active" data-scroll-target="#preparar-un-dataframe-de-ejemplo-local"><span class="header-section-number">7.1</span> 1. Preparar un DataFrame de ejemplo (local)</a></li>
-  <li><a href="#filtrar-filas-condiciones" id="toc-filtrar-filas-condiciones" class="nav-link" data-scroll-target="#filtrar-filas-condiciones"><span class="header-section-number">7.2</span> 2. Filtrar filas (condiciones)</a>
+  <li><a href="#la-idea-enfocado-en-código" id="toc-la-idea-enfocado-en-código" class="nav-link active" data-scroll-target="#la-idea-enfocado-en-código"><span class="header-section-number">7.1</span> 1. La idea (enfocado en código)</a></li>
+  <li><a href="#distribuciones-discretas" id="toc-distribuciones-discretas" class="nav-link" data-scroll-target="#distribuciones-discretas"><span class="header-section-number">7.2</span> 2. Distribuciones discretas</a>
   <ul class="collapse">
-  <li><a href="#una-condición-simple" id="toc-una-condición-simple" class="nav-link" data-scroll-target="#una-condición-simple"><span class="header-section-number">7.2.1</span> 2.1 Una condición simple</a></li>
-  <li><a href="#dos-condiciones-a-la-vez" id="toc-dos-condiciones-a-la-vez" class="nav-link" data-scroll-target="#dos-condiciones-a-la-vez"><span class="header-section-number">7.2.2</span> 2.2 Dos condiciones a la vez</a></li>
+  <li><a href="#uniforme-discreta-randint" id="toc-uniforme-discreta-randint" class="nav-link" data-scroll-target="#uniforme-discreta-randint"><span class="header-section-number">7.2.1</span> 2.1 Uniforme discreta (<code>randint</code>)</a></li>
+  <li><a href="#bernoulli-bernoulli" id="toc-bernoulli-bernoulli" class="nav-link" data-scroll-target="#bernoulli-bernoulli"><span class="header-section-number">7.2.2</span> 2.2 Bernoulli (<code>bernoulli</code>)</a></li>
+  <li><a href="#binomial-binom" id="toc-binomial-binom" class="nav-link" data-scroll-target="#binomial-binom"><span class="header-section-number">7.2.3</span> 2.3 Binomial (<code>binom</code>)</a></li>
+  <li><a href="#poisson-poisson" id="toc-poisson-poisson" class="nav-link" data-scroll-target="#poisson-poisson"><span class="header-section-number">7.2.4</span> 2.4 Poisson (<code>poisson</code>)</a></li>
+  <li><a href="#geométrica-geom" id="toc-geométrica-geom" class="nav-link" data-scroll-target="#geométrica-geom"><span class="header-section-number">7.2.5</span> 2.5 Geométrica (<code>geom</code>)</a></li>
+  <li><a href="#binomial-negativa-nbinom" id="toc-binomial-negativa-nbinom" class="nav-link" data-scroll-target="#binomial-negativa-nbinom"><span class="header-section-number">7.2.6</span> 2.6 Binomial negativa (<code>nbinom</code>)</a></li>
+  <li><a href="#hipergeométrica-hypergeom" id="toc-hipergeométrica-hypergeom" class="nav-link" data-scroll-target="#hipergeométrica-hypergeom"><span class="header-section-number">7.2.7</span> 2.7 Hipergeométrica (<code>hypergeom</code>)</a></li>
   </ul></li>
-  <li><a href="#crear-nuevas-columnas-transformación" id="toc-crear-nuevas-columnas-transformación" class="nav-link" data-scroll-target="#crear-nuevas-columnas-transformación"><span class="header-section-number">7.3</span> 3. Crear nuevas columnas (transformación)</a>
+  <li><a href="#distribuciones-continuas" id="toc-distribuciones-continuas" class="nav-link" data-scroll-target="#distribuciones-continuas"><span class="header-section-number">7.3</span> 3. Distribuciones continuas</a>
   <ul class="collapse">
-  <li><a href="#una-columna-calculada" id="toc-una-columna-calculada" class="nav-link" data-scroll-target="#una-columna-calculada"><span class="header-section-number">7.3.1</span> 3.1 Una columna calculada</a></li>
-  <li><a href="#transformación-con-where-condición-dentro-de-la-columna" id="toc-transformación-con-where-condición-dentro-de-la-columna" class="nav-link" data-scroll-target="#transformación-con-where-condición-dentro-de-la-columna"><span class="header-section-number">7.3.2</span> 3.2 Transformación con <code>where</code> (condición dentro de la columna)</a></li>
+  <li><a href="#uniforme-continua-uniform" id="toc-uniforme-continua-uniform" class="nav-link" data-scroll-target="#uniforme-continua-uniform"><span class="header-section-number">7.3.1</span> 3.1 Uniforme continua (<code>uniform</code>)</a></li>
+  <li><a href="#normal-norm" id="toc-normal-norm" class="nav-link" data-scroll-target="#normal-norm"><span class="header-section-number">7.3.2</span> 3.2 Normal (<code>norm</code>)</a></li>
+  <li><a href="#estandarización-z-score-con-numpy" id="toc-estandarización-z-score-con-numpy" class="nav-link" data-scroll-target="#estandarización-z-score-con-numpy"><span class="header-section-number">7.3.3</span> 3.3 Estandarización (Z-score) con <code>numpy</code></a></li>
+  <li><a href="#chi-cuadrado-chi2" id="toc-chi-cuadrado-chi2" class="nav-link" data-scroll-target="#chi-cuadrado-chi2"><span class="header-section-number">7.3.4</span> 3.4 Chi-cuadrado (<code>chi2</code>)</a></li>
+  <li><a href="#t-student-t" id="toc-t-student-t" class="nav-link" data-scroll-target="#t-student-t"><span class="header-section-number">7.3.5</span> 3.5 t-Student (<code>t</code>)</a></li>
+  <li><a href="#f-de-fisher-f" id="toc-f-de-fisher-f" class="nav-link" data-scroll-target="#f-de-fisher-f"><span class="header-section-number">7.3.6</span> 3.6 F de Fisher (<code>f</code>)</a></li>
+  <li><a href="#exponencial-expon" id="toc-exponencial-expon" class="nav-link" data-scroll-target="#exponencial-expon"><span class="header-section-number">7.3.7</span> 3.7 Exponencial (<code>expon</code>)</a></li>
   </ul></li>
-  <li><a href="#valores-faltantes-nan" id="toc-valores-faltantes-nan" class="nav-link" data-scroll-target="#valores-faltantes-nan"><span class="header-section-number">7.4</span> 4. Valores faltantes (<code>NaN</code>)</a>
+  <li><a href="#simulación-muestras-aleatorias-rvs" id="toc-simulación-muestras-aleatorias-rvs" class="nav-link" data-scroll-target="#simulación-muestras-aleatorias-rvs"><span class="header-section-number">7.4</span> 4. Simulación: muestras aleatorias (<code>rvs</code>)</a>
   <ul class="collapse">
-  <li><a href="#detectar-faltantes" id="toc-detectar-faltantes" class="nav-link" data-scroll-target="#detectar-faltantes"><span class="header-section-number">7.4.1</span> 4.1 Detectar faltantes</a></li>
-  <li><a href="#contar-faltantes-por-columna" id="toc-contar-faltantes-por-columna" class="nav-link" data-scroll-target="#contar-faltantes-por-columna"><span class="header-section-number">7.4.2</span> 4.2 Contar faltantes por columna</a></li>
-  <li><a href="#eliminar-filas-con-faltantes" id="toc-eliminar-filas-con-faltantes" class="nav-link" data-scroll-target="#eliminar-filas-con-faltantes"><span class="header-section-number">7.4.3</span> 4.3 Eliminar filas con faltantes</a></li>
-  <li><a href="#rellenar-faltantes-imputación-simple" id="toc-rellenar-faltantes-imputación-simple" class="nav-link" data-scroll-target="#rellenar-faltantes-imputación-simple"><span class="header-section-number">7.4.4</span> 4.4 Rellenar faltantes (imputación simple)</a></li>
+  <li><a href="#simular-bernoulli" id="toc-simular-bernoulli" class="nav-link" data-scroll-target="#simular-bernoulli"><span class="header-section-number">7.4.1</span> 4.1 Simular Bernoulli</a></li>
+  <li><a href="#simular-uniforme-discreta" id="toc-simular-uniforme-discreta" class="nav-link" data-scroll-target="#simular-uniforme-discreta"><span class="header-section-number">7.4.2</span> 4.2 Simular uniforme discreta</a></li>
+  <li><a href="#simular-normal" id="toc-simular-normal" class="nav-link" data-scroll-target="#simular-normal"><span class="header-section-number">7.4.3</span> 4.3 Simular normal</a></li>
+  <li><a href="#simular-chi-cuadrado" id="toc-simular-chi-cuadrado" class="nav-link" data-scroll-target="#simular-chi-cuadrado"><span class="header-section-number">7.4.4</span> 4.4 Simular chi-cuadrado</a></li>
+  <li><a href="#simular-t-y-f" id="toc-simular-t-y-f" class="nav-link" data-scroll-target="#simular-t-y-f"><span class="header-section-number">7.4.5</span> 4.5 Simular t y F</a></li>
   </ul></li>
-  <li><a href="#ordenar-y-resumir" id="toc-ordenar-y-resumir" class="nav-link" data-scroll-target="#ordenar-y-resumir"><span class="header-section-number">7.5</span> 5. Ordenar y resumir</a>
-  <ul class="collapse">
-  <li><a href="#ordenar" id="toc-ordenar" class="nav-link" data-scroll-target="#ordenar"><span class="header-section-number">7.5.1</span> 5.1 Ordenar</a></li>
-  <li><a href="#resumir-por-grupos-groupby" id="toc-resumir-por-grupos-groupby" class="nav-link" data-scroll-target="#resumir-por-grupos-groupby"><span class="header-section-number">7.5.2</span> 5.2 Resumir por grupos (<code>groupby</code>)</a></li>
-  </ul></li>
-  <li><a href="#unir-tablas-con-merge" id="toc-unir-tablas-con-merge" class="nav-link" data-scroll-target="#unir-tablas-con-merge"><span class="header-section-number">7.6</span> 6. Unir tablas con <code>merge</code></a></li>
-  <li><a href="#aplicación-con-datos-reales-opcional-online" id="toc-aplicación-con-datos-reales-opcional-online" class="nav-link" data-scroll-target="#aplicación-con-datos-reales-opcional-online"><span class="header-section-number">7.7</span> 7. Aplicación con datos reales (opcional, online)</a></li>
-  <li><a href="#ejercicios-propuestos" id="toc-ejercicios-propuestos" class="nav-link" data-scroll-target="#ejercicios-propuestos"><span class="header-section-number">7.8</span> Ejercicios propuestos</a></li>
+  <li><a href="#ejercicios-propuestos" id="toc-ejercicios-propuestos" class="nav-link" data-scroll-target="#ejercicios-propuestos"><span class="header-section-number">7.5</span> Ejercicios propuestos</a></li>
   </ul>
 </nav>
     </div>
@@ -234,7 +238,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 6 — Limpieza y transformación de datos con pandas</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 6 — Distribuciones de probabilidad (scipy.stats)</span></h1>
 </div>
 
 
@@ -251,7 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><a href="https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/06-limpieza-y-transformacion-pandas.ipynb" class="btn btn-success" target="_blank">🚀 Abrir este capítulo en Google Colab</a></p>
+<p><a href="https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/06-distribuciones-de-probabilidad.ipynb" class="btn btn-success" target="_blank">🚀 Abrir este capítulo en Google Colab</a></p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -264,105 +268,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="callout-body-container callout-body">
 <p>Al terminar este capítulo vas a poder:</p>
 <ul>
-<li>filtrar filas con condiciones (más de una condición a la vez),</li>
-<li>crear nuevas columnas de forma clara y segura,</li>
-<li>tratar valores faltantes (<code>NaN</code>) con <code>isna</code>, <code>fillna</code>, <code>dropna</code>,</li>
-<li>ordenar y resumir datos con <code>sort_values</code> y <code>groupby</code>,</li>
-<li>combinar tablas con <code>merge</code> (joins).</li>
-</ul>
-</div>
-</div>
-<hr>
-<section id="preparar-un-dataframe-de-ejemplo-local" class="level2 page-columns page-full" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="preparar-un-dataframe-de-ejemplo-local"><span class="header-section-number">7.1</span> 1. Preparar un DataFrame de ejemplo (local)</h2>
-<p>Trabajaremos con un ejemplo pequeño (sin internet) para enfocarnos en la <strong>sintaxis</strong>.</p>
-<div id="d66ac729" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"id"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>],</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ciudad"</span>: [<span class="st">"Quito"</span>, <span class="st">"Quito"</span>, <span class="st">"Cuenca"</span>, <span class="st">"Cuenca"</span>, <span class="st">"Quito"</span>, <span class="st">"Cuenca"</span>],</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ventas"</span>: [<span class="dv">100</span>, <span class="dv">120</span>, np.nan, <span class="dv">90</span>, <span class="dv">130</span>, <span class="dv">110</span>],</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"clientes"</span>: [<span class="dv">20</span>, <span class="dv">25</span>, <span class="dv">18</span>, np.nan, <span class="dv">30</span>, <span class="dv">22</span>]</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">ciudad</th>
-<th data-quarto-table-cell-role="th">ventas</th>
-<th data-quarto-table-cell-role="th">clientes</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>1</td>
-<td>Quito</td>
-<td>100.0</td>
-<td>20.0</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>2</td>
-<td>Quito</td>
-<td>120.0</td>
-<td>25.0</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>3</td>
-<td>Cuenca</td>
-<td>NaN</td>
-<td>18.0</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>4</td>
-<td>Cuenca</td>
-<td>90.0</td>
-<td>NaN</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
-<td>5</td>
-<td>Quito</td>
-<td>130.0</td>
-<td>30.0</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">5</th>
-<td>6</td>
-<td>Cuenca</td>
-<td>110.0</td>
-<td>22.0</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave (DataFrame)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><code>pd.DataFrame({columna: lista, ...})</code> crea una tabla.</li>
-<li><code>np.nan</code> representa un valor faltante.</li>
+<li>usar <code>scipy.stats</code> para trabajar con distribuciones <strong>discretas</strong> y <strong>continuas</strong>,</li>
+<li>calcular <strong>PMF/PDF</strong> y <strong>CDF</strong> con <code>pmf</code>, <code>pdf</code>, <code>cdf</code>,</li>
+<li>obtener probabilidades puntuales y acumuladas (ej. <code>P(X=2)</code>, <code>P(X≤x)</code>),</li>
+<li>simular muestras con <code>rvs</code> y comparar con gráficos sencillos,</li>
+<li>organizar resultados en tablas (<code>pandas</code>) y graficarlos (<code>matplotlib</code>).</li>
 </ul>
 </div>
 </div>
@@ -373,23 +283,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <strong>Glosario</strong>
 </summary>
 <ul>
-<li><strong>NaN</strong>: “Not a Number”; en <code>pandas</code> significa “faltante”.</li>
-<li><strong>filtro</strong>: seleccionar filas que cumplen una condición.</li>
-<li><strong>booleano</strong>: <code>True</code>/<code>False</code>.</li>
-<li><strong>operadores lógicos</strong>: <code>&amp;</code> (y), <code>|</code> (o), <code>~</code> (no).</li>
-<li><strong>join / merge</strong>: unir tablas por una llave (clave).</li>
-<li><strong>llave (key)</strong>: columna usada para unir (por ejemplo <code>id</code>).</li>
+<li><strong>PMF</strong>: <em>probability mass function</em> (masa) → discretas (<code>pmf</code>).</li>
+<li><strong>PDF</strong>: <em>probability density function</em> (densidad) → continuas (<code>pdf</code>).</li>
+<li><strong>CDF</strong>: <em>cumulative distribution function</em> (acumulada) → <code>cdf</code>.</li>
+<li><strong>rvs</strong>: <em>random variates</em> → genera una muestra aleatoria.</li>
+<li><strong>parámetros</strong>: números que “definen” la distribución (p, n, μ, σ, etc.).</li>
+<li><strong>scale</strong>: parámetro de escala en <code>scipy</code> (ej. exponencial).</li>
 </ul>
 </details>
 </div></div><hr>
+<section id="la-idea-enfocado-en-código" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="la-idea-enfocado-en-código"><span class="header-section-number">7.1</span> 1. La idea (enfocado en código)</h2>
+<p><code>scipy.stats</code> trae <strong>objetos de distribución</strong> listos para usar. Casi siempre verás estos métodos:</p>
+<ul>
+<li><code>pmf(x, ...)</code> → probabilidad puntual (discretas).</li>
+<li><code>pdf(x, ...)</code> → densidad (continuas).</li>
+<li><code>cdf(x, ...)</code> → probabilidad acumulada.</li>
+<li><code>rvs(..., size=n)</code> → simulación (muestra aleatoria).</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Sintaxis clave (patrón general)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Distribución discreta: <code>stats.binom.pmf(x, n, p)</code></li>
+<li>Distribución continua: <code>stats.norm.pdf(x, loc=mu, scale=sigma)</code></li>
+<li>Acumulada: <code>stats.norm.cdf(x, loc=mu, scale=sigma)</code></li>
+<li>Simulación: <code>stats.norm.rvs(loc=mu, scale=sigma, size=1000, random_state=123)</code></li>
+</ul>
+</div>
+</div>
+<hr>
 </section>
-<section id="filtrar-filas-condiciones" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="filtrar-filas-condiciones"><span class="header-section-number">7.2</span> 2. Filtrar filas (condiciones)</h2>
-<section id="una-condición-simple" class="level3" data-number="7.2.1">
-<h3 data-number="7.2.1" class="anchored" data-anchor-id="una-condición-simple"><span class="header-section-number">7.2.1</span> 2.1 Una condición simple</h3>
-<div id="15eb2f99" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df[df[<span class="st">"ciudad"</span>] <span class="op">==</span> <span class="st">"Quito"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<section id="distribuciones-discretas" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="distribuciones-discretas"><span class="header-section-number">7.2</span> 2. Distribuciones discretas</h2>
+<section id="uniforme-discreta-randint" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="uniforme-discreta-randint"><span class="header-section-number">7.2.1</span> 2.1 Uniforme discreta (<code>randint</code>)</h3>
+<p>Ejemplo: valores enteros entre <code>a</code> y <code>b</code> (incluye <code>a</code>, excluye <code>b</code> en scipy).</p>
+<div id="f7b315b9" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a, b <span class="op">=</span> <span class="dv">1</span>, <span class="dv">7</span>  <span class="co"># en scipy randint: soporte [a, b)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(a, b)  <span class="co"># 1..6</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pmf <span class="op">=</span> stats.randint.pmf(x, a, b)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>cdf <span class="op">=</span> stats.randint.cdf(x, a, b)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>tabla <span class="op">=</span> pd.DataFrame({<span class="st">"x"</span>: x, <span class="st">"pmf"</span>: pmf, <span class="st">"cdf"</span>: cdf})</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>tabla</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -397,33 +343,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">ciudad</th>
-<th data-quarto-table-cell-role="th">ventas</th>
-<th data-quarto-table-cell-role="th">clientes</th>
+<th data-quarto-table-cell-role="th">x</th>
+<th data-quarto-table-cell-role="th">pmf</th>
+<th data-quarto-table-cell-role="th">cdf</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
 <td>1</td>
-<td>Quito</td>
-<td>100.0</td>
-<td>20.0</td>
+<td>0.166667</td>
+<td>0.166667</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
 <td>2</td>
-<td>Quito</td>
-<td>120.0</td>
-<td>25.0</td>
+<td>0.166667</td>
+<td>0.333333</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>0.166667</td>
+<td>0.500000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>0.166667</td>
+<td>0.666667</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">4</th>
 <td>5</td>
-<td>Quito</td>
-<td>130.0</td>
-<td>30.0</td>
+<td>0.166667</td>
+<td>0.833333</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>6</td>
+<td>0.166667</td>
+<td>1.000000</td>
 </tr>
 </tbody>
 </table>
@@ -431,92 +391,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave (filtros)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li>La condición va <strong>entre corchetes</strong>: <code>df[condicion]</code></li>
-<li>La condición produce una serie de <code>True/False</code></li>
-</ul>
-</div>
-</div>
-<hr>
-</section>
-<section id="dos-condiciones-a-la-vez" class="level3" data-number="7.2.2">
-<h3 data-number="7.2.2" class="anchored" data-anchor-id="dos-condiciones-a-la-vez"><span class="header-section-number">7.2.2</span> 2.2 Dos condiciones a la vez</h3>
-<p>Para combinar condiciones usa <strong>paréntesis</strong> y <code>&amp;</code> o <code>|</code>.</p>
-<div id="b19c6415" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df[(df[<span class="st">"ciudad"</span>] <span class="op">==</span> <span class="st">"Quito"</span>) <span class="op">&amp;</span> (df[<span class="st">"ventas"</span>] <span class="op">&gt;=</span> <span class="dv">120</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<p><strong>Gráfico PMF</strong>:</p>
+<div id="14a7ac0b" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>plt.bar(tabla[<span class="st">"x"</span>], tabla[<span class="st">"pmf"</span>])</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Uniforme discreta — PMF"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"P(X = x)"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
 <div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">ciudad</th>
-<th data-quarto-table-cell-role="th">ventas</th>
-<th data-quarto-table-cell-role="th">clientes</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">1</th>
-<td>2</td>
-<td>Quito</td>
-<td>120.0</td>
-<td>25.0</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">4</th>
-<td>5</td>
-<td>Quito</td>
-<td>130.0</td>
-<td>30.0</td>
-</tr>
-</tbody>
-</table>
-
+<figure class="figure">
+<p><img src="06-limpieza-y-transformacion-pandas_files/figure-html/cell-4-output-1.png" width="840" height="516" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<p><strong>Gráfico CDF</strong>:</p>
+<div id="167ef717" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>plt.step(tabla[<span class="st">"x"</span>], tabla[<span class="st">"cdf"</span>], where<span class="op">=</span><span class="st">"post"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Uniforme discreta — CDF"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"P(X ≤ x)"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">1.05</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-limpieza-y-transformacion-pandas_files/figure-html/cell-5-output-1.png" width="829" height="516" class="figure-img"></p>
+</figure>
 </div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave (AND / OR)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li>AND: <code>(cond1) &amp; (cond2)</code></li>
-<li>OR: <code>(cond1) | (cond2)</code></li>
-<li>NOT: <code>~(condicion)</code></li>
-<li>Siempre usa paréntesis en cada condición para evitar errores.</li>
-</ul>
 </div>
 </div>
 <hr>
 </section>
-</section>
-<section id="crear-nuevas-columnas-transformación" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="crear-nuevas-columnas-transformación"><span class="header-section-number">7.3</span> 3. Crear nuevas columnas (transformación)</h2>
-<section id="una-columna-calculada" class="level3" data-number="7.3.1">
-<h3 data-number="7.3.1" class="anchored" data-anchor-id="una-columna-calculada"><span class="header-section-number">7.3.1</span> 3.1 Una columna calculada</h3>
-<div id="478d2d43" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"ventas_por_cliente"</span>] <span class="op">=</span> df[<span class="st">"ventas"</span>] <span class="op">/</span> df[<span class="st">"clientes"</span>]</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="bernoulli-bernoulli" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="bernoulli-bernoulli"><span class="header-section-number">7.2.2</span> 2.2 Bernoulli (<code>bernoulli</code>)</h3>
+<div id="efad6209" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fl">0.2</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>tabla <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"x"</span>: x,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pmf"</span>: stats.bernoulli.pmf(x, p),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cdf"</span>: stats.bernoulli.cdf(x, p),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>tabla</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
@@ -525,61 +444,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">ciudad</th>
-<th data-quarto-table-cell-role="th">ventas</th>
-<th data-quarto-table-cell-role="th">clientes</th>
-<th data-quarto-table-cell-role="th">ventas_por_cliente</th>
+<th data-quarto-table-cell-role="th">x</th>
+<th data-quarto-table-cell-role="th">pmf</th>
+<th data-quarto-table-cell-role="th">cdf</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
-<td>1</td>
-<td>Quito</td>
-<td>100.0</td>
-<td>20.0</td>
-<td>5.000000</td>
+<td>0</td>
+<td>0.8</td>
+<td>0.8</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
-<td>2</td>
-<td>Quito</td>
-<td>120.0</td>
-<td>25.0</td>
-<td>4.800000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>3</td>
-<td>Cuenca</td>
-<td>NaN</td>
-<td>18.0</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>4</td>
-<td>Cuenca</td>
-<td>90.0</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
-<td>5</td>
-<td>Quito</td>
-<td>130.0</td>
-<td>30.0</td>
-<td>4.333333</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">5</th>
-<td>6</td>
-<td>Cuenca</td>
-<td>110.0</td>
-<td>22.0</td>
-<td>5.000000</td>
+<td>1</td>
+<td>0.2</td>
+<td>1.0</td>
 </tr>
 </tbody>
 </table>
@@ -587,32 +468,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Ojo</strong><br>
-Si hay <code>NaN</code>, el resultado también puede quedar en <code>NaN</code>. Eso es normal.</p>
-</div>
-</div>
 <hr>
 </section>
-<section id="transformación-con-where-condición-dentro-de-la-columna" class="level3" data-number="7.3.2">
-<h3 data-number="7.3.2" class="anchored" data-anchor-id="transformación-con-where-condición-dentro-de-la-columna"><span class="header-section-number">7.3.2</span> 3.2 Transformación con <code>where</code> (condición dentro de la columna)</h3>
-<p>Ejemplo: si <code>clientes</code> es 0 o faltante, no calculamos la razón.</p>
-<div id="54df678e" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"ventas_por_cliente_segura"</span>] <span class="op">=</span> np.where(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"clientes"</span>].isna() <span class="op">|</span> (df[<span class="st">"clientes"</span>] <span class="op">==</span> <span class="dv">0</span>),</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    np.nan,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"ventas"</span>] <span class="op">/</span> df[<span class="st">"clientes"</span>]</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"ventas"</span>, <span class="st">"clientes"</span>, <span class="st">"ventas_por_cliente_segura"</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="binomial-binom" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="binomial-binom"><span class="header-section-number">7.2.3</span> 2.3 Binomial (<code>binom</code>)</h3>
+<div id="a90cd3b5" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>n, p <span class="op">=</span> <span class="dv">10</span>, <span class="fl">0.2</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="dv">0</span>, n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>pmf <span class="op">=</span> stats.binom.pmf(x, n, p)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>cdf <span class="op">=</span> stats.binom.cdf(x, n, p)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>tabla <span class="op">=</span> pd.DataFrame({<span class="st">"x"</span>: x, <span class="st">"pmf"</span>: pmf, <span class="st">"cdf"</span>: cdf})</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>tabla.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
@@ -621,47 +489,41 @@ Si hay <code>NaN</code>, el resultado también puede quedar en <code>NaN</code>.
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">ventas</th>
-<th data-quarto-table-cell-role="th">clientes</th>
-<th data-quarto-table-cell-role="th">ventas_por_cliente_segura</th>
+<th data-quarto-table-cell-role="th">x</th>
+<th data-quarto-table-cell-role="th">pmf</th>
+<th data-quarto-table-cell-role="th">cdf</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
-<td>100.0</td>
-<td>20.0</td>
-<td>5.000000</td>
+<td>0</td>
+<td>0.107374</td>
+<td>0.107374</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
-<td>120.0</td>
-<td>25.0</td>
-<td>4.800000</td>
+<td>1</td>
+<td>0.268435</td>
+<td>0.375810</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
-<td>NaN</td>
-<td>18.0</td>
-<td>NaN</td>
+<td>2</td>
+<td>0.301990</td>
+<td>0.677800</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">3</th>
-<td>90.0</td>
-<td>NaN</td>
-<td>NaN</td>
+<td>3</td>
+<td>0.201327</td>
+<td>0.879126</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">4</th>
-<td>130.0</td>
-<td>30.0</td>
-<td>4.333333</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">5</th>
-<td>110.0</td>
-<td>22.0</td>
-<td>5.000000</td>
+<td>4</td>
+<td>0.088080</td>
+<td>0.967207</td>
 </tr>
 </tbody>
 </table>
@@ -669,32 +531,43 @@ Si hay <code>NaN</code>, el resultado también puede quedar en <code>NaN</code>.
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave (<code>np.where</code>)
+<p><strong>Probabilidad puntual</strong> (ej. <code>P(X=2)</code>):</p>
+<div id="4b5ee51d" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>stats.binom.pmf(<span class="dv">2</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>np.float64(0.30198988800000004)</code></pre>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><code>np.where(cond, valor_si_true, valor_si_false)</code></li>
-<li>Útil para crear columnas con reglas claras.</li>
-</ul>
+<p><strong>PMF como barras</strong>:</p>
+<div id="3407150a" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plt.bar(tabla[<span class="st">"x"</span>], tabla[<span class="st">"pmf"</span>])</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Binomial — PMF"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"P(X = x)"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-limpieza-y-transformacion-pandas_files/figure-html/cell-9-output-1.png" width="840" height="516" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <hr>
 </section>
-</section>
-<section id="valores-faltantes-nan" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="valores-faltantes-nan"><span class="header-section-number">7.4</span> 4. Valores faltantes (<code>NaN</code>)</h2>
-<section id="detectar-faltantes" class="level3" data-number="7.4.1">
-<h3 data-number="7.4.1" class="anchored" data-anchor-id="detectar-faltantes"><span class="header-section-number">7.4.1</span> 4.1 Detectar faltantes</h3>
-<div id="5804389a" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df.isna()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<section id="poisson-poisson" class="level3" data-number="7.2.4">
+<h3 data-number="7.2.4" class="anchored" data-anchor-id="poisson-poisson"><span class="header-section-number">7.2.4</span> 2.4 Poisson (<code>poisson</code>)</h3>
+<div id="af1b308e" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="dv">4</span>  <span class="co"># tasa media</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">16</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>tabla <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"x"</span>: x,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pmf"</span>: stats.poisson.pmf(x, lam),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cdf"</span>: stats.poisson.cdf(x, lam),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>tabla.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -702,68 +575,41 @@ Si hay <code>NaN</code>, el resultado también puede quedar en <code>NaN</code>.
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">ciudad</th>
-<th data-quarto-table-cell-role="th">ventas</th>
-<th data-quarto-table-cell-role="th">clientes</th>
-<th data-quarto-table-cell-role="th">ventas_por_cliente</th>
-<th data-quarto-table-cell-role="th">ventas_por_cliente_segura</th>
+<th data-quarto-table-cell-role="th">x</th>
+<th data-quarto-table-cell-role="th">pmf</th>
+<th data-quarto-table-cell-role="th">cdf</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
-<td>False</td>
-<td>False</td>
-<td>False</td>
-<td>False</td>
-<td>False</td>
-<td>False</td>
+<td>0</td>
+<td>0.018316</td>
+<td>0.018316</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
-<td>False</td>
-<td>False</td>
-<td>False</td>
-<td>False</td>
-<td>False</td>
-<td>False</td>
+<td>1</td>
+<td>0.073263</td>
+<td>0.091578</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
-<td>False</td>
-<td>False</td>
-<td>True</td>
-<td>False</td>
-<td>True</td>
-<td>True</td>
+<td>2</td>
+<td>0.146525</td>
+<td>0.238103</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">3</th>
-<td>False</td>
-<td>False</td>
-<td>False</td>
-<td>True</td>
-<td>True</td>
-<td>True</td>
+<td>3</td>
+<td>0.195367</td>
+<td>0.433470</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">4</th>
-<td>False</td>
-<td>False</td>
-<td>False</td>
-<td>False</td>
-<td>False</td>
-<td>False</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">5</th>
-<td>False</td>
-<td>False</td>
-<td>False</td>
-<td>False</td>
-<td>False</td>
-<td>False</td>
+<td>4</td>
+<td>0.195367</td>
+<td>0.628837</td>
 </tr>
 </tbody>
 </table>
@@ -771,41 +617,21 @@ Si hay <code>NaN</code>, el resultado también puede quedar en <code>NaN</code>.
 </div>
 </div>
 </div>
-<div id="d432352b" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"ventas"</span>].isna()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>0    False
-1    False
-2     True
-3    False
-4    False
-5    False
-Name: ventas, dtype: bool</code></pre>
-</div>
-</div>
 <hr>
 </section>
-<section id="contar-faltantes-por-columna" class="level3" data-number="7.4.2">
-<h3 data-number="7.4.2" class="anchored" data-anchor-id="contar-faltantes-por-columna"><span class="header-section-number">7.4.2</span> 4.2 Contar faltantes por columna</h3>
-<div id="260001c2" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>id                           0
-ciudad                       0
-ventas                       1
-clientes                     1
-ventas_por_cliente           2
-ventas_por_cliente_segura    2
-dtype: int64</code></pre>
-</div>
-</div>
-<hr>
-</section>
-<section id="eliminar-filas-con-faltantes" class="level3" data-number="7.4.3">
-<h3 data-number="7.4.3" class="anchored" data-anchor-id="eliminar-filas-con-faltantes"><span class="header-section-number">7.4.3</span> 4.3 Eliminar filas con faltantes</h3>
-<div id="1c52ebba" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_sin_na <span class="op">=</span> df.dropna()</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df_sin_na</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="geométrica-geom" class="level3" data-number="7.2.5">
+<h3 data-number="7.2.5" class="anchored" data-anchor-id="geométrica-geom"><span class="header-section-number">7.2.5</span> 2.5 Geométrica (<code>geom</code>)</h3>
+<p><strong>Ojo práctico</strong>: en <code>scipy.stats.geom</code>, el soporte empieza en <code>1</code> (número de ensayos hasta el primer éxito).</p>
+<div id="7c76c91b" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fl">0.4</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">16</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>tabla <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"x"</span>: x,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pmf"</span>: stats.geom.pmf(x, p),</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cdf"</span>: stats.geom.cdf(x, p),</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>tabla.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 
@@ -814,50 +640,41 @@ dtype: int64</code></pre>
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">ciudad</th>
-<th data-quarto-table-cell-role="th">ventas</th>
-<th data-quarto-table-cell-role="th">clientes</th>
-<th data-quarto-table-cell-role="th">ventas_por_cliente</th>
-<th data-quarto-table-cell-role="th">ventas_por_cliente_segura</th>
+<th data-quarto-table-cell-role="th">x</th>
+<th data-quarto-table-cell-role="th">pmf</th>
+<th data-quarto-table-cell-role="th">cdf</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
 <td>1</td>
-<td>Quito</td>
-<td>100.0</td>
-<td>20.0</td>
-<td>5.000000</td>
-<td>5.000000</td>
+<td>0.40000</td>
+<td>0.40000</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
 <td>2</td>
-<td>Quito</td>
-<td>120.0</td>
-<td>25.0</td>
-<td>4.800000</td>
-<td>4.800000</td>
+<td>0.24000</td>
+<td>0.64000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>0.14400</td>
+<td>0.78400</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>0.08640</td>
+<td>0.87040</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">4</th>
 <td>5</td>
-<td>Quito</td>
-<td>130.0</td>
-<td>30.0</td>
-<td>4.333333</td>
-<td>4.333333</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">5</th>
-<td>6</td>
-<td>Cuenca</td>
-<td>110.0</td>
-<td>22.0</td>
-<td>5.000000</td>
-<td>5.000000</td>
+<td>0.05184</td>
+<td>0.92224</td>
 </tr>
 </tbody>
 </table>
@@ -865,31 +682,26 @@ dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave (<code>dropna</code>)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><code>df.dropna()</code> elimina filas que tengan <strong>algún</strong> <code>NaN</code>.</li>
-<li>Es simple, pero puede botar demasiados datos si hay muchos faltantes.</li>
-</ul>
-</div>
-</div>
 <hr>
 </section>
-<section id="rellenar-faltantes-imputación-simple" class="level3" data-number="7.4.4">
-<h3 data-number="7.4.4" class="anchored" data-anchor-id="rellenar-faltantes-imputación-simple"><span class="header-section-number">7.4.4</span> 4.4 Rellenar faltantes (imputación simple)</h3>
-<p>Ejemplo: rellenar faltantes de <code>ventas</code> con el promedio.</p>
-<div id="afcd8aa5" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>prom_ventas <span class="op">=</span> df[<span class="st">"ventas"</span>].mean()</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"ventas_fill"</span>] <span class="op">=</span> df[<span class="st">"ventas"</span>].fillna(prom_ventas)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"ventas"</span>, <span class="st">"ventas_fill"</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="binomial-negativa-nbinom" class="level3" data-number="7.2.6">
+<h3 data-number="7.2.6" class="anchored" data-anchor-id="binomial-negativa-nbinom"><span class="header-section-number">7.2.6</span> 2.6 Binomial negativa (<code>nbinom</code>)</h3>
+<p>En <code>scipy.stats.nbinom</code>, una parametrización común es:</p>
+<ul>
+<li><code>n</code> = número de éxitos (r),</li>
+<li><code>p</code> = probabilidad de éxito,</li>
+<li><code>x</code> = número de fracasos antes de alcanzar esos <code>n</code> éxitos.</li>
+</ul>
+<div id="a7f6865c" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>r, p <span class="op">=</span> <span class="dv">3</span>, <span class="fl">0.4</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">21</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>tabla <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"x"</span>: x,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pmf"</span>: stats.nbinom.pmf(x, r, p),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cdf"</span>: stats.nbinom.cdf(x, r, p),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>tabla.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
@@ -898,40 +710,41 @@ dtype: int64</code></pre>
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">ventas</th>
-<th data-quarto-table-cell-role="th">ventas_fill</th>
+<th data-quarto-table-cell-role="th">x</th>
+<th data-quarto-table-cell-role="th">pmf</th>
+<th data-quarto-table-cell-role="th">cdf</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
-<td>100.0</td>
-<td>100.0</td>
+<td>0</td>
+<td>0.064000</td>
+<td>0.064000</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
-<td>120.0</td>
-<td>120.0</td>
+<td>1</td>
+<td>0.115200</td>
+<td>0.179200</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
-<td>NaN</td>
-<td>110.0</td>
+<td>2</td>
+<td>0.138240</td>
+<td>0.317440</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">3</th>
-<td>90.0</td>
-<td>90.0</td>
+<td>3</td>
+<td>0.138240</td>
+<td>0.455680</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">4</th>
-<td>130.0</td>
-<td>130.0</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">5</th>
-<td>110.0</td>
-<td>110.0</td>
+<td>4</td>
+<td>0.124416</td>
+<td>0.580096</td>
 </tr>
 </tbody>
 </table>
@@ -939,31 +752,30 @@ dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave (<code>fillna</code>)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><code>serie.fillna(valor)</code> reemplaza <code>NaN</code> por <code>valor</code>.</li>
-<li>Es común usar promedios o medianas, según el caso.</li>
-</ul>
-</div>
-</div>
 <hr>
 </section>
-</section>
-<section id="ordenar-y-resumir" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="ordenar-y-resumir"><span class="header-section-number">7.5</span> 5. Ordenar y resumir</h2>
-<section id="ordenar" class="level3" data-number="7.5.1">
-<h3 data-number="7.5.1" class="anchored" data-anchor-id="ordenar"><span class="header-section-number">7.5.1</span> 5.1 Ordenar</h3>
-<div id="189122f3" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df.sort_values(<span class="st">"ventas"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="hipergeométrica-hypergeom" class="level3" data-number="7.2.7">
+<h3 data-number="7.2.7" class="anchored" data-anchor-id="hipergeométrica-hypergeom"><span class="header-section-number">7.2.7</span> 2.7 Hipergeométrica (<code>hypergeom</code>)</h3>
+<p>Parámetros típicos:</p>
+<ul>
+<li><code>M</code> = población total,</li>
+<li><code>n</code> = número de “éxitos” en la población,</li>
+<li><code>N</code> = tamaño de la muestra.</li>
+</ul>
+<div id="782d89c7" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>n_exitos <span class="op">=</span> <span class="dv">80</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># x: éxitos obtenidos en la muestra</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="dv">0</span>, N <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>tabla <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"x"</span>: x,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pmf"</span>: stats.hypergeom.pmf(x, M, n_exitos, N),</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cdf"</span>: stats.hypergeom.cdf(x, M, n_exitos, N),</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>tabla.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div>
 
@@ -972,75 +784,41 @@ dtype: int64</code></pre>
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">ciudad</th>
-<th data-quarto-table-cell-role="th">ventas</th>
-<th data-quarto-table-cell-role="th">clientes</th>
-<th data-quarto-table-cell-role="th">ventas_por_cliente</th>
-<th data-quarto-table-cell-role="th">ventas_por_cliente_segura</th>
-<th data-quarto-table-cell-role="th">ventas_fill</th>
+<th data-quarto-table-cell-role="th">x</th>
+<th data-quarto-table-cell-role="th">pmf</th>
+<th data-quarto-table-cell-role="th">cdf</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
-<td>5</td>
-<td>Quito</td>
-<td>130.0</td>
-<td>30.0</td>
-<td>4.333333</td>
-<td>4.333333</td>
-<td>130.0</td>
+<th data-quarto-table-cell-role="th">0</th>
+<td>0</td>
+<td>1.865730e-21</td>
+<td>1.865730e-21</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
-<td>2</td>
-<td>Quito</td>
-<td>120.0</td>
-<td>25.0</td>
-<td>4.800000</td>
-<td>4.800000</td>
-<td>120.0</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">5</th>
-<td>6</td>
-<td>Cuenca</td>
-<td>110.0</td>
-<td>22.0</td>
-<td>5.000000</td>
-<td>5.000000</td>
-<td>110.0</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">0</th>
 <td>1</td>
-<td>Quito</td>
-<td>100.0</td>
-<td>20.0</td>
-<td>5.000000</td>
-<td>5.000000</td>
-<td>100.0</td>
+<td>2.985167e-18</td>
+<td>2.987033e-18</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">3</th>
-<td>4</td>
-<td>Cuenca</td>
-<td>90.0</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>90.0</td>
+<th data-quarto-table-cell-role="th">2</th>
+<td>2</td>
+<td>1.120184e-15</td>
+<td>1.123171e-15</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">2</th>
+<th data-quarto-table-cell-role="th">3</th>
 <td>3</td>
-<td>Cuenca</td>
-<td>NaN</td>
-<td>18.0</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>110.0</td>
+<td>1.747487e-13</td>
+<td>1.758719e-13</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>4</td>
+<td>1.429663e-11</td>
+<td>1.447250e-11</td>
 </tr>
 </tbody>
 </table>
@@ -1050,293 +828,313 @@ dtype: int64</code></pre>
 </div>
 <hr>
 </section>
-<section id="resumir-por-grupos-groupby" class="level3" data-number="7.5.2">
-<h3 data-number="7.5.2" class="anchored" data-anchor-id="resumir-por-grupos-groupby"><span class="header-section-number">7.5.2</span> 5.2 Resumir por grupos (<code>groupby</code>)</h3>
-<p>Promedio de ventas por ciudad:</p>
-<div id="14d736e3" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df.groupby(<span class="st">"ciudad"</span>)[<span class="st">"ventas"</span>].mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="distribuciones-continuas" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="distribuciones-continuas"><span class="header-section-number">7.3</span> 3. Distribuciones continuas</h2>
+<section id="uniforme-continua-uniform" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="uniforme-continua-uniform"><span class="header-section-number">7.3.1</span> 3.1 Uniforme continua (<code>uniform</code>)</h3>
+<p>En <code>scipy</code>, <code>uniform</code> usa <code>loc</code> (inicio) y <code>scale</code> (longitud del intervalo).</p>
+<div id="6b0a6064" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>alpha, beta <span class="op">=</span> <span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">200</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>pdf <span class="op">=</span> stats.uniform.pdf(x, loc<span class="op">=</span>alpha, scale<span class="op">=</span>beta <span class="op">-</span> alpha)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>cdf <span class="op">=</span> stats.uniform.cdf(x, loc<span class="op">=</span>alpha, scale<span class="op">=</span>beta <span class="op">-</span> alpha)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>pdf[:<span class="dv">3</span>], cdf[:<span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
-<pre><code>ciudad
-Cuenca    100.000000
-Quito     116.666667
-Name: ventas, dtype: float64</code></pre>
+<pre><code>(array([0., 0., 0.]), array([0., 0., 0.]))</code></pre>
 </div>
 </div>
-<p>Más de una estadística:</p>
-<div id="cab887cb" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df.groupby(<span class="st">"ciudad"</span>)[[<span class="st">"ventas"</span>, <span class="st">"clientes"</span>]].agg([<span class="st">"mean"</span>, <span class="st">"count"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div id="0b2b6599" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>plt.plot(x, pdf)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Uniforme continua — PDF"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"f(x)"</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
 <div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">ventas</th>
-<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">clientes</th>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">mean</th>
-<th data-quarto-table-cell-role="th">count</th>
-<th data-quarto-table-cell-role="th">mean</th>
-<th data-quarto-table-cell-role="th">count</th>
-</tr>
-<tr class="header">
-<th data-quarto-table-cell-role="th">ciudad</th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Cuenca</th>
-<td>100.000000</td>
-<td>2</td>
-<td>20.0</td>
-<td>2</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Quito</th>
-<td>116.666667</td>
-<td>3</td>
-<td>25.0</td>
-<td>3</td>
-</tr>
-</tbody>
-</table>
-
+<figure class="figure">
+<p><img src="06-limpieza-y-transformacion-pandas_files/figure-html/cell-15-output-1.png" width="850" height="516" class="figure-img"></p>
+</figure>
 </div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave (<code>groupby</code>)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><code>df.groupby("col")["y"].mean()</code> → promedio de <code>y</code> por grupo.</li>
-<li><code>agg([...])</code> permite varias estadísticas.</li>
-</ul>
 </div>
 </div>
 <hr>
 </section>
-</section>
-<section id="unir-tablas-con-merge" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="unir-tablas-con-merge"><span class="header-section-number">7.6</span> 6. Unir tablas con <code>merge</code></h2>
-<p>Imagina que tienes otra tabla con información de cada ciudad:</p>
-<div id="5ea36ec2" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ciudades <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ciudad"</span>: [<span class="st">"Quito"</span>, <span class="st">"Cuenca"</span>],</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"region"</span>: [<span class="st">"Sierra"</span>, <span class="st">"Sierra"</span>],</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"altitud_m"</span>: [<span class="dv">2850</span>, <span class="dv">2550</span>]</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>ciudades</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<section id="normal-norm" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="normal-norm"><span class="header-section-number">7.3.2</span> 3.2 Normal (<code>norm</code>)</h3>
+<div id="66bec43d" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mu, sigma <span class="op">=</span> <span class="dv">5</span>, <span class="dv">2</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">15</span>, <span class="dv">200</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>pdf <span class="op">=</span> stats.norm.pdf(x, loc<span class="op">=</span>mu, scale<span class="op">=</span>sigma)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>cdf <span class="op">=</span> stats.norm.cdf(x, loc<span class="op">=</span>mu, scale<span class="op">=</span>sigma)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>plt.plot(x, pdf)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Normal — PDF"</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"f(x)"</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
 <div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">ciudad</th>
-<th data-quarto-table-cell-role="th">region</th>
-<th data-quarto-table-cell-role="th">altitud_m</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>Quito</td>
-<td>Sierra</td>
-<td>2850</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>Cuenca</td>
-<td>Sierra</td>
-<td>2550</td>
-</tr>
-</tbody>
-</table>
-
+<figure class="figure">
+<p><img src="06-limpieza-y-transformacion-pandas_files/figure-html/cell-16-output-1.png" width="850" height="516" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
-<p>Unimos por la columna <code>ciudad</code>:</p>
-<div id="b9b1dff1" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df_merged <span class="op">=</span> df.merge(ciudades, on<span class="op">=</span><span class="st">"ciudad"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>df_merged</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Probabilidad acumulada</strong> (ejemplo de intervalo):</p>
+<div id="3652bf9c" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># P(2 &lt; X &lt;= 6) cuando X ~ N(4, 9)  =&gt; sigma = 3</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>stats.norm.cdf(<span class="dv">6</span>, loc<span class="op">=</span><span class="dv">4</span>, scale<span class="op">=</span><span class="dv">3</span>) <span class="op">-</span> stats.norm.cdf(<span class="dv">2</span>, loc<span class="op">=</span><span class="dv">4</span>, scale<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">ciudad</th>
-<th data-quarto-table-cell-role="th">ventas</th>
-<th data-quarto-table-cell-role="th">clientes</th>
-<th data-quarto-table-cell-role="th">ventas_por_cliente</th>
-<th data-quarto-table-cell-role="th">ventas_por_cliente_segura</th>
-<th data-quarto-table-cell-role="th">ventas_fill</th>
-<th data-quarto-table-cell-role="th">region</th>
-<th data-quarto-table-cell-role="th">altitud_m</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>1</td>
-<td>Quito</td>
-<td>100.0</td>
-<td>20.0</td>
-<td>5.000000</td>
-<td>5.000000</td>
-<td>100.0</td>
-<td>Sierra</td>
-<td>2850</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>2</td>
-<td>Quito</td>
-<td>120.0</td>
-<td>25.0</td>
-<td>4.800000</td>
-<td>4.800000</td>
-<td>120.0</td>
-<td>Sierra</td>
-<td>2850</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>3</td>
-<td>Cuenca</td>
-<td>NaN</td>
-<td>18.0</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>110.0</td>
-<td>Sierra</td>
-<td>2550</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>4</td>
-<td>Cuenca</td>
-<td>90.0</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>90.0</td>
-<td>Sierra</td>
-<td>2550</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
-<td>5</td>
-<td>Quito</td>
-<td>130.0</td>
-<td>30.0</td>
-<td>4.333333</td>
-<td>4.333333</td>
-<td>130.0</td>
-<td>Sierra</td>
-<td>2850</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">5</th>
-<td>6</td>
-<td>Cuenca</td>
-<td>110.0</td>
-<td>22.0</td>
-<td>5.000000</td>
-<td>5.000000</td>
-<td>110.0</td>
-<td>Sierra</td>
-<td>2550</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave (<code>merge</code>)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><code>df.merge(otra, on="llave", how="left")</code></li>
-<li><code>how="left"</code> conserva todas las filas del <code>df</code> original.</li>
-<li><code>how="inner"</code> conserva solo coincidencias en ambas tablas.</li>
-</ul>
+<pre><code>np.float64(0.4950149249061542)</code></pre>
 </div>
 </div>
 <hr>
 </section>
-<section id="aplicación-con-datos-reales-opcional-online" class="level2" data-number="7.7">
-<h2 data-number="7.7" class="anchored" data-anchor-id="aplicación-con-datos-reales-opcional-online"><span class="header-section-number">7.7</span> 7. Aplicación con datos reales (opcional, online)</h2>
-<p>En el manual no lo ejecutamos (<code>eval: false</code>). En Colab suele funcionar mejor.</p>
-<div id="3c228dc7" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip -q install wooldridge</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> wooldridge <span class="im">as</span> woo</span>
+<section id="estandarización-z-score-con-numpy" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="estandarización-z-score-con-numpy"><span class="header-section-number">7.3.3</span> 3.3 Estandarización (Z-score) con <code>numpy</code></h3>
+<p>Esto es puro Python: restar media y dividir por desviación estándar.</p>
+<div id="24e3f7a1" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mu, sigma <span class="op">=</span> <span class="dv">5</span>, <span class="dv">2</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>])</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>wage1 <span class="op">=</span> woo.dataWoo(<span class="st">"wage1"</span>)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo: crear una variable transformada y resumir</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>wage1[<span class="st">"lwage"</span>] <span class="op">=</span> np.log(wage1[<span class="st">"wage"</span>])</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>wage1.groupby(<span class="st">"female"</span>)[[<span class="st">"wage"</span>, <span class="st">"lwage"</span>]].mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> (x <span class="op">-</span> mu) <span class="op">/</span> sigma</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>array([-2., -1.,  0.,  1.,  2.])</code></pre>
+</div>
 </div>
 <hr>
 </section>
-<section id="ejercicios-propuestos" class="level2" data-number="7.8">
-<h2 data-number="7.8" class="anchored" data-anchor-id="ejercicios-propuestos"><span class="header-section-number">7.8</span> Ejercicios propuestos</h2>
+<section id="chi-cuadrado-chi2" class="level3" data-number="7.3.4">
+<h3 data-number="7.3.4" class="anchored" data-anchor-id="chi-cuadrado-chi2"><span class="header-section-number">7.3.4</span> 3.4 Chi-cuadrado (<code>chi2</code>)</h3>
+<div id="7dab6aa0" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dfree <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">15</span>, <span class="dv">200</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>pdf <span class="op">=</span> stats.chi2.pdf(w, dfree)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>cdf <span class="op">=</span> stats.chi2.cdf(w, dfree)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>plt.plot(w, pdf)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Chi-cuadrado — PDF"</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"w"</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"f(w)"</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-limpieza-y-transformacion-pandas_files/figure-html/cell-19-output-1.png" width="840" height="516" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="t-student-t" class="level3" data-number="7.3.5">
+<h3 data-number="7.3.5" class="anchored" data-anchor-id="t-student-t"><span class="header-section-number">7.3.5</span> 3.5 t-Student (<code>t</code>)</h3>
+<div id="45bc6778" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dfree <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>tvals <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>pdf <span class="op">=</span> stats.t.pdf(tvals, dfree)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>cdf <span class="op">=</span> stats.t.cdf(tvals, dfree)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>plt.plot(tvals, pdf)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"t-Student — PDF"</span>)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"t"</span>)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"f(t)"</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-limpieza-y-transformacion-pandas_files/figure-html/cell-20-output-1.png" width="840" height="516" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="f-de-fisher-f" class="level3" data-number="7.3.6">
+<h3 data-number="7.3.6" class="anchored" data-anchor-id="f-de-fisher-f"><span class="header-section-number">7.3.6</span> 3.6 F de Fisher (<code>f</code>)</h3>
+<div id="5f71b2d8" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dfn, dfd <span class="op">=</span> <span class="dv">5</span>, <span class="dv">3</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">15</span>, <span class="dv">200</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>pdf <span class="op">=</span> stats.f.pdf(r, dfn, dfd)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>cdf <span class="op">=</span> stats.f.cdf(r, dfn, dfd)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>plt.plot(r, pdf)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"F — PDF"</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"r"</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"f(r)"</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-limpieza-y-transformacion-pandas_files/figure-html/cell-21-output-1.png" width="829" height="516" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="exponencial-expon" class="level3" data-number="7.3.7">
+<h3 data-number="7.3.7" class="anchored" data-anchor-id="exponencial-expon"><span class="header-section-number">7.3.7</span> 3.7 Exponencial (<code>expon</code>)</h3>
+<p>En <code>scipy</code>, <code>expon</code> usa <code>scale = 1/lambda</code> si tú trabajas con tasa <code>lambda</code>.</p>
+<div id="4a2fc4fb" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">6</span>, <span class="dv">200</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>pdf <span class="op">=</span> stats.expon.pdf(x, scale<span class="op">=</span><span class="dv">1</span><span class="op">/</span>lam)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>cdf <span class="op">=</span> stats.expon.cdf(x, scale<span class="op">=</span><span class="dv">1</span><span class="op">/</span>lam)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>plt.plot(x, pdf)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Exponencial — PDF"</span>)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"f(x)"</span>)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-limpieza-y-transformacion-pandas_files/figure-html/cell-22-output-1.png" width="829" height="516" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="simulación-muestras-aleatorias-rvs" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="simulación-muestras-aleatorias-rvs"><span class="header-section-number">7.4</span> 4. Simulación: muestras aleatorias (<code>rvs</code>)</h2>
+<p>La simulación sirve para “generar datos” siguiendo una distribución.</p>
+<p><strong>Ojo</strong>: para reproducibilidad, usa <code>random_state=...</code> (en vez de <code>np.random.seed</code>).</p>
+<section id="simular-bernoulli" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="simular-bernoulli"><span class="header-section-number">7.4.1</span> 4.1 Simular Bernoulli</h3>
+<div id="eebafc36" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>muestra <span class="op">=</span> stats.bernoulli.rvs(p, size<span class="op">=</span>ns, random_state<span class="op">=</span><span class="dv">123</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>muestra[:<span class="dv">10</span>], muestra.mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>(array([1, 0, 0, 1, 1, 0, 1, 1, 0, 0]), np.float64(0.492))</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="simular-uniforme-discreta" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="simular-uniforme-discreta"><span class="header-section-number">7.4.2</span> 4.2 Simular uniforme discreta</h3>
+<div id="7a854b02" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>a, b <span class="op">=</span> <span class="dv">1</span>, <span class="dv">7</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>muestra <span class="op">=</span> stats.randint.rvs(a, b, size<span class="op">=</span>ns, random_state<span class="op">=</span><span class="dv">123</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>muestra[:<span class="dv">10</span>], muestra.mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>(array([6, 3, 5, 3, 2, 4, 3, 4, 2, 2]), np.float64(3.481))</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="simular-normal" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="simular-normal"><span class="header-section-number">7.4.3</span> 4.3 Simular normal</h3>
+<div id="3d2ad71b" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mu, sigma <span class="op">=</span> <span class="dv">0</span>, <span class="dv">1</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>muestra <span class="op">=</span> stats.norm.rvs(loc<span class="op">=</span>mu, scale<span class="op">=</span>sigma, size<span class="op">=</span>ns, random_state<span class="op">=</span><span class="dv">123</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>plt.hist(muestra, bins<span class="op">=</span><span class="dv">30</span>, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">200</span>)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>plt.plot(x, stats.norm.pdf(x, loc<span class="op">=</span>mu, scale<span class="op">=</span>sigma))</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Simulación Normal vs PDF teórica"</span>)</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"densidad"</span>)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-limpieza-y-transformacion-pandas_files/figure-html/cell-25-output-1.png" width="829" height="516" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="simular-chi-cuadrado" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="simular-chi-cuadrado"><span class="header-section-number">7.4.4</span> 4.4 Simular chi-cuadrado</h3>
+<div id="d0a01c73" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>dfree <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>muestra <span class="op">=</span> stats.chi2.rvs(dfree, size<span class="op">=</span>ns, random_state<span class="op">=</span><span class="dv">123</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>plt.hist(muestra, bins<span class="op">=</span><span class="dv">30</span>, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">200</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>plt.plot(x, stats.chi2.pdf(x, dfree))</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Simulación Chi-cuadrado vs PDF teórica"</span>)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"densidad"</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-limpieza-y-transformacion-pandas_files/figure-html/cell-26-output-1.png" width="840" height="516" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="simular-t-y-f" class="level3" data-number="7.4.5">
+<h3 data-number="7.4.5" class="anchored" data-anchor-id="simular-t-y-f"><span class="header-section-number">7.4.5</span> 4.5 Simular t y F</h3>
+<div id="9853b37f" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dfree <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>muestra_t <span class="op">=</span> stats.t.rvs(dfree, size<span class="op">=</span>ns, random_state<span class="op">=</span><span class="dv">123</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>muestra_t.mean(), muestra_t.std()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>(np.float64(-0.01672640328050372), np.float64(1.2429630759079338))</code></pre>
+</div>
+</div>
+<div id="9109b161" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>dfn, dfd <span class="op">=</span> <span class="dv">5</span>, <span class="dv">3</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>muestra_f <span class="op">=</span> stats.f.rvs(dfn, dfd, size<span class="op">=</span>ns, random_state<span class="op">=</span><span class="dv">123</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>muestra_f.mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>np.float64(4.3484584035305645)</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="ejercicios-propuestos" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="ejercicios-propuestos"><span class="header-section-number">7.5</span> Ejercicios propuestos</h2>
 <ol type="1">
-<li><p><strong>Filtro con dos condiciones</strong><br>
-Con el <code>df</code> del capítulo, selecciona filas donde <code>ciudad</code> sea <code>"Cuenca"</code> y <code>ventas</code> sea mayor o igual a 100.</p>
-<p><strong>Respuesta esperada:</strong> solo la fila de Cuenca con <code>ventas=110</code> (y cualquier otra que cumpla si cambiaste datos).</p></li>
-<li><p><strong>Columna con regla</strong><br>
-Crea una columna <code>ventas_altas</code> que sea <code>True</code> si <code>ventas &gt;= 120</code> y <code>False</code> en caso contrario.</p>
-<p><strong>Respuesta esperada:</strong> <code>True</code> en las filas con ventas 120 y 130; <code>False</code> en 100, 90, 110; y <code>False</code> o <code>NaN</code> para el faltante dependiendo de tu implementación (pero debe ser consistente).</p></li>
-<li><p><strong>Imputación</strong><br>
-Rellena los <code>NaN</code> de <code>ventas</code> con la mediana de <code>ventas</code>.</p>
-<p><strong>Respuesta esperada:</strong> la columna de <code>ventas</code> ya no tiene <code>NaN</code> (la fila faltante toma la mediana).</p></li>
-<li><p><strong>Groupby con dos columnas</strong><br>
-Calcula el promedio de <code>ventas</code> y <code>clientes</code> por <code>ciudad</code>.</p>
-<p><strong>Respuesta esperada:</strong> dos promedios por ciudad (Quito y Cuenca) para ambas variables.</p></li>
-<li><p><strong>Merge (left join)</strong><br>
-Crea un <code>DataFrame</code> de ciudades con una columna extra (por ejemplo <code>pais="Ecuador"</code>) y haz un <code>left merge</code> sobre <code>ciudad</code>.</p>
-<p><strong>Respuesta esperada:</strong> <code>df_merged</code> conserva el mismo número de filas que <code>df</code> y agrega las nuevas columnas.</p></li>
-<li><p><strong>Mini-proyecto</strong><br>
-Crea un <code>DataFrame</code> con 10 filas (inventado) con columnas <code>grupo</code> y <code>valor</code>.</p>
-<ul>
-<li>Inserta 2 valores faltantes en <code>valor</code>.<br>
-</li>
-<li>Imputa los faltantes con el promedio del grupo.<br>
-</li>
-<li>Luego calcula el promedio final por grupo.</li>
-</ul>
-<p><strong>Respuesta esperada:</strong> no quedan <code>NaN</code> y obtienes un promedio final por cada grupo.</p></li>
+<li><p><strong>PMF y CDF (binomial)</strong><br>
+Para <code>X ~ Bin(n=12, p=0.3)</code>, calcula <code>P(X=4)</code> y <code>P(X ≤ 4)</code>.</p>
+<p><strong>Respuesta esperada:</strong> dos números entre 0 y 1 (una prob puntual y una acumulada).</p></li>
+<li><p><strong>Tablas con <code>crosstab</code> “falso”</strong><br>
+Simula 1000 Bernoulli con <code>p=0.4</code> y arma una tabla de frecuencias con <code>value_counts()</code>.</p>
+<p><strong>Respuesta esperada:</strong> dos filas (0 y 1) con conteos que suman 1000.</p></li>
+<li><p><strong>Comparación histograma vs PDF</strong><br>
+Simula 2000 normales con <code>μ=10, σ=2</code>, grafica el histograma con <code>density=True</code> y superpone la <code>pdf</code>.</p>
+<p><strong>Respuesta esperada:</strong> histograma y curva teórica “encajan” aproximadamente.</p></li>
+<li><p><strong>Estandarización</strong><br>
+Dado <code>x = [2, 4, 6]</code>, <code>μ=4</code>, <code>σ=2</code>, calcula <code>z</code>.</p>
+<p><strong>Respuesta esperada:</strong> <code>[-1, 0, 1]</code>.</p></li>
+<li><p><strong>Exponencial: CDF</strong><br>
+Con <code>lambda=2</code>, calcula <code>P(X ≤ 1)</code> usando <code>stats.expon.cdf</code> con <code>scale=1/lambda</code>.</p>
+<p><strong>Respuesta esperada:</strong> un número entre 0 y 1, mayor que 0.8.</p></li>
+<li><p><strong>Hipergeométrica</strong><br>
+Con <code>M=50</code>, <code>n=10</code>, <code>N=5</code>, calcula <code>P(X=0)</code> y <code>P(X≥1)</code>.</p>
+<p><strong>Respuesta esperada:</strong> dos probabilidades que suman menos o igual a 1; <code>P(X≥1)=1-P(X=0)</code>.</p></li>
 </ol>
 <hr>
 
@@ -1746,8 +1544,8 @@ Crea un <code>DataFrame</code> con 10 filas (inventado) con columnas <code>grupo
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/05-control-de-flujo-y-funciones.html" class="pagination-link" aria-label="Capítulo 5 — Control de flujo y funciones (if, for, while, def)">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Capítulo 5 — Control de flujo y funciones (if, for, while, def)</span></span>
+      <a href="../chapters/05-estadisticas-descriptivas.html" class="pagination-link" aria-label="Capítulo 5 — Estadísticas descriptivas (tablas, gráficos y resumen)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Capítulo 5 — Estadísticas descriptivas (tablas, gráficos y resumen)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

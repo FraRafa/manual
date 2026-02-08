@@ -1,0 +1,504 @@
+---
+title: "Capítulo 6 — Distribuciones de probabilidad (scipy.stats)"
+---
+
+[🚀 Abrir este capítulo en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/06-distribuciones-de-probabilidad.ipynb){.btn .btn-success target="_blank"}
+
+```{python}
+#| include: false
+# Setup interno (se ejecuta, pero no se muestra en HTML/PDF)
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+
+plt.rcParams["figure.figsize"] = (8, 4.5)
+plt.rcParams["figure.dpi"] = 120
+```
+
+::: {.callout-note}
+## Objetivos del capítulo
+
+Al terminar este capítulo vas a poder:
+
+- usar `scipy.stats` para trabajar con distribuciones **discretas** y **continuas**,
+- calcular **PMF/PDF** y **CDF** con `pmf`, `pdf`, `cdf`,
+- obtener probabilidades puntuales y acumuladas (ej. `P(X=2)`, `P(X≤x)`),
+- simular muestras con `rvs` y comparar con gráficos sencillos,
+- organizar resultados en tablas (`pandas`) y graficarlos (`matplotlib`).
+:::
+
+::: {.column-margin}
+<details>
+<summary><strong>Glosario</strong></summary>
+
+- **PMF**: *probability mass function* (masa) → discretas (`pmf`).
+- **PDF**: *probability density function* (densidad) → continuas (`pdf`).
+- **CDF**: *cumulative distribution function* (acumulada) → `cdf`.
+- **rvs**: *random variates* → genera una muestra aleatoria.
+- **parámetros**: números que “definen” la distribución (p, n, μ, σ, etc.).
+- **scale**: parámetro de escala en `scipy` (ej. exponencial).
+</details>
+:::
+
+---
+
+## 1. La idea (enfocado en código)
+
+`scipy.stats` trae **objetos de distribución** listos para usar. Casi siempre verás estos métodos:
+
+- `pmf(x, ...)` → probabilidad puntual (discretas).
+- `pdf(x, ...)` → densidad (continuas).
+- `cdf(x, ...)` → probabilidad acumulada.
+- `rvs(..., size=n)` → simulación (muestra aleatoria).
+
+::: {.callout-note}
+### Sintaxis clave (patrón general)
+
+- Distribución discreta: `stats.binom.pmf(x, n, p)`
+- Distribución continua: `stats.norm.pdf(x, loc=mu, scale=sigma)`
+- Acumulada: `stats.norm.cdf(x, loc=mu, scale=sigma)`
+- Simulación: `stats.norm.rvs(loc=mu, scale=sigma, size=1000, random_state=123)`
+:::
+
+---
+
+## 2. Distribuciones discretas
+
+### 2.1 Uniforme discreta (`randint`)
+
+Ejemplo: valores enteros entre `a` y `b` (incluye `a`, excluye `b` en scipy).
+
+```{python}
+a, b = 1, 7  # en scipy randint: soporte [a, b)
+x = np.arange(a, b)  # 1..6
+
+pmf = stats.randint.pmf(x, a, b)
+cdf = stats.randint.cdf(x, a, b)
+
+tabla = pd.DataFrame({"x": x, "pmf": pmf, "cdf": cdf})
+tabla
+```
+
+**Gráfico PMF**:
+
+```{python}
+plt.bar(tabla["x"], tabla["pmf"])
+plt.title("Uniforme discreta — PMF")
+plt.xlabel("x")
+plt.ylabel("P(X = x)")
+plt.show()
+```
+
+**Gráfico CDF**:
+
+```{python}
+plt.step(tabla["x"], tabla["cdf"], where="post")
+plt.title("Uniforme discreta — CDF")
+plt.xlabel("x")
+plt.ylabel("P(X ≤ x)")
+plt.ylim(0, 1.05)
+plt.show()
+```
+
+---
+
+### 2.2 Bernoulli (`bernoulli`)
+
+```{python}
+p = 0.2
+x = np.array([0, 1])
+
+tabla = pd.DataFrame({
+    "x": x,
+    "pmf": stats.bernoulli.pmf(x, p),
+    "cdf": stats.bernoulli.cdf(x, p),
+})
+tabla
+```
+
+---
+
+### 2.3 Binomial (`binom`)
+
+```{python}
+n, p = 10, 0.2
+x = np.arange(0, n + 1)
+
+pmf = stats.binom.pmf(x, n, p)
+cdf = stats.binom.cdf(x, n, p)
+
+tabla = pd.DataFrame({"x": x, "pmf": pmf, "cdf": cdf})
+tabla.head()
+```
+
+**Probabilidad puntual** (ej. `P(X=2)`):
+
+```{python}
+stats.binom.pmf(2, n, p)
+```
+
+**PMF como barras**:
+
+```{python}
+plt.bar(tabla["x"], tabla["pmf"])
+plt.title("Binomial — PMF")
+plt.xlabel("x")
+plt.ylabel("P(X = x)")
+plt.show()
+```
+
+---
+
+### 2.4 Poisson (`poisson`)
+
+```{python}
+lam = 4  # tasa media
+x = np.arange(0, 16)
+
+tabla = pd.DataFrame({
+    "x": x,
+    "pmf": stats.poisson.pmf(x, lam),
+    "cdf": stats.poisson.cdf(x, lam),
+})
+tabla.head()
+```
+
+---
+
+### 2.5 Geométrica (`geom`)
+
+**Ojo práctico**: en `scipy.stats.geom`, el soporte empieza en `1` (número de ensayos hasta el primer éxito).
+
+```{python}
+p = 0.4
+x = np.arange(1, 16)
+
+tabla = pd.DataFrame({
+    "x": x,
+    "pmf": stats.geom.pmf(x, p),
+    "cdf": stats.geom.cdf(x, p),
+})
+tabla.head()
+```
+
+---
+
+### 2.6 Binomial negativa (`nbinom`)
+
+En `scipy.stats.nbinom`, una parametrización común es:
+
+- `n` = número de éxitos (r),
+- `p` = probabilidad de éxito,
+- `x` = número de fracasos antes de alcanzar esos `n` éxitos.
+
+```{python}
+r, p = 3, 0.4
+x = np.arange(0, 21)
+
+tabla = pd.DataFrame({
+    "x": x,
+    "pmf": stats.nbinom.pmf(x, r, p),
+    "cdf": stats.nbinom.cdf(x, r, p),
+})
+tabla.head()
+```
+
+---
+
+### 2.7 Hipergeométrica (`hypergeom`)
+
+Parámetros típicos:
+
+- `M` = población total,
+- `n` = número de “éxitos” en la población,
+- `N` = tamaño de la muestra.
+
+```{python}
+M = 100
+n_exitos = 80
+N = 20
+
+# x: éxitos obtenidos en la muestra
+x = np.arange(0, N + 1)
+
+tabla = pd.DataFrame({
+    "x": x,
+    "pmf": stats.hypergeom.pmf(x, M, n_exitos, N),
+    "cdf": stats.hypergeom.cdf(x, M, n_exitos, N),
+})
+tabla.head()
+```
+
+---
+
+## 3. Distribuciones continuas
+
+### 3.1 Uniforme continua (`uniform`)
+
+En `scipy`, `uniform` usa `loc` (inicio) y `scale` (longitud del intervalo).
+
+```{python}
+alpha, beta = -3, 3
+x = np.linspace(-4, 4, 200)
+
+pdf = stats.uniform.pdf(x, loc=alpha, scale=beta - alpha)
+cdf = stats.uniform.cdf(x, loc=alpha, scale=beta - alpha)
+
+pdf[:3], cdf[:3]
+```
+
+```{python}
+plt.plot(x, pdf)
+plt.title("Uniforme continua — PDF")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.show()
+```
+
+---
+
+### 3.2 Normal (`norm`)
+
+```{python}
+mu, sigma = 5, 2
+x = np.linspace(-5, 15, 200)
+
+pdf = stats.norm.pdf(x, loc=mu, scale=sigma)
+cdf = stats.norm.cdf(x, loc=mu, scale=sigma)
+
+plt.plot(x, pdf)
+plt.title("Normal — PDF")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.show()
+```
+
+**Probabilidad acumulada** (ejemplo de intervalo):
+
+```{python}
+# P(2 < X <= 6) cuando X ~ N(4, 9)  => sigma = 3
+stats.norm.cdf(6, loc=4, scale=3) - stats.norm.cdf(2, loc=4, scale=3)
+```
+
+---
+
+### 3.3 Estandarización (Z-score) con `numpy`
+
+Esto es puro Python: restar media y dividir por desviación estándar.
+
+```{python}
+mu, sigma = 5, 2
+x = np.array([1, 3, 5, 7, 9])
+
+z = (x - mu) / sigma
+z
+```
+
+---
+
+### 3.4 Chi-cuadrado (`chi2`)
+
+```{python}
+dfree = 5
+w = np.linspace(0, 15, 200)
+
+pdf = stats.chi2.pdf(w, dfree)
+cdf = stats.chi2.cdf(w, dfree)
+
+plt.plot(w, pdf)
+plt.title("Chi-cuadrado — PDF")
+plt.xlabel("w")
+plt.ylabel("f(w)")
+plt.show()
+```
+
+---
+
+### 3.5 t-Student (`t`)
+
+```{python}
+dfree = 5
+tvals = np.linspace(-5, 5, 200)
+
+pdf = stats.t.pdf(tvals, dfree)
+cdf = stats.t.cdf(tvals, dfree)
+
+plt.plot(tvals, pdf)
+plt.title("t-Student — PDF")
+plt.xlabel("t")
+plt.ylabel("f(t)")
+plt.show()
+```
+
+---
+
+### 3.6 F de Fisher (`f`)
+
+```{python}
+dfn, dfd = 5, 3
+r = np.linspace(0, 15, 200)
+
+pdf = stats.f.pdf(r, dfn, dfd)
+cdf = stats.f.cdf(r, dfn, dfd)
+
+plt.plot(r, pdf)
+plt.title("F — PDF")
+plt.xlabel("r")
+plt.ylabel("f(r)")
+plt.show()
+```
+
+---
+
+### 3.7 Exponencial (`expon`)
+
+En `scipy`, `expon` usa `scale = 1/lambda` si tú trabajas con tasa `lambda`.
+
+```{python}
+lam = 1
+x = np.linspace(-0.5, 6, 200)
+
+pdf = stats.expon.pdf(x, scale=1/lam)
+cdf = stats.expon.cdf(x, scale=1/lam)
+
+plt.plot(x, pdf)
+plt.title("Exponencial — PDF")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.show()
+```
+
+---
+
+## 4. Simulación: muestras aleatorias (`rvs`)
+
+La simulación sirve para “generar datos” siguiendo una distribución.
+
+**Ojo**: para reproducibilidad, usa `random_state=...` (en vez de `np.random.seed`).
+
+### 4.1 Simular Bernoulli
+
+```{python}
+p = 0.5
+ns = 1000
+
+muestra = stats.bernoulli.rvs(p, size=ns, random_state=123)
+muestra[:10], muestra.mean()
+```
+
+---
+
+### 4.2 Simular uniforme discreta
+
+```{python}
+a, b = 1, 7
+ns = 1000
+
+muestra = stats.randint.rvs(a, b, size=ns, random_state=123)
+muestra[:10], muestra.mean()
+```
+
+---
+
+### 4.3 Simular normal
+
+```{python}
+mu, sigma = 0, 1
+ns = 1000
+
+muestra = stats.norm.rvs(loc=mu, scale=sigma, size=ns, random_state=123)
+
+plt.hist(muestra, bins=30, density=True)
+x = np.linspace(-4, 4, 200)
+plt.plot(x, stats.norm.pdf(x, loc=mu, scale=sigma))
+plt.title("Simulación Normal vs PDF teórica")
+plt.xlabel("x")
+plt.ylabel("densidad")
+plt.show()
+```
+
+---
+
+### 4.4 Simular chi-cuadrado
+
+```{python}
+dfree = 5
+ns = 1000
+
+muestra = stats.chi2.rvs(dfree, size=ns, random_state=123)
+
+plt.hist(muestra, bins=30, density=True)
+x = np.linspace(0, 20, 200)
+plt.plot(x, stats.chi2.pdf(x, dfree))
+plt.title("Simulación Chi-cuadrado vs PDF teórica")
+plt.xlabel("x")
+plt.ylabel("densidad")
+plt.show()
+```
+
+---
+
+### 4.5 Simular t y F
+
+```{python}
+dfree = 5
+ns = 1000
+
+muestra_t = stats.t.rvs(dfree, size=ns, random_state=123)
+muestra_t.mean(), muestra_t.std()
+```
+
+```{python}
+dfn, dfd = 5, 3
+ns = 1000
+
+muestra_f = stats.f.rvs(dfn, dfd, size=ns, random_state=123)
+muestra_f.mean()
+```
+
+---
+
+## Ejercicios propuestos
+
+1) **PMF y CDF (binomial)**  
+   Para `X ~ Bin(n=12, p=0.3)`, calcula `P(X=4)` y `P(X ≤ 4)`.
+
+   **Respuesta esperada:** dos números entre 0 y 1 (una prob puntual y una acumulada).
+
+2) **Tablas con `crosstab` “falso”**  
+   Simula 1000 Bernoulli con `p=0.4` y arma una tabla de frecuencias con `value_counts()`.
+
+   **Respuesta esperada:** dos filas (0 y 1) con conteos que suman 1000.
+
+3) **Comparación histograma vs PDF**  
+   Simula 2000 normales con `μ=10, σ=2`, grafica el histograma con `density=True` y superpone la `pdf`.
+
+   **Respuesta esperada:** histograma y curva teórica “encajan” aproximadamente.
+
+4) **Estandarización**  
+   Dado `x = [2, 4, 6]`, `μ=4`, `σ=2`, calcula `z`.
+
+   **Respuesta esperada:** `[-1, 0, 1]`.
+
+5) **Exponencial: CDF**  
+   Con `lambda=2`, calcula `P(X ≤ 1)` usando `stats.expon.cdf` con `scale=1/lambda`.
+
+   **Respuesta esperada:** un número entre 0 y 1, mayor que 0.8.
+
+6) **Hipergeométrica**  
+   Con `M=50`, `n=10`, `N=5`, calcula `P(X=0)` y `P(X≥1)`.
+
+   **Respuesta esperada:** dos probabilidades que suman menos o igual a 1; `P(X≥1)=1-P(X=0)`.
+
+---
+
+::: {.content-visible when-format="pdf"}
+## Glosario (para Colab)
+
+- **PMF**: probabilidad puntual (discretas).
+- **PDF**: densidad (continuas).
+- **CDF**: acumulada.
+- **rvs**: simulación / muestra aleatoria.
+- **loc/scale**: parámetros usados por `scipy` en varias distribuciones.
+:::
