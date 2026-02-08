@@ -125,7 +125,9 @@ df_csv2
 ## 3. Guardar datos (exportar)
 
 Guardar es importante por 2 razones:
+
 - para no perder trabajo,
+
 - para poder compartir resultados.
 
 ::: {.callout-note}

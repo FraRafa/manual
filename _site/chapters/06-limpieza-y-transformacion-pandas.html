@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Capítulo 6 — Limpieza y transformación de datos con pandas – Manual de Python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/05-control-de-flujo-y-funciones.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-0edeb2bfa3bdafc2264c871846f989cd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+
+</head>
+
+<body class="nav-sidebar floating slimcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/06-limpieza-y-transformacion-pandas.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 6 — Limpieza y transformación de datos con pandas</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Manual de Python</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Manual de Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-empezando-en-python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Capítulo 1 — Empezando en Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-objetos-en-python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Capítulo 2 — Objetos en Python (variables, listas, numpy y pandas)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-datos-externos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Capítulo 3 — Datos externos (leer y guardar archivos con pandas)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-graficos-basicos-matplotlib.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Capítulo 4 — Gráficos básicos con matplotlib</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-control-de-flujo-y-funciones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Capítulo 5 — Control de flujo y funciones (if, for, while, def)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-limpieza-y-transformacion-pandas.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 6 — Limpieza y transformación de datos con pandas</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#preparar-un-dataframe-de-ejemplo-local" id="toc-preparar-un-dataframe-de-ejemplo-local" class="nav-link active" data-scroll-target="#preparar-un-dataframe-de-ejemplo-local"><span class="header-section-number">7.1</span> 1. Preparar un DataFrame de ejemplo (local)</a></li>
+  <li><a href="#filtrar-filas-condiciones" id="toc-filtrar-filas-condiciones" class="nav-link" data-scroll-target="#filtrar-filas-condiciones"><span class="header-section-number">7.2</span> 2. Filtrar filas (condiciones)</a>
+  <ul class="collapse">
+  <li><a href="#una-condición-simple" id="toc-una-condición-simple" class="nav-link" data-scroll-target="#una-condición-simple"><span class="header-section-number">7.2.1</span> 2.1 Una condición simple</a></li>
+  <li><a href="#dos-condiciones-a-la-vez" id="toc-dos-condiciones-a-la-vez" class="nav-link" data-scroll-target="#dos-condiciones-a-la-vez"><span class="header-section-number">7.2.2</span> 2.2 Dos condiciones a la vez</a></li>
+  </ul></li>
+  <li><a href="#crear-nuevas-columnas-transformación" id="toc-crear-nuevas-columnas-transformación" class="nav-link" data-scroll-target="#crear-nuevas-columnas-transformación"><span class="header-section-number">7.3</span> 3. Crear nuevas columnas (transformación)</a>
+  <ul class="collapse">
+  <li><a href="#una-columna-calculada" id="toc-una-columna-calculada" class="nav-link" data-scroll-target="#una-columna-calculada"><span class="header-section-number">7.3.1</span> 3.1 Una columna calculada</a></li>
+  <li><a href="#transformación-con-where-condición-dentro-de-la-columna" id="toc-transformación-con-where-condición-dentro-de-la-columna" class="nav-link" data-scroll-target="#transformación-con-where-condición-dentro-de-la-columna"><span class="header-section-number">7.3.2</span> 3.2 Transformación con <code>where</code> (condición dentro de la columna)</a></li>
+  </ul></li>
+  <li><a href="#valores-faltantes-nan" id="toc-valores-faltantes-nan" class="nav-link" data-scroll-target="#valores-faltantes-nan"><span class="header-section-number">7.4</span> 4. Valores faltantes (<code>NaN</code>)</a>
+  <ul class="collapse">
+  <li><a href="#detectar-faltantes" id="toc-detectar-faltantes" class="nav-link" data-scroll-target="#detectar-faltantes"><span class="header-section-number">7.4.1</span> 4.1 Detectar faltantes</a></li>
+  <li><a href="#contar-faltantes-por-columna" id="toc-contar-faltantes-por-columna" class="nav-link" data-scroll-target="#contar-faltantes-por-columna"><span class="header-section-number">7.4.2</span> 4.2 Contar faltantes por columna</a></li>
+  <li><a href="#eliminar-filas-con-faltantes" id="toc-eliminar-filas-con-faltantes" class="nav-link" data-scroll-target="#eliminar-filas-con-faltantes"><span class="header-section-number">7.4.3</span> 4.3 Eliminar filas con faltantes</a></li>
+  <li><a href="#rellenar-faltantes-imputación-simple" id="toc-rellenar-faltantes-imputación-simple" class="nav-link" data-scroll-target="#rellenar-faltantes-imputación-simple"><span class="header-section-number">7.4.4</span> 4.4 Rellenar faltantes (imputación simple)</a></li>
+  </ul></li>
+  <li><a href="#ordenar-y-resumir" id="toc-ordenar-y-resumir" class="nav-link" data-scroll-target="#ordenar-y-resumir"><span class="header-section-number">7.5</span> 5. Ordenar y resumir</a>
+  <ul class="collapse">
+  <li><a href="#ordenar" id="toc-ordenar" class="nav-link" data-scroll-target="#ordenar"><span class="header-section-number">7.5.1</span> 5.1 Ordenar</a></li>
+  <li><a href="#resumir-por-grupos-groupby" id="toc-resumir-por-grupos-groupby" class="nav-link" data-scroll-target="#resumir-por-grupos-groupby"><span class="header-section-number">7.5.2</span> 5.2 Resumir por grupos (<code>groupby</code>)</a></li>
+  </ul></li>
+  <li><a href="#unir-tablas-con-merge" id="toc-unir-tablas-con-merge" class="nav-link" data-scroll-target="#unir-tablas-con-merge"><span class="header-section-number">7.6</span> 6. Unir tablas con <code>merge</code></a></li>
+  <li><a href="#aplicación-con-datos-reales-opcional-online" id="toc-aplicación-con-datos-reales-opcional-online" class="nav-link" data-scroll-target="#aplicación-con-datos-reales-opcional-online"><span class="header-section-number">7.7</span> 7. Aplicación con datos reales (opcional, online)</a></li>
+  <li><a href="#ejercicios-propuestos" id="toc-ejercicios-propuestos" class="nav-link" data-scroll-target="#ejercicios-propuestos"><span class="header-section-number">7.8</span> Ejercicios propuestos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 6 — Limpieza y transformación de datos con pandas</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/06-limpieza-y-transformacion-pandas.ipynb" class="btn btn-success" target="_blank">🚀 Abrir este capítulo en Google Colab</a></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Objetivos del capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al terminar este capítulo vas a poder:</p>
+<ul>
+<li>filtrar filas con condiciones (más de una condición a la vez),</li>
+<li>crear nuevas columnas de forma clara y segura,</li>
+<li>tratar valores faltantes (<code>NaN</code>) con <code>isna</code>, <code>fillna</code>, <code>dropna</code>,</li>
+<li>ordenar y resumir datos con <code>sort_values</code> y <code>groupby</code>,</li>
+<li>combinar tablas con <code>merge</code> (joins).</li>
+</ul>
+</div>
+</div>
+<hr>
+<section id="preparar-un-dataframe-de-ejemplo-local" class="level2 page-columns page-full" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="preparar-un-dataframe-de-ejemplo-local"><span class="header-section-number">7.1</span> 1. Preparar un DataFrame de ejemplo (local)</h2>
+<p>Trabajaremos con un ejemplo pequeño (sin internet) para enfocarnos en la <strong>sintaxis</strong>.</p>
+<div id="d66ac729" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"id"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>],</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ciudad"</span>: [<span class="st">"Quito"</span>, <span class="st">"Quito"</span>, <span class="st">"Cuenca"</span>, <span class="st">"Cuenca"</span>, <span class="st">"Quito"</span>, <span class="st">"Cuenca"</span>],</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ventas"</span>: [<span class="dv">100</span>, <span class="dv">120</span>, np.nan, <span class="dv">90</span>, <span class="dv">130</span>, <span class="dv">110</span>],</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"clientes"</span>: [<span class="dv">20</span>, <span class="dv">25</span>, <span class="dv">18</span>, np.nan, <span class="dv">30</span>, <span class="dv">22</span>]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">ciudad</th>
+<th data-quarto-table-cell-role="th">ventas</th>
+<th data-quarto-table-cell-role="th">clientes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>Quito</td>
+<td>100.0</td>
+<td>20.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>Quito</td>
+<td>120.0</td>
+<td>25.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>Cuenca</td>
+<td>NaN</td>
+<td>18.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>Cuenca</td>
+<td>90.0</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>Quito</td>
+<td>130.0</td>
+<td>30.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>6</td>
+<td>Cuenca</td>
+<td>110.0</td>
+<td>22.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Sintaxis clave (DataFrame)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>pd.DataFrame({columna: lista, ...})</code> crea una tabla.</li>
+<li><code>np.nan</code> representa un valor faltante.</li>
+</ul>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<details>
+<summary>
+<strong>Glosario</strong>
+</summary>
+<ul>
+<li><strong>NaN</strong>: “Not a Number”; en <code>pandas</code> significa “faltante”.</li>
+<li><strong>filtro</strong>: seleccionar filas que cumplen una condición.</li>
+<li><strong>booleano</strong>: <code>True</code>/<code>False</code>.</li>
+<li><strong>operadores lógicos</strong>: <code>&amp;</code> (y), <code>|</code> (o), <code>~</code> (no).</li>
+<li><strong>join / merge</strong>: unir tablas por una llave (clave).</li>
+<li><strong>llave (key)</strong>: columna usada para unir (por ejemplo <code>id</code>).</li>
+</ul>
+</details>
+</div></div><hr>
+</section>
+<section id="filtrar-filas-condiciones" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="filtrar-filas-condiciones"><span class="header-section-number">7.2</span> 2. Filtrar filas (condiciones)</h2>
+<section id="una-condición-simple" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="una-condición-simple"><span class="header-section-number">7.2.1</span> 2.1 Una condición simple</h3>
+<div id="15eb2f99" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df[df[<span class="st">"ciudad"</span>] <span class="op">==</span> <span class="st">"Quito"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">ciudad</th>
+<th data-quarto-table-cell-role="th">ventas</th>
+<th data-quarto-table-cell-role="th">clientes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>Quito</td>
+<td>100.0</td>
+<td>20.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>Quito</td>
+<td>120.0</td>
+<td>25.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>Quito</td>
+<td>130.0</td>
+<td>30.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Sintaxis clave (filtros)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>La condición va <strong>entre corchetes</strong>: <code>df[condicion]</code></li>
+<li>La condición produce una serie de <code>True/False</code></li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+<section id="dos-condiciones-a-la-vez" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="dos-condiciones-a-la-vez"><span class="header-section-number">7.2.2</span> 2.2 Dos condiciones a la vez</h3>
+<p>Para combinar condiciones usa <strong>paréntesis</strong> y <code>&amp;</code> o <code>|</code>.</p>
+<div id="b19c6415" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df[(df[<span class="st">"ciudad"</span>] <span class="op">==</span> <span class="st">"Quito"</span>) <span class="op">&amp;</span> (df[<span class="st">"ventas"</span>] <span class="op">&gt;=</span> <span class="dv">120</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">ciudad</th>
+<th data-quarto-table-cell-role="th">ventas</th>
+<th data-quarto-table-cell-role="th">clientes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>Quito</td>
+<td>120.0</td>
+<td>25.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>Quito</td>
+<td>130.0</td>
+<td>30.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Sintaxis clave (AND / OR)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>AND: <code>(cond1) &amp; (cond2)</code></li>
+<li>OR: <code>(cond1) | (cond2)</code></li>
+<li>NOT: <code>~(condicion)</code></li>
+<li>Siempre usa paréntesis en cada condición para evitar errores.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="crear-nuevas-columnas-transformación" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="crear-nuevas-columnas-transformación"><span class="header-section-number">7.3</span> 3. Crear nuevas columnas (transformación)</h2>
+<section id="una-columna-calculada" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="una-columna-calculada"><span class="header-section-number">7.3.1</span> 3.1 Una columna calculada</h3>
+<div id="478d2d43" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"ventas_por_cliente"</span>] <span class="op">=</span> df[<span class="st">"ventas"</span>] <span class="op">/</span> df[<span class="st">"clientes"</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">ciudad</th>
+<th data-quarto-table-cell-role="th">ventas</th>
+<th data-quarto-table-cell-role="th">clientes</th>
+<th data-quarto-table-cell-role="th">ventas_por_cliente</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>Quito</td>
+<td>100.0</td>
+<td>20.0</td>
+<td>5.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>Quito</td>
+<td>120.0</td>
+<td>25.0</td>
+<td>4.800000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>Cuenca</td>
+<td>NaN</td>
+<td>18.0</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>Cuenca</td>
+<td>90.0</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>Quito</td>
+<td>130.0</td>
+<td>30.0</td>
+<td>4.333333</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>6</td>
+<td>Cuenca</td>
+<td>110.0</td>
+<td>22.0</td>
+<td>5.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Ojo</strong><br>
+Si hay <code>NaN</code>, el resultado también puede quedar en <code>NaN</code>. Eso es normal.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="transformación-con-where-condición-dentro-de-la-columna" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="transformación-con-where-condición-dentro-de-la-columna"><span class="header-section-number">7.3.2</span> 3.2 Transformación con <code>where</code> (condición dentro de la columna)</h3>
+<p>Ejemplo: si <code>clientes</code> es 0 o faltante, no calculamos la razón.</p>
+<div id="54df678e" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"ventas_por_cliente_segura"</span>] <span class="op">=</span> np.where(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"clientes"</span>].isna() <span class="op">|</span> (df[<span class="st">"clientes"</span>] <span class="op">==</span> <span class="dv">0</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    np.nan,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"ventas"</span>] <span class="op">/</span> df[<span class="st">"clientes"</span>]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"ventas"</span>, <span class="st">"clientes"</span>, <span class="st">"ventas_por_cliente_segura"</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ventas</th>
+<th data-quarto-table-cell-role="th">clientes</th>
+<th data-quarto-table-cell-role="th">ventas_por_cliente_segura</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>100.0</td>
+<td>20.0</td>
+<td>5.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>120.0</td>
+<td>25.0</td>
+<td>4.800000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>NaN</td>
+<td>18.0</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>90.0</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>130.0</td>
+<td>30.0</td>
+<td>4.333333</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>110.0</td>
+<td>22.0</td>
+<td>5.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Sintaxis clave (<code>np.where</code>)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>np.where(cond, valor_si_true, valor_si_false)</code></li>
+<li>Útil para crear columnas con reglas claras.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="valores-faltantes-nan" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="valores-faltantes-nan"><span class="header-section-number">7.4</span> 4. Valores faltantes (<code>NaN</code>)</h2>
+<section id="detectar-faltantes" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="detectar-faltantes"><span class="header-section-number">7.4.1</span> 4.1 Detectar faltantes</h3>
+<div id="5804389a" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df.isna()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">ciudad</th>
+<th data-quarto-table-cell-role="th">ventas</th>
+<th data-quarto-table-cell-role="th">clientes</th>
+<th data-quarto-table-cell-role="th">ventas_por_cliente</th>
+<th data-quarto-table-cell-role="th">ventas_por_cliente_segura</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>False</td>
+<td>False</td>
+<td>True</td>
+<td>False</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>True</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="d432352b" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"ventas"</span>].isna()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>0    False
+1    False
+2     True
+3    False
+4    False
+5    False
+Name: ventas, dtype: bool</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="contar-faltantes-por-columna" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="contar-faltantes-por-columna"><span class="header-section-number">7.4.2</span> 4.2 Contar faltantes por columna</h3>
+<div id="260001c2" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>id                           0
+ciudad                       0
+ventas                       1
+clientes                     1
+ventas_por_cliente           2
+ventas_por_cliente_segura    2
+dtype: int64</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="eliminar-filas-con-faltantes" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="eliminar-filas-con-faltantes"><span class="header-section-number">7.4.3</span> 4.3 Eliminar filas con faltantes</h3>
+<div id="1c52ebba" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_sin_na <span class="op">=</span> df.dropna()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df_sin_na</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">ciudad</th>
+<th data-quarto-table-cell-role="th">ventas</th>
+<th data-quarto-table-cell-role="th">clientes</th>
+<th data-quarto-table-cell-role="th">ventas_por_cliente</th>
+<th data-quarto-table-cell-role="th">ventas_por_cliente_segura</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>Quito</td>
+<td>100.0</td>
+<td>20.0</td>
+<td>5.000000</td>
+<td>5.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>Quito</td>
+<td>120.0</td>
+<td>25.0</td>
+<td>4.800000</td>
+<td>4.800000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>Quito</td>
+<td>130.0</td>
+<td>30.0</td>
+<td>4.333333</td>
+<td>4.333333</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>6</td>
+<td>Cuenca</td>
+<td>110.0</td>
+<td>22.0</td>
+<td>5.000000</td>
+<td>5.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Sintaxis clave (<code>dropna</code>)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>df.dropna()</code> elimina filas que tengan <strong>algún</strong> <code>NaN</code>.</li>
+<li>Es simple, pero puede botar demasiados datos si hay muchos faltantes.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+<section id="rellenar-faltantes-imputación-simple" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="rellenar-faltantes-imputación-simple"><span class="header-section-number">7.4.4</span> 4.4 Rellenar faltantes (imputación simple)</h3>
+<p>Ejemplo: rellenar faltantes de <code>ventas</code> con el promedio.</p>
+<div id="afcd8aa5" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>prom_ventas <span class="op">=</span> df[<span class="st">"ventas"</span>].mean()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"ventas_fill"</span>] <span class="op">=</span> df[<span class="st">"ventas"</span>].fillna(prom_ventas)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"ventas"</span>, <span class="st">"ventas_fill"</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ventas</th>
+<th data-quarto-table-cell-role="th">ventas_fill</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>100.0</td>
+<td>100.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>120.0</td>
+<td>120.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>NaN</td>
+<td>110.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>90.0</td>
+<td>90.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>130.0</td>
+<td>130.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>110.0</td>
+<td>110.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Sintaxis clave (<code>fillna</code>)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>serie.fillna(valor)</code> reemplaza <code>NaN</code> por <code>valor</code>.</li>
+<li>Es común usar promedios o medianas, según el caso.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="ordenar-y-resumir" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="ordenar-y-resumir"><span class="header-section-number">7.5</span> 5. Ordenar y resumir</h2>
+<section id="ordenar" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="ordenar"><span class="header-section-number">7.5.1</span> 5.1 Ordenar</h3>
+<div id="189122f3" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df.sort_values(<span class="st">"ventas"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">ciudad</th>
+<th data-quarto-table-cell-role="th">ventas</th>
+<th data-quarto-table-cell-role="th">clientes</th>
+<th data-quarto-table-cell-role="th">ventas_por_cliente</th>
+<th data-quarto-table-cell-role="th">ventas_por_cliente_segura</th>
+<th data-quarto-table-cell-role="th">ventas_fill</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>Quito</td>
+<td>130.0</td>
+<td>30.0</td>
+<td>4.333333</td>
+<td>4.333333</td>
+<td>130.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>Quito</td>
+<td>120.0</td>
+<td>25.0</td>
+<td>4.800000</td>
+<td>4.800000</td>
+<td>120.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">5</th>
+<td>6</td>
+<td>Cuenca</td>
+<td>110.0</td>
+<td>22.0</td>
+<td>5.000000</td>
+<td>5.000000</td>
+<td>110.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>Quito</td>
+<td>100.0</td>
+<td>20.0</td>
+<td>5.000000</td>
+<td>5.000000</td>
+<td>100.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>Cuenca</td>
+<td>90.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>90.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>Cuenca</td>
+<td>NaN</td>
+<td>18.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>110.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="resumir-por-grupos-groupby" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="resumir-por-grupos-groupby"><span class="header-section-number">7.5.2</span> 5.2 Resumir por grupos (<code>groupby</code>)</h3>
+<p>Promedio de ventas por ciudad:</p>
+<div id="14d736e3" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df.groupby(<span class="st">"ciudad"</span>)[<span class="st">"ventas"</span>].mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>ciudad
+Cuenca    100.000000
+Quito     116.666667
+Name: ventas, dtype: float64</code></pre>
+</div>
+</div>
+<p>Más de una estadística:</p>
+<div id="cab887cb" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df.groupby(<span class="st">"ciudad"</span>)[[<span class="st">"ventas"</span>, <span class="st">"clientes"</span>]].agg([<span class="st">"mean"</span>, <span class="st">"count"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">ventas</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">clientes</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">count</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">count</th>
+</tr>
+<tr class="header">
+<th data-quarto-table-cell-role="th">ciudad</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Cuenca</th>
+<td>100.000000</td>
+<td>2</td>
+<td>20.0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Quito</th>
+<td>116.666667</td>
+<td>3</td>
+<td>25.0</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Sintaxis clave (<code>groupby</code>)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>df.groupby("col")["y"].mean()</code> → promedio de <code>y</code> por grupo.</li>
+<li><code>agg([...])</code> permite varias estadísticas.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="unir-tablas-con-merge" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="unir-tablas-con-merge"><span class="header-section-number">7.6</span> 6. Unir tablas con <code>merge</code></h2>
+<p>Imagina que tienes otra tabla con información de cada ciudad:</p>
+<div id="5ea36ec2" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ciudades <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ciudad"</span>: [<span class="st">"Quito"</span>, <span class="st">"Cuenca"</span>],</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"region"</span>: [<span class="st">"Sierra"</span>, <span class="st">"Sierra"</span>],</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"altitud_m"</span>: [<span class="dv">2850</span>, <span class="dv">2550</span>]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>ciudades</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ciudad</th>
+<th data-quarto-table-cell-role="th">region</th>
+<th data-quarto-table-cell-role="th">altitud_m</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>Quito</td>
+<td>Sierra</td>
+<td>2850</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Cuenca</td>
+<td>Sierra</td>
+<td>2550</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Unimos por la columna <code>ciudad</code>:</p>
+<div id="b9b1dff1" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df_merged <span class="op">=</span> df.merge(ciudades, on<span class="op">=</span><span class="st">"ciudad"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>df_merged</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">ciudad</th>
+<th data-quarto-table-cell-role="th">ventas</th>
+<th data-quarto-table-cell-role="th">clientes</th>
+<th data-quarto-table-cell-role="th">ventas_por_cliente</th>
+<th data-quarto-table-cell-role="th">ventas_por_cliente_segura</th>
+<th data-quarto-table-cell-role="th">ventas_fill</th>
+<th data-quarto-table-cell-role="th">region</th>
+<th data-quarto-table-cell-role="th">altitud_m</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>Quito</td>
+<td>100.0</td>
+<td>20.0</td>
+<td>5.000000</td>
+<td>5.000000</td>
+<td>100.0</td>
+<td>Sierra</td>
+<td>2850</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>Quito</td>
+<td>120.0</td>
+<td>25.0</td>
+<td>4.800000</td>
+<td>4.800000</td>
+<td>120.0</td>
+<td>Sierra</td>
+<td>2850</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>Cuenca</td>
+<td>NaN</td>
+<td>18.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>110.0</td>
+<td>Sierra</td>
+<td>2550</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>Cuenca</td>
+<td>90.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>90.0</td>
+<td>Sierra</td>
+<td>2550</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>Quito</td>
+<td>130.0</td>
+<td>30.0</td>
+<td>4.333333</td>
+<td>4.333333</td>
+<td>130.0</td>
+<td>Sierra</td>
+<td>2850</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>6</td>
+<td>Cuenca</td>
+<td>110.0</td>
+<td>22.0</td>
+<td>5.000000</td>
+<td>5.000000</td>
+<td>110.0</td>
+<td>Sierra</td>
+<td>2550</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Sintaxis clave (<code>merge</code>)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>df.merge(otra, on="llave", how="left")</code></li>
+<li><code>how="left"</code> conserva todas las filas del <code>df</code> original.</li>
+<li><code>how="inner"</code> conserva solo coincidencias en ambas tablas.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+<section id="aplicación-con-datos-reales-opcional-online" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="aplicación-con-datos-reales-opcional-online"><span class="header-section-number">7.7</span> 7. Aplicación con datos reales (opcional, online)</h2>
+<p>En el manual no lo ejecutamos (<code>eval: false</code>). En Colab suele funcionar mejor.</p>
+<div id="3c228dc7" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip -q install wooldridge</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> wooldridge <span class="im">as</span> woo</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>wage1 <span class="op">=</span> woo.dataWoo(<span class="st">"wage1"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo: crear una variable transformada y resumir</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>wage1[<span class="st">"lwage"</span>] <span class="op">=</span> np.log(wage1[<span class="st">"wage"</span>])</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>wage1.groupby(<span class="st">"female"</span>)[[<span class="st">"wage"</span>, <span class="st">"lwage"</span>]].mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+<section id="ejercicios-propuestos" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="ejercicios-propuestos"><span class="header-section-number">7.8</span> Ejercicios propuestos</h2>
+<ol type="1">
+<li><p><strong>Filtro con dos condiciones</strong><br>
+Con el <code>df</code> del capítulo, selecciona filas donde <code>ciudad</code> sea <code>"Cuenca"</code> y <code>ventas</code> sea mayor o igual a 100.</p>
+<p><strong>Respuesta esperada:</strong> solo la fila de Cuenca con <code>ventas=110</code> (y cualquier otra que cumpla si cambiaste datos).</p></li>
+<li><p><strong>Columna con regla</strong><br>
+Crea una columna <code>ventas_altas</code> que sea <code>True</code> si <code>ventas &gt;= 120</code> y <code>False</code> en caso contrario.</p>
+<p><strong>Respuesta esperada:</strong> <code>True</code> en las filas con ventas 120 y 130; <code>False</code> en 100, 90, 110; y <code>False</code> o <code>NaN</code> para el faltante dependiendo de tu implementación (pero debe ser consistente).</p></li>
+<li><p><strong>Imputación</strong><br>
+Rellena los <code>NaN</code> de <code>ventas</code> con la mediana de <code>ventas</code>.</p>
+<p><strong>Respuesta esperada:</strong> la columna de <code>ventas</code> ya no tiene <code>NaN</code> (la fila faltante toma la mediana).</p></li>
+<li><p><strong>Groupby con dos columnas</strong><br>
+Calcula el promedio de <code>ventas</code> y <code>clientes</code> por <code>ciudad</code>.</p>
+<p><strong>Respuesta esperada:</strong> dos promedios por ciudad (Quito y Cuenca) para ambas variables.</p></li>
+<li><p><strong>Merge (left join)</strong><br>
+Crea un <code>DataFrame</code> de ciudades con una columna extra (por ejemplo <code>pais="Ecuador"</code>) y haz un <code>left merge</code> sobre <code>ciudad</code>.</p>
+<p><strong>Respuesta esperada:</strong> <code>df_merged</code> conserva el mismo número de filas que <code>df</code> y agrega las nuevas columnas.</p></li>
+<li><p><strong>Mini-proyecto</strong><br>
+Crea un <code>DataFrame</code> con 10 filas (inventado) con columnas <code>grupo</code> y <code>valor</code>.</p>
+<ul>
+<li>Inserta 2 valores faltantes en <code>valor</code>.<br>
+</li>
+<li>Imputa los faltantes con el promedio del grupo.<br>
+</li>
+<li>Luego calcula el promedio final por grupo.</li>
+</ul>
+<p><strong>Respuesta esperada:</strong> no quedan <code>NaN</code> y obtienes un promedio final por cada grupo.</p></li>
+</ol>
+<hr>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/05-control-de-flujo-y-funciones.html" class="pagination-link" aria-label="Capítulo 5 — Control de flujo y funciones (if, for, while, def)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Capítulo 5 — Control de flujo y funciones (if, for, while, def)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

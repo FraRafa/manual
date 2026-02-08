@@ -25,8 +25,7 @@ Al terminar este capítulo vas a poder:
 
 ## 1. Variables y objetos
 
-En Python, **todo es un objeto**: números, texto, listas, tablas, etc.  
-Lo que cambia es el **tipo** (*type*), y el tipo determina qué operaciones puedes hacer.
+En Python, **todo es un objeto**. Lo que cambia es el **tipo** (*type*), y el tipo determina qué operaciones puedes hacer.
 
 ::: {.column-margin}
 <details>
@@ -52,15 +51,12 @@ bandera = True  # también existe False
 type(texto), type(entero), type(decimal), type(bandera)
 ```
 
-**Cómo leer esto:**
-- `str` → texto (*string*)
-- `int` → número entero
-- `float` → número con decimales
-- `bool` → verdadero/falso
+::: {.callout-note}
+### Sintaxis clave (variables)
 
-::: {.callout-tip}
-**Tip**  
-Cuando no sabes “qué es” una variable, usa `type(variable)`.
+- `nombre = valor` guarda un valor con un nombre.
+- Las comillas (`"..."` o `'...'`) indican **texto**.
+- `True` y `False` son booleanos (no llevan comillas).
 :::
 
 ---
@@ -69,13 +65,18 @@ Cuando no sabes “qué es” una variable, usa `type(variable)`.
 
 Una **lista** guarda varios elementos en orden.
 
-- Se crea con corchetes: `[ ]`
-- Puedes mezclar tipos, pero para empezar es mejor mantener listas “coherentes” (solo números o solo texto).
-
 ```{python}
 lista_texto = ["Ana", "Luis", "María"]
 lista_numeros = [10, 20, 30, 40]
 ```
+
+::: {.callout-note}
+### Sintaxis clave (listas)
+
+- Se crean con corchetes: `[...]`
+- Los elementos se separan con comas: `[10, 20, 30]`
+- Una lista puede guardarse en una variable: `lista = [...]`
+:::
 
 ### Indexación (empieza en 0)
 
@@ -87,10 +88,17 @@ lista_numeros[0]   # primer elemento
 lista_numeros[2]   # tercer elemento
 ```
 
+::: {.callout-note}
+### Sintaxis clave (indexación)
+
+- `lista[i]` devuelve el elemento en la posición `i`.
+- El primer elemento es `i = 0`.
+- El último elemento se puede pedir con `lista[-1]`.
+:::
+
 ::: {.callout-warning}
 **Error típico**  
-Pedir un índice que no existe da `IndexError`.  
-Ejemplo: si la lista tiene 4 elementos, el último índice es `3`.
+Pedir un índice que no existe da `IndexError`.
 :::
 
 ### Slicing (rangos)
@@ -99,23 +107,30 @@ Ejemplo: si la lista tiene 4 elementos, el último índice es `3`.
 lista_numeros[1:4]  # del segundo al cuarto (4 no se incluye)
 ```
 
-**Regla mental:** `inicio` se incluye, `fin` NO.
+::: {.callout-note}
+### Sintaxis clave (slicing)
+
+- `lista[inicio:fin]` toma un rango.
+- `inicio` se incluye y `fin` **no** se incluye.
+- Ejemplo: `[1:4]` toma posiciones `1, 2, 3`.
+:::
 
 ### Modificar un elemento
-
-Las listas son **mutables** (se pueden cambiar por dentro).
 
 ```{python}
 lista_numeros[2] = 99
 lista_numeros
 ```
 
+::: {.callout-note}
+### Sintaxis clave (modificar)
+
+- `lista[i] = nuevo_valor` reemplaza el elemento en la posición `i`.
+:::
+
 ---
 
 ## 1.2 Funciones vs métodos
-
-- `max(lista)` es una **función**: vive “por fuera” y recibe el objeto.
-- `lista.sort()` es un **método**: vive “dentro” del objeto lista.
 
 ```{python}
 max(lista_numeros)
@@ -126,48 +141,56 @@ lista_numeros.sort()
 lista_numeros
 ```
 
-::: {.callout-tip}
-**Tip**  
-Si ves un punto `objeto.algo()`, casi siempre estás usando un **método**.
+::: {.callout-note}
+### Sintaxis clave (función vs método)
+
+- **Función:** `funcion(objeto)` → ejemplo: `max(lista)`
+- **Método:** `objeto.metodo()` → ejemplo: `lista.sort()`
 :::
 
 ---
 
 ## 1.3 Cuidado: alias al copiar listas
 
-Este es un error muy común al empezar: `b = a` **no crea una copia**, crea un **alias**.
-
 ```{python}
 a = [1, 2, 3]
-b = a        # b NO es copia: es el mismo objeto
+b = a        # alias (mismo objeto)
 b[0] = 999
 
 a, b
 ```
 
-La forma correcta es usar `.copy()`.
-
 ```{python}
 a = [1, 2, 3]
-b = a.copy()
+b = a.copy() # copia real
 b[0] = 999
 
 a, b
 ```
+
+::: {.callout-note}
+### Sintaxis clave (copiar)
+
+- `b = a` crea un **alias** (no copia).
+- `b = a.copy()` crea una copia (superficial) de la lista.
+:::
 
 ---
 
 ## 1.4 Diccionarios
 
-Un **diccionario** guarda pares **clave → valor**.
-
-- Se crea con llaves: `{ }`
-- Las claves suelen ser texto (strings).
-
 ```{python}
 estudiante = {"nombre": "Juan", "nota": 14}
 estudiante
 ```
+
+::: {.callout-note}
+### Sintaxis clave (diccionario)
+
+- Se crea con llaves: `{...}`
+- Dentro van pares `clave: valor`
+- Ejemplo: `{"nombre": "Juan", "nota": 14}`
+:::
 
 Acceder por clave:
 
@@ -183,19 +206,27 @@ estudiante["edad"] = 20
 estudiante
 ```
 
+::: {.callout-note}
+### Sintaxis clave (usar diccionarios)
+
+- `dicc["clave"]` devuelve el valor de esa clave.
+- `dicc["clave"] = valor` crea o actualiza una clave.
+:::
+
 ---
 
 ## 2. Arreglos con numpy
-
-`numpy` está optimizado para trabajar con números en forma de **vectores** y **matrices**.
 
 ```{python}
 import numpy as np
 ```
 
 ::: {.callout-note}
-**Idea clave**  
-`numpy` permite operaciones “vectorizadas”: sumas, multiplicaciones y comparaciones que se aplican a todos los elementos sin usar bucles.
+### Sintaxis clave (import)
+
+- `import paquete` importa un paquete.
+- `import paquete as alias` crea un alias para escribir menos.
+- Ejemplo: `import numpy as np` → usamos `np` en lugar de `numpy`.
 :::
 
 ### Vectores (array 1D)
@@ -205,28 +236,33 @@ x = np.array([10, 20, 30, 40])
 x
 ```
 
-Indexación:
+::: {.callout-note}
+### Sintaxis clave (crear array)
+
+- `np.array([ ... ])` convierte una lista en un `array` de numpy.
+- Para 1D: `np.array([1,2,3])`
+:::
+
+Indexación y selección:
 
 ```{python}
-x[2]  # tercer elemento
+x[2]      # un elemento
 ```
-
-Selección por lista de índices:
 
 ```{python}
-x[[0, 2]]  # primero y tercero
+x[[0, 2]]  # varios índices
 ```
-
-Selección booleana (filtro):
 
 ```{python}
-x[x > 20]
+x[x > 20]  # filtro booleano
 ```
 
-::: {.callout-tip}
-**Tip**  
-`x > 20` produce un vector de `True/False`.  
-Luego `x[ ... ]` filtra usando esos `True/False`.
+::: {.callout-note}
+### Sintaxis clave (selección en numpy)
+
+- `x[i]` un elemento
+- `x[[i, j]]` varios índices (lista de índices)
+- `x[condicion]` filtra por condición (devuelve solo los que cumplen)
 :::
 
 ---
@@ -240,49 +276,36 @@ A = np.array([[1, 2, 3, 4],
 A
 ```
 
-Dimensión:
+::: {.callout-note}
+### Sintaxis clave (2D)
+
+- Para 2D usas listas dentro de listas: `[[...], [...]]`
+- `A.shape` devuelve `(filas, columnas)`
+- `A[fila, columna]` accede a un elemento
+:::
 
 ```{python}
-A.shape  # (filas, columnas)
+A.shape
 ```
-
-Un elemento (fila 2, columna 3) recordando que empieza en 0:
 
 ```{python}
 A[1, 2]
 ```
 
-Rangos:
-
 ```{python}
-A[:, 1:3]   # todas las filas, columnas 2 y 3
+A[:, 1:3]
 ```
 
----
+::: {.callout-note}
+### Sintaxis clave (`:` en numpy)
 
-### Crear arrays útiles
-
-```{python}
-np.linspace(0, 1, 5)   # 5 valores entre 0 y 1
-```
-
-```{python}
-np.arange(0, 10)       # 0,1,2,...,9
-```
-
-```{python}
-np.zeros((2, 3))
-```
-
-```{python}
-np.ones((2, 3))
-```
+- `:` significa “todo”
+- `A[:, 1:3]` = todas las filas, columnas 1 a 2 (porque 3 no se incluye)
+:::
 
 ---
 
 ### Operaciones con matrices
-
-Suma / multiplicación elemento a elemento:
 
 ```{python}
 B = np.array([[1, 1, 1],
@@ -294,10 +317,8 @@ B + C
 ```
 
 ```{python}
-B * C  # elemento a elemento
+B * C
 ```
-
-Multiplicación matricial (álgebra lineal):
 
 ```{python}
 M = np.array([[1, 2],
@@ -309,25 +330,21 @@ M @ N
 ```
 
 ::: {.callout-warning}
-**Ojo**  
-`*` NO es multiplicación matricial en `numpy`.  
-- `*` = elemento a elemento  
-- `@` = multiplicación matricial
+### Sintaxis clave (`*` vs `@`)
+
+- `*` = multiplicación **elemento a elemento**
+- `@` = multiplicación **matricial**
 :::
 
 ---
 
 ## 3. Tablas con pandas
 
-`pandas` está pensado para trabajar con datos en tablas (`DataFrame`).
-
 ```{python}
 import pandas as pd
 ```
 
 ### Crear un DataFrame
-
-Usamos un ejemplo pequeño y local (sin internet) para practicar.
 
 ```{python}
 df = pd.DataFrame({
@@ -338,7 +355,13 @@ df = pd.DataFrame({
 df
 ```
 
-Definir un índice (etiquetas de filas):
+::: {.callout-note}
+### Sintaxis clave (DataFrame)
+
+- `pd.DataFrame({...})` crea una tabla.
+- Dentro usas un diccionario: cada clave es una **columna**.
+- Las listas deben tener el mismo tamaño (mismo número de filas).
+:::
 
 ```{python}
 df.index = ["d1", "d2", "d3", "d4", "d5"]
@@ -349,49 +372,48 @@ df
 
 ### Selección de columnas y filas
 
-**Columnas por nombre**
-
 ```{python}
 df["ventas"]
 ```
-
-**Varias columnas**
 
 ```{python}
 df[["ventas", "clientes"]]
 ```
 
-**Filas por etiqueta (con `.loc`)**
+::: {.callout-note}
+### Sintaxis clave (seleccionar columnas)
+
+- `df["col"]` una columna
+- `df[["col1", "col2"]]` varias columnas (lista de nombres)
+:::
 
 ```{python}
 df.loc["d2":"d4"]
 ```
 
-**Filas por posición (con `.iloc`)**
-
 ```{python}
-df.iloc[1:4]  # filas 2 a 4 (4 no se incluye)
+df.iloc[1:4]
 ```
-
-**Una celda específica**
 
 ```{python}
 df.loc["d3", "clientes"]
 ```
 
 ```{python}
-df.iloc[2, 2]  # fila 3, columna 3
+df.iloc[2, 2]
 ```
 
-::: {.callout-tip}
-**Regla rápida**  
-- `.loc` usa **etiquetas** (nombres)  
-- `.iloc` usa **posiciones** (0,1,2,...)
+::: {.callout-note}
+### Sintaxis clave (`loc` vs `iloc`)
+
+- `.loc[filas, columnas]` usa **etiquetas** (nombres)
+- `.iloc[filas, columnas]` usa **posiciones** (0,1,2,...)
+- Un rango `1:4` incluye 1,2,3 (4 no se incluye)
 :::
 
 ---
 
-### Explorar rápidamente un DataFrame
+### Explorar rápidamente
 
 ```{python}
 df.head()
@@ -401,75 +423,103 @@ df.head()
 df.tail()
 ```
 
-Versión compatible (solo columnas numéricas):
-
 ```{python}
 df.select_dtypes(include="number").describe()
 ```
 
+::: {.callout-note}
+### Sintaxis clave (resumen)
+
+- `head()` muestra las primeras filas
+- `tail()` muestra las últimas filas
+- `select_dtypes(include="number")` se queda solo con columnas numéricas
+- `describe()` resume estadísticas (conteo, media, etc.)
+:::
+
 ---
 
-### Variables categóricas y promedios por grupo
+### Groupby y rezagos
 
 ```{python}
 df["clima"] = df["clima"].astype("category")
 df.dtypes
 ```
 
-Promedio de ventas por clima:
-
 ```{python}
 df.groupby("clima")["ventas"].mean()
 ```
 
----
+::: {.callout-note}
+### Sintaxis clave (`groupby`)
 
-### Rezagos (shift)
+- `df.groupby("col")` agrupa por una columna
+- `["ventas"]` selecciona la variable a resumir
+- `.mean()` calcula el promedio por grupo
+:::
 
 ```{python}
 df["ventas_lag1"] = df["ventas"].shift(1)
 df
 ```
 
-::: {.callout-tip}
-**Tip**  
-`shift(1)` mueve la columna hacia abajo: la primera fila queda con `NaN` porque no existe “valor anterior”.
+::: {.callout-note}
+### Sintaxis clave (`shift`)
+
+- `shift(1)` mueve los valores 1 fila hacia abajo
+- sirve para crear **rezagos** (valor anterior)
 :::
 
 ---
 
 ## Ejercicios propuestos
 
-1) **Listas e índices**  
-   Crea una lista con 5 números.  
-   - imprime el primero, el tercero y los últimos dos (usando slicing).
+1) **Índices y slicing con intención**  
+   Crea la lista `L = [2, 4, 6, 8, 10, 12]`.  
+   Construye una nueva lista `R` que contenga **solo** los elementos de `L` que están en posiciones pares (0, 2, 4, ...) y luego **reemplaza** el último elemento de `R` por `999`.
 
-   - **Pista:** `lista[-1]` es el último.
-   - **Respuesta esperada:** tres impresiones correctas sin `IndexError`.
+   **Respuesta esperada:** `R` debe quedar como `[2, 6, 999]`.
 
-2) **Alias vs copia**  
-   Crea una lista `a = [1,2,3]`.  
-   Haz `b = a` y cambia `b[0]`.  
-   Luego repite pero usando `b = a.copy()`.
+2) **Alias vs copia (comprobación)**  
+   Crea `a = [1, 2, 3]`. Luego crea `b = a` y `c = a.copy()`.  
+   Cambia `b[0] = 100` y `c[1] = 200`. Imprime `a`, `b`, `c`.
 
-   - **Pista:** en el primer caso cambian ambos; en el segundo no.
-   - **Respuesta esperada:** en el primer caso `a` cambia; en el segundo `a` se mantiene.
+   **Respuesta esperada:**  
+   - `a` y `b` deben ser iguales y empezar con `100` (porque comparten el mismo objeto).  
+   - `c` debe ser distinto (solo `c` debe tener `200` en la segunda posición).  
+   Ejemplo coherente: `a=[100, 2, 3]`, `b=[100, 2, 3]`, `c=[1, 200, 3]`.
 
-3) **numpy: selección booleana**  
-   Crea `x = np.array([1, 5, 10, 15, 20])` y selecciona solo los valores mayores a 10.
+3) **Diccionario como “registro”**  
+   Crea un diccionario `persona` con `{"nombre": "Ana", "edad": 19}`.  
+   Luego actualiza `edad` sumándole 1 y agrega una nueva clave `activo` con valor `True`.
 
-   - **Pista:** `x[x > 10]`
-   - **Respuesta esperada:** `[15 20]`.
+   **Respuesta esperada:** `{"nombre": "Ana", "edad": 20, "activo": True}` (el orden puede variar).
 
-4) **pandas: selección y groupby**  
+4) **numpy: filtro + transformación**  
+   Crea `x = np.array([3, 6, 9, 12, 15])`.  
+   Crea un nuevo array `y` con **solo** los valores de `x` que son múltiplos de 6 y luego súmales 1.
+
+   **Respuesta esperada:** `y` debe ser `array([7, 13])`.
+
+5) **numpy: diferencia entre `*` y `@`**  
+   Define:
+   - `M = np.array([[1, 2], [3, 4]])`
+   - `N = np.array([[2, 0], [1, 2]])`  
+   Calcula `M * N` y `M @ N`.
+
+   **Respuesta esperada:**  
+   - `M * N` debe ser `[[2, 0], [3, 8]]` (elemento a elemento).  
+   - `M @ N` debe ser `[[4, 4], [10, 8]]` (matricial).
+
+6) **pandas: selección + columna nueva + resumen**  
    Con el `df` del capítulo:
-   - selecciona solo `ventas` y `clientes`,
-   - calcula el promedio de `ventas` por `clima`.
+   - crea una columna `ventas_por_cliente = ventas / clientes`,
+   - filtra las filas donde `clima == "sol"`,
+   - calcula el promedio de `ventas_por_cliente` en ese subconjunto.
 
-   - **Pista:** `df[["ventas","clientes"]]` y `df.groupby("clima")["ventas"].mean()`
-   - **Respuesta esperada:** una tabla/serie y dos promedios (uno por categoría).
+   **Respuesta esperada:** un único número (float).  
+   Con los datos del capítulo debe ser aproximadamente `5.0` (puede verse como `5` o `5.0` según formato).
 
----
+
 
 ::: {.content-visible when-format="pdf"}
 ## Glosario (para Colab)

@@ -22,6 +22,7 @@ Al terminar este capítulo vas a poder:
 - entender qué es el **directorio de trabajo** y por qué importa.
 :::
 
+
 ---
 
 ## 1. Comentarios, texto y variables
@@ -40,6 +41,7 @@ Al terminar este capítulo vas a poder:
 </details>
 :::
 
+
 ### Comentarios
 
 Los comentarios son líneas que **Python no ejecuta**. Sirven para explicar el código o dejar recordatorios.
@@ -50,9 +52,10 @@ Los comentarios son líneas que **Python no ejecuta**. Sirven para explicar el c
 ```
 
 ::: {.callout-tip}
-**Tip rápido**  
+**Tip rápido**
 Si una línea empieza con `#` y “no pasa nada”, no es un error: es un comentario.
 :::
+
 
 ---
 
@@ -68,9 +71,10 @@ print("Hola mundo")
 - **Cómo se usa:** `print("...")` o `print('...')`.
 
 ::: {.callout-warning}
-**Error típico**  
+**Error típico**
 Escribir texto sin comillas: `print(Hola)` → Python cree que `Hola` es una **variable** y lanza `NameError`.
 :::
+
 
 ---
 
@@ -83,9 +87,10 @@ Python funciona como una calculadora.
 ```
 
 ::: {.callout-tip}
-**Prioridad de operaciones**  
+**Prioridad de operaciones**
 Python respeta la prioridad matemática: `()` → `**` → `* /` → `+ -`.
 :::
+
 
 ---
 
@@ -109,9 +114,10 @@ var2
 ```
 
 ::: {.callout-note}
-**Idea clave**  
+**Idea clave**
 En Python, `=` no significa “igualdad matemática”. Significa **asignación**: “guarda esto con este nombre”.
 :::
+
 
 ---
 
@@ -165,10 +171,11 @@ print(f"e = {e}")
 ```
 
 ::: {.callout-warning}
-**Errores típicos con módulos**  
-- Usar `m.sqrt(...)` sin importar antes → `NameError: name 'm' is not defined`.  
+**Errores típicos con módulos**
+- Usar `m.sqrt(...)` sin importar antes → `NameError: name 'm' is not defined`.
 - Escribir `m.pi()` → error, porque `pi` **no es una función** (no lleva paréntesis).
 :::
+
 
 ---
 
@@ -203,11 +210,12 @@ os.chdir("C:/ruta/a/tu/carpeta")
 ```
 
 ::: {.callout-tip}
-**Tip docente**  
-Si Python “no encuentra un archivo”, casi siempre es porque:  
-1) estás en el directorio equivocado, o  
+**Tip docente**
+Si Python “no encuentra un archivo”, casi siempre es porque:
+1) estás en el directorio equivocado, o
 2) la ruta/nombre del archivo está mal.
 :::
+
 
 ---
 
@@ -216,10 +224,11 @@ Si Python “no encuentra un archivo”, casi siempre es porque:
 En capítulos futuros verás librerías que pueden no venir instaladas por defecto.
 
 ::: {.callout-note}
-**Regla práctica**  
-- En **VSCode** instalas con `pip install ...` en la terminal.  
+**Regla práctica**
+- En **VSCode** instalas con `pip install ...` en la terminal.
 - En **Colab** instalas con `!pip install ...` dentro de una celda.
 :::
+
 
 ### VSCode (terminal)
 
@@ -239,14 +248,14 @@ pip install wooldridge yfinance pandas_datareader
 
 ## Ejercicios propuestos
 
-1) **Tu primera impresión con f-string**  
-   Crea dos variables: `nombre` (texto) y `edad` (número).  
+1) **Tu primera impresión con f-string**
+   Crea dos variables: `nombre` (texto) y `edad` (número).
    Imprime una frase usando f-string.
 
    - **Pista:** `print(f"...{nombre}...{edad}...")`
    - **Respuesta esperada:** una frase bien formada con tu nombre y tu edad.
 
-2) **Operaciones básicas**  
+2) **Operaciones básicas**
    Crea `a = 10` y `b = 3`. Calcula e imprime:
    - `a + b`
    - `a * b`
@@ -255,13 +264,13 @@ pip install wooldridge yfinance pandas_datareader
    - **Pista:** `**` es potencia.
    - **Respuesta esperada:** `13`, `30`, `1000`.
 
-3) **Usa `math`**  
+3) **Usa `math`**
    Calcula la raíz cuadrada de 81 usando `math`.
 
    - **Pista:** `m.sqrt(81)`.
    - **Respuesta esperada:** `9.0`.
 
-4) **Chequea tu directorio de trabajo**  
+4) **Chequea tu directorio de trabajo**
    Muestra tu directorio actual y lista los primeros 10 archivos.
 
    - **Pista:** `os.getcwd()` y `sorted(os.listdir())[:10]`

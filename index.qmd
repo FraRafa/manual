@@ -1,0 +1,34 @@
+---
+title: "Manual de Python"
+---
+
+## Presentación del Manual
+
+Este manual te enseña a programar en Python desde cero, paso a paso, con un enfoque práctico.
+No necesitas haber programado antes.
+
+## ¿Qué vas a obtener después de este manual?
+
+Al finalizar, vas a poder:
+
+- Leer y escribir código en Python con confianza.
+- Trabajar con datos usando `pandas` y `numpy`.
+- Hacer gráficos básicos con `matplotlib`.
+- Entender la lógica de programación (condicionales, bucles y funciones).
+- Ejecutar y adaptar código en tu propio entorno (VSCode) o en la nube (Google Colab).
+
+## Lecturas recomendadas (HTML, PDF y Colab)
+
+- **HTML:** navegación rápida y lectura cómoda.
+- **PDF:** ideal para imprimir o leer offline.
+- **Google Colab:** ejecutas el código sin instalar nada.
+
+> Recomendación: **lee el capítulo en HTML/PDF y practica en Colab**.
+
+## Índice del Manual
+
+### Capítulo 1 — Empezando en Python
+
+Vas a aprender cómo ejecutar código, usar variables, importar módulos y entender tu directorio de trabajo.
+
+[🚀 Abrir Capítulo 1 en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/01-empezando-en-python.ipynb){.btn .btn-primary target="_blank"}
