@@ -1,0 +1,324 @@
+---
+title: "Capítulo 5 — Control de flujo y funciones (if, for, while, def)"
+---
+
+[🚀 Abrir este capítulo en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/05-control-de-flujo-y-funciones.ipynb){.btn .btn-success target="_blank"}
+
+```{python}
+#| include: false
+# Setup interno (se ejecuta, pero no se muestra en HTML/PDF)
+import sys
+```
+
+::: {.callout-note}
+## Objetivos del capítulo
+
+Al terminar este capítulo vas a poder:
+
+- tomar decisiones con `if / elif / else`,
+- repetir acciones con `for` y `while`,
+- usar `range()` y entender índices,
+- crear funciones con `def` y devolver resultados con `return`,
+- escribir código más limpio y reutilizable.
+:::
+
+---
+
+## 1. Control de flujo: la idea
+
+En programación, *control de flujo* significa decidir:
+
+- **qué** se ejecuta (condiciones),
+- **cuántas veces** se ejecuta (bucles),
+- **cómo** reutilizarlo (funciones).
+
+::: {.column-margin}
+<details>
+<summary><strong>Glosario</strong></summary>
+
+- **condición**: expresión que da `True` o `False`.
+- **bloque**: grupo de líneas con la misma indentación.
+- **indentación**: espacios al inicio de la línea (en Python es obligatoria).
+- **bucle**: repetición (`for`, `while`).
+- **iterar**: recorrer elementos uno por uno.
+- **función**: bloque reutilizable creado con `def`.
+- **return**: devuelve un resultado y termina la función.
+</details>
+:::
+
+---
+
+## 2. Condicionales: `if`, `elif`, `else`
+
+### 2.1 El caso más simple
+
+```{python}
+x = 10
+
+if x > 5:
+    print("x es mayor que 5")
+```
+
+::: {.callout-note}
+### Sintaxis clave (if)
+
+- `if condicion:` termina con **dos puntos** `:`
+- lo que va “dentro” del `if` debe ir indentado (normalmente 4 espacios)
+- la condición debe ser algo que dé `True` o `False`
+:::
+
+---
+
+### 2.2 Con `else`
+
+```{python}
+x = 3
+
+if x > 5:
+    print("x es mayor que 5")
+else:
+    print("x NO es mayor que 5")
+```
+
+---
+
+### 2.3 Con `elif` (varios casos)
+
+```{python}
+nota = 16
+
+if nota >= 18:
+    resultado = "Excelente"
+elif nota >= 14:
+    resultado = "Aprobado"
+else:
+    resultado = "Reprobado"
+
+resultado
+```
+
+::: {.callout-tip}
+**Regla mental**  
+`elif` significa “si no fue el anterior, prueba este”.
+:::
+
+---
+
+## 3. Bucles `for`
+
+### 3.1 Iterar sobre una lista
+
+```{python}
+nombres = ["Ana", "Luis", "María"]
+
+for nombre in nombres:
+    print(nombre)
+```
+
+::: {.callout-note}
+### Sintaxis clave (for)
+
+- `for variable in coleccion:` recorre elemento por elemento
+- en cada vuelta, `variable` toma el siguiente valor
+:::
+
+---
+
+### 3.2 `range()` para repetir un número de veces
+
+```{python}
+for i in range(5):
+    print(i)
+```
+
+::: {.callout-note}
+### Sintaxis clave (range)
+
+- `range(n)` produce `0, 1, 2, ..., n-1`
+- se usa mucho para contar o para trabajar con índices
+:::
+
+---
+
+### 3.3 Acumular resultados (sumar, contar, etc.)
+
+```{python}
+valores = [10, 20, 30, 40]
+suma = 0
+
+for v in valores:
+    suma = suma + v
+
+suma
+```
+
+---
+
+### 3.4 `break` y `continue`
+
+```{python}
+nums = [2, 4, 7, 8, 10]
+
+for n in nums:
+    if n % 2 == 1:
+        print("Encontré un impar:", n)
+        break  # corta el bucle
+```
+
+```{python}
+for n in nums:
+    if n % 2 == 1:
+        continue  # salta esta vuelta
+    print("Par:", n)
+```
+
+::: {.callout-warning}
+**Ojo**  
+`break` termina el bucle por completo.  
+`continue` solo salta la iteración actual.
+:::
+
+---
+
+## 4. Bucles `while`
+
+Un `while` repite *mientras la condición sea verdadera*.
+
+```{python}
+contador = 0
+
+while contador < 3:
+    print("contador =", contador)
+    contador = contador + 1
+```
+
+::: {.callout-note}
+### Sintaxis clave (while)
+
+- `while condicion:` repite mientras la condición sea `True`
+- si nunca cambias la condición, puedes crear un bucle infinito
+:::
+
+---
+
+## 5. Funciones (`def`)
+
+### 5.1 Función simple
+
+```{python}
+def cuadrado(x):
+    return x**2
+
+cuadrado(5)
+```
+
+::: {.callout-note}
+### Sintaxis clave (def)
+
+- `def nombre(parametros):` define la función
+- `return` devuelve un valor y termina la función
+- si no hay `return`, la función devuelve `None`
+:::
+
+---
+
+### 5.2 Función con varios parámetros y valor por defecto
+
+```{python}
+def area_rectangulo(base, altura=1):
+    return base * altura
+
+area_rectangulo(4, 3), area_rectangulo(4)
+```
+
+::: {.callout-note}
+### Sintaxis clave (parámetros por defecto)
+
+- `altura=1` significa: si no pasas `altura`, se usa 1
+- los parámetros con defecto deben ir al final
+:::
+
+---
+
+### 5.3 Función que valida (usa if)
+
+```{python}
+def porcentaje(parte, total):
+    if total == 0:
+        return None
+    return 100 * parte / total
+
+porcentaje(25, 200), porcentaje(1, 0)
+```
+
+---
+
+## 6. Mini-ejemplo integrador
+
+Queremos: tomar una lista de números y quedarnos con los positivos, elevándolos al cuadrado.
+
+```{python}
+def positivos_al_cuadrado(lista):
+    salida = []
+    for x in lista:
+        if x > 0:
+            salida.append(x**2)
+    return salida
+
+positivos_al_cuadrado([-2, -1, 0, 1, 2, 3])
+```
+
+::: {.callout-tip}
+**Idea clave**  
+Las funciones te ayudan a convertir un procedimiento en una herramienta reutilizable.
+:::
+
+---
+
+## Ejercicios propuestos
+
+1) **Condiciones encadenadas**  
+   Dado un número `x`, clasifícalo como `"negativo"`, `"cero"` o `"positivo"` usando `if/elif/else`.
+
+   **Respuesta esperada:** para `x=-3` → `"negativo"`, para `x=0` → `"cero"`, para `x=7` → `"positivo"`.
+
+2) **Suma condicional**  
+   Dada la lista `L = [1, 2, 3, 4, 5, 6]`, calcula la suma de los números **pares** usando un `for`.
+
+   **Respuesta esperada:** `2 + 4 + 6 = 12`.
+
+3) **Búsqueda con `break`**  
+   Dada la lista `L = [4, 8, 10, 13, 16]`, encuentra el **primer** número impar y detén el bucle.
+
+   **Respuesta esperada:** el primer impar encontrado es `13`.
+
+4) **`while` con criterio**  
+   Empezando en `x = 1`, duplica `x` hasta que sea mayor o igual a `100`. Cuenta cuántas duplicaciones hiciste.
+
+   **Respuesta esperada:** `x` termina en `128` y el número de duplicaciones es `7`.
+
+5) **Función con validación**  
+   Escribe una función `promedio(lista)` que devuelva el promedio. Si la lista está vacía, devuelve `None`.
+
+   **Respuesta esperada:** `promedio([10, 20, 30]) = 20.0` y `promedio([]) = None`.
+
+6) **Mini-proyecto**  
+   Escribe una función `filtrar_y_transformar(lista)` que:
+   - tome solo los números mayores que 10,
+   - les reste 10,
+   - devuelva la nueva lista.
+
+   **Respuesta esperada:** para `[5, 10, 11, 20]` devuelve `[1, 10]`.
+
+---
+
+::: {.content-visible when-format="pdf"}
+## Glosario (para Colab)
+
+- **condición**: expresión que da `True` o `False`.
+- **bloque**: líneas con la misma indentación.
+- **indentación**: espacios al inicio (obligatoria en Python).
+- **bucle**: repetición (`for`, `while`).
+- **función**: bloque reutilizable creado con `def`.
+- **return**: devuelve un resultado y termina la función.
+:::
