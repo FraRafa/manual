@@ -1,0 +1,30 @@
+project:
+  type: book
+  output-dir: _site
+
+book:
+  title: "Manual de Python"
+  author: "Docente"
+  date: today
+  chapters:
+    - index.qmd
+    - chapters/01-empezando-en-python.qmd
+    - chapters/02-objetos-en-python.qmd
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-copy: true
+    code-overflow: wrap
+  pdf:
+    toc: true
+    number-sections: true
+    documentclass: scrreprt
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: false
+  freeze: auto

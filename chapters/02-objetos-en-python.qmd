@@ -1,0 +1,475 @@
+---
+title: "Capítulo 2 — Objetos en Python (variables, listas, numpy y pandas)"
+---
+
+[🚀 Abrir este capítulo en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/02-objetos-en-python.ipynb){.btn .btn-success target="_blank"}
+
+```{python}
+#| include: false
+# Setup interno (se ejecuta, pero no se muestra en HTML/PDF)
+import sys
+```
+
+::: {.callout-note}
+## Objetivos del capítulo
+
+Al terminar este capítulo vas a poder:
+
+- identificar los tipos de datos más comunes en Python (texto, números, booleanos),
+- crear y manipular **listas** y **diccionarios**,
+- trabajar con arreglos de `numpy` (vectores y matrices) usando *indexación* y *operaciones vectorizadas*,
+- crear y explorar tablas con `pandas` (`DataFrame`) y seleccionar datos con `[]`, `.loc` y `.iloc`.
+:::
+
+---
+
+## 1. Variables y objetos
+
+::: {.column-margin}
+<details>
+<summary><strong>Glosario</strong></summary>
+
+- **objeto**: cualquier “cosa” en Python (un número, un texto, una lista, etc.).
+- **tipo (type)**: la “categoría” de un objeto (`int`, `float`, `str`, `bool`…).
+- **índice (index)**: posición de un elemento. En Python empieza en `0`.
+- **método**: función “pegada” a un objeto, por ejemplo `lista.sort()`.
+- **mutabilidad**: si un objeto puede cambiarse “por dentro” (listas sí; tuplas no).
+- **alias**: dos nombres apuntando al mismo objeto (típico con listas).
+:::
+
+### Texto, números y booleanos
+
+```{python}
+texto = "Hola"
+entero = 10
+decimal = 3.14
+bandera = True  # también existe False
+
+type(texto), type(entero), type(decimal), type(bandera)
+```
+
+::: {.callout-tip}
+**Tip**  
+Cuando no sabes “qué es” una variable, usa `type(variable)`.
+:::
+
+---
+
+### Listas
+
+Una **lista** guarda varios elementos en un solo objeto.
+
+```{python}
+lista_texto = ["Ana", "Luis", "María"]
+lista_numeros = [10, 20, 30, 40]
+```
+
+**Indexación (empieza en 0)**
+
+```{python}
+lista_numeros[0]   # primer elemento
+```
+
+```{python}
+lista_numeros[2]   # tercer elemento
+```
+
+**Slicing (rangos)**
+
+```{python}
+lista_numeros[1:4]  # del segundo al cuarto (4 no se incluye)
+```
+
+**Modificar un elemento**
+
+```{python}
+lista_numeros[2] = 99
+lista_numeros
+```
+
+---
+
+### Funciones y métodos útiles
+
+- `max(lista)` es una **función** (funciona con varios tipos).
+- `lista.sort()` es un **método** (vive dentro del objeto lista).
+
+```{python}
+max(lista_numeros)
+```
+
+```{python}
+lista_numeros.sort()
+lista_numeros
+```
+
+---
+
+### Cuidado: alias al copiar listas
+
+Este es un error típico: copiar con `=` no crea una copia “real”.
+
+```{python}
+a = [1, 2, 3]
+b = a        # b NO es copia: es el mismo objeto
+b[0] = 999
+
+a, b
+```
+
+La forma correcta es usar `.copy()` (copia superficial).
+
+```{python}
+a = [1, 2, 3]
+b = a.copy()
+b[0] = 999
+
+a, b
+```
+
+::: {.callout-warning}
+**Regla**  
+Si usas `b = a` con listas, casi siempre estás creando un **alias**, no una copia.
+:::
+
+---
+
+### Diccionarios
+
+Un **diccionario** guarda pares **clave → valor**.
+
+```{python}
+estudiante = {"nombre": "Juan", "nota": 14}
+estudiante
+```
+
+Acceder por clave:
+
+```{python}
+estudiante["nota"]
+```
+
+Modificar / agregar claves:
+
+```{python}
+estudiante["nota"] = estudiante["nota"] + 6
+estudiante["edad"] = 20
+estudiante
+```
+
+Copiar diccionarios (mismo problema del alias si usas `=`):
+
+```{python}
+e1 = {"x": 1, "y": 2}
+e2 = e1.copy()
+e2["x"] = 999
+
+e1, e2
+```
+
+---
+
+## 2. Arreglos con numpy
+
+`numpy` está optimizado para trabajar con números en forma de **vectores** y **matrices**.
+
+```{python}
+import numpy as np
+```
+
+---
+
+### Vectores (array 1D)
+
+```{python}
+x = np.array([10, 20, 30, 40])
+x
+```
+
+Indexación:
+
+```{python}
+x[2]  # tercer elemento
+```
+
+Selección por índices:
+
+```{python}
+x[[0, 2]]  # primero y tercero
+```
+
+Selección booleana:
+
+```{python}
+x[x > 20]
+```
+
+---
+
+### Matrices (array 2D)
+
+```{python}
+A = np.array([[1, 2, 3, 4],
+              [5, 6, 7, 8],
+              [9, 10, 11, 12]])
+A
+```
+
+Dimensión:
+
+```{python}
+A.shape  # (filas, columnas)
+```
+
+Elemento “fila 2, columna 3” (recordar: empieza en 0):
+
+```{python}
+A[1, 2]
+```
+
+Rangos:
+
+```{python}
+A[:, 1:3]   # todas las filas, columnas 2 y 3
+```
+
+---
+
+### Crear arrays útiles
+
+```{python}
+np.linspace(0, 1, 5)   # 5 valores entre 0 y 1
+```
+
+```{python}
+np.arange(0, 10)       # 0,1,2,...,9
+```
+
+```{python}
+np.zeros((2, 3))
+```
+
+```{python}
+np.ones((2, 3))
+```
+
+---
+
+### Operaciones con matrices
+
+Suma / resta / multiplicación elemento a elemento:
+
+```{python}
+B = np.array([[1, 1, 1],
+              [2, 2, 2]])
+C = np.array([[10, 10, 10],
+              [20, 20, 20]])
+
+B + C
+```
+
+```{python}
+B * C  # elemento a elemento
+```
+
+Multiplicación matricial:
+
+```{python}
+M = np.array([[1, 2],
+              [3, 4]])
+N = np.array([[10, 0],
+              [0, 10]])
+
+M @ N
+```
+
+---
+
+### Inversa y transpuesta (nivel “avanzando”)
+
+```{python}
+M_inv = np.linalg.inv(M)
+M_inv
+```
+
+Comprobación (debería salir parecido a la identidad):
+
+```{python}
+np.round(M @ M_inv, 6)
+```
+
+Transpuesta:
+
+```{python}
+M.T
+```
+
+::: {.callout-warning}
+**Ojo**  
+No todas las matrices tienen inversa. Si `np.linalg.inv(M)` falla, la matriz puede ser **singular** (no invertible).
+:::
+
+---
+
+## 3. Tablas con pandas
+
+`pandas` está pensado para trabajar con datos en tablas (`DataFrame`).
+
+```{python}
+import pandas as pd
+```
+
+---
+
+### Crear un DataFrame
+
+Vamos a crear un ejemplo pequeño y local (sin internet) para practicar.
+
+```{python}
+df = pd.DataFrame({
+    "ventas": [100, 120, 90, 130, 110],
+    "clima":  ["sol", "sol", "lluvia", "sol", "lluvia"],
+    "clientes": [20, 25, 18, 30, 22]
+})
+df
+```
+
+Definir un índice (etiquetas de filas):
+
+```{python}
+df.index = ["d1", "d2", "d3", "d4", "d5"]
+df
+```
+
+---
+
+### Selección de columnas y filas
+
+**Columnas por nombre (con `[]`)**
+
+```{python}
+df["ventas"]
+```
+
+**Varias columnas**
+
+```{python}
+df[["ventas", "clientes"]]
+```
+
+**Filas por etiqueta (con `.loc`)**
+
+```{python}
+df.loc["d2":"d4"]
+```
+
+**Filas por posición (con `.iloc`)**
+
+```{python}
+df.iloc[1:4]  # filas 2 a 4 (4 no se incluye)
+```
+
+**Una celda específica**
+
+```{python}
+df.loc["d3", "clientes"]
+```
+
+```{python}
+df.iloc[2, 2]  # fila 3, columna 3
+```
+
+---
+
+### Explorar rápidamente un DataFrame
+
+```{python}
+df.head()
+```
+
+```{python}
+df.tail()
+```
+
+```{python}
+df.describe(numeric_only=True)
+```
+
+---
+
+### Variables categóricas y promedios por grupo
+
+Convertimos `clima` a categoría (útil para ahorrar memoria y trabajar con etiquetas).
+
+```{python}
+df["clima"] = df["clima"].astype("category")
+df.dtypes
+```
+
+Promedio de ventas por clima:
+
+```{python}
+df.groupby("clima")["ventas"].mean()
+```
+
+---
+
+### Rezagos (shift)
+
+Crear el “rezago 1” de ventas: el valor anterior.
+
+```{python}
+df["ventas_lag1"] = df["ventas"].shift(1)
+df
+```
+
+::: {.callout-tip}
+**Tip**  
+`shift(1)` mueve la columna hacia abajo: la primera fila queda con `NaN` porque no existe “valor anterior”.
+:::
+
+---
+
+## Ejercicios propuestos
+
+1) **Listas e índices**  
+   Crea una lista con 5 números.  
+   - imprime el primero, el tercero y los últimos dos (usando slicing).
+
+   - **Pista:** recuerda que el índice empieza en 0 y que `lista[-1]` es el último.
+   - **Respuesta esperada:** tres impresiones correctas sin errores de índice.
+
+2) **Alias vs copia**  
+   Crea una lista `a = [1,2,3]`.  
+   Haz `b = a` y cambia `b[0]`.  
+   Luego repite pero usando `b = a.copy()`.
+
+   - **Pista:** en el primer caso cambian ambos; en el segundo no.
+   - **Respuesta esperada:** en el primer caso `a` cambia; en el segundo `a` se mantiene.
+
+3) **numpy: selección booleana**  
+   Crea `x = np.array([1, 5, 10, 15, 20])` y selecciona solo los valores mayores a 10.
+
+   - **Pista:** `x[x > 10]`
+   - **Respuesta esperada:** `[15 20]`.
+
+4) **pandas: selección y groupby**  
+   Con el `df` del capítulo:
+   - selecciona solo las columnas `ventas` y `clientes`,
+   - calcula el promedio de `ventas` por `clima`.
+
+   - **Pista:** `df[["ventas","clientes"]]` y `df.groupby("clima")["ventas"].mean()`
+   - **Respuesta esperada:** un DataFrame/Series y dos promedios (uno por categoría).
+
+---
+
+::: {.content-visible when-format="pdf"}
+## Glosario (para Colab)
+
+- **objeto**: cualquier “cosa” en Python (un número, un texto, una lista, etc.).
+- **tipo (type)**: la “categoría” de un objeto (`int`, `float`, `str`, `bool`…).
+- **índice (index)**: posición de un elemento. En Python empieza en `0`.
+- **método**: función “pegada” a un objeto, por ejemplo `lista.sort()`.
+- **mutabilidad**: si un objeto puede cambiarse “por dentro” (listas sí; tuplas no).
+- **alias**: dos nombres apuntando al mismo objeto.
+:::
