@@ -10,6 +10,8 @@ book:
     - index.qmd
     - chapters/01-empezando-en-python.qmd
     - chapters/02-objetos-en-python.qmd
+    - chapters/03-datos-externos.qmd
+
 format:
   html:
     toc: true
