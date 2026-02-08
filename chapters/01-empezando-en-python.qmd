@@ -1,0 +1,265 @@
+---
+title: "Capítulo 1 — Empezando en Python"
+---
+
+[🚀 Abrir este capítulo en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/01-empezando-en-python.ipynb){.btn .btn-success target="_blank"}
+
+::: {.column-margin}
+### Glosario
+
+- **comentario**: texto que Python ignora (`# ...`).
+- **string**: texto entre comillas (`"hola"`).
+- **variable**: nombre que guarda un valor (`x = 10`).
+- **módulo**: “paquete” con código reutilizable (`math`, `os`).
+- **import**: traer un módulo para usarlo (`import math`).
+- **directorio de trabajo**: carpeta actual donde Python busca/guarda archivos.
+:::
+
+```{python}
+#| include: false
+# Setup interno (se ejecuta, pero no se muestra en HTML/PDF)
+import sys
+import os
+import math as m
+```
+
+::: {.callout-note}
+## Objetivos del capítulo
+
+- Escribir y ejecutar tus primeras líneas de Python,
+- crear variables y usarlas en cálculos,
+- imprimir resultados con `print()` y f-strings,
+- importar módulos (`math`, `os`) y usarlos correctamente,
+- entender qué es el **directorio de trabajo** y por qué importa.
+:::
+
+---
+
+## 1. Comentarios, texto y variables
+
+### Comentarios
+
+Los comentarios son líneas que **Python no ejecuta**. Sirven para explicar el código o dejar recordatorios.
+
+```{python}
+# Esto es un comentario: Python lo ignora.
+# Úsalo para explicar qué hace tu código.
+```
+
+::: {.callout-tip}
+**Tip rápido**  
+Si una línea empieza con `#` y “no pasa nada”, no es un error: es un comentario.
+:::
+
+---
+
+### Texto (strings)
+
+En Python, el texto se escribe entre comillas simples o dobles.
+
+```{python}
+print("Hola mundo")
+```
+
+- **Qué hace:** muestra el texto en pantalla.
+- **Cómo se usa:** `print("...")` o `print('...')`.
+
+::: {.callout-warning}
+**Error típico**  
+Escribir texto sin comillas: `print(Hola)` → Python cree que `Hola` es una **variable** y lanza `NameError`.
+:::
+
+---
+
+### Operaciones matemáticas
+
+Python funciona como una calculadora.
+
+```{python}
+1 + 1
+```
+
+::: {.callout-tip}
+**Prioridad de operaciones**  
+Python respeta la prioridad matemática: `()` → `**` → `* /` → `+ -`.
+:::
+
+---
+
+### Variables
+
+Una variable es un nombre que “apunta” a un valor.
+
+```{python}
+var1 = 1 + 1
+var2 = 5 * (4 - 1) ** 2
+```
+
+Para ver el contenido de una variable:
+
+```{python}
+var1
+```
+
+```{python}
+var2
+```
+
+::: {.callout-note}
+**Idea clave**  
+En Python, `=` no significa “igualdad matemática”. Significa **asignación**: “guarda esto con este nombre”.
+:::
+
+---
+
+### Imprimir resultados con `print()` y f-strings
+
+Cuando quieras mostrar texto + variables de forma clara, usa **f-strings**:
+
+```{python}
+print(f"Uno más uno: {var1}")
+print(f"El valor de var2 es: {var2}")
+```
+
+**Sintaxis importante**
+- `f"..."` activa el modo *f-string*.
+- `{var1}` inserta el valor de `var1` en el texto.
+
+También puedes forzar un salto de línea con `\n`:
+
+```{python}
+print(f"Uno más uno:\n{var1}")
+```
+
+---
+
+## 2. Módulos y directorio de trabajo
+
+### ¿Qué es un módulo?
+
+Un **módulo** es código ya escrito y listo para usar (funciones y constantes). Python trae muchos módulos “de fábrica”.
+
+---
+
+### Importar y usar `math`
+
+En este capítulo ya importamos `math` con alias `m` (de forma interna).  
+Ahora solo lo usamos.
+
+```{python}
+raiz = m.sqrt(16)   # raíz cuadrada
+pi = m.pi           # constante pi
+e = m.e             # constante e
+
+print(f"sqrt(16) = {raiz}")
+print(f"pi = {pi}")
+print(f"e = {e}")
+```
+
+::: {.callout-warning}
+**Errores típicos con módulos**  
+- Usar `m.sqrt(...)` sin importar antes → `NameError: name 'm' is not defined`.  
+- Escribir `m.pi()` → error, porque `pi` **no es una función** (no lleva paréntesis).
+:::
+
+---
+
+### Directorio de trabajo con `os`
+
+El **directorio de trabajo** es la carpeta desde donde Python “mira” para leer/guardar archivos.
+
+Ver el directorio actual:
+
+```{python}
+os.getcwd()
+```
+
+Listar archivos de la carpeta actual (limitamos a los primeros 10 para que se vea limpio):
+
+```{python}
+archivos = sorted(os.listdir())
+archivos[:10]
+```
+
+Cambiar de directorio (ejemplo, **no lo ejecutes** si no sabes lo que haces):
+
+```{python}
+#| eval: false
+os.chdir("C:/ruta/a/tu/carpeta")
+```
+
+::: {.callout-tip}
+**Tip docente**  
+Si Python “no encuentra un archivo”, casi siempre es porque:  
+1) estás en el directorio equivocado, o  
+2) la ruta/nombre del archivo está mal.
+:::
+
+---
+
+## Instalación de librerías (opcional)
+
+En capítulos futuros verás librerías que pueden no venir instaladas por defecto.
+
+::: {.callout-note}
+**Regla práctica**  
+- En **VSCode** instalas con `pip install ...` en la terminal.  
+- En **Colab** instalas con `!pip install ...` dentro de una celda.
+:::
+
+### VSCode (terminal)
+
+```{bash}
+#| eval: false
+pip install wooldridge yfinance pandas_datareader
+```
+
+### Google Colab
+
+```{python}
+#| eval: false
+!pip -q install wooldridge yfinance pandas_datareader
+```
+
+---
+
+## Ejercicios propuestos
+
+1) **Tu primera impresión con f-string**  
+   Crea dos variables: `nombre` (texto) y `edad` (número).  
+   Imprime una frase usando f-string.
+
+   - **Pista:** `print(f"...{nombre}...{edad}...")`
+   - **Respuesta esperada:** una frase bien formada con tu nombre y tu edad.
+
+2) **Operaciones básicas**  
+   Crea `a = 10` y `b = 3`. Calcula e imprime:
+   - `a + b`
+   - `a * b`
+   - `a ** b`
+
+   - **Pista:** `**` es potencia.
+   - **Respuesta esperada:** `13`, `30`, `1000`.
+
+3) **Usa `math`**  
+   Calcula la raíz cuadrada de 81 usando `math`.
+
+   - **Pista:** `m.sqrt(81)`.
+   - **Respuesta esperada:** `9.0`.
+
+4) **Chequea tu directorio de trabajo**  
+   Muestra tu directorio actual y lista los primeros 10 archivos.
+
+   - **Pista:** `os.getcwd()` y `sorted(os.listdir())[:10]`
+   - **Respuesta esperada:** una ruta + una lista con nombres de archivos/carpetas.
+
+---
+
+## Glosario (para Colab)
+
+- **comentario**: texto que Python ignora (`# ...`).
+- **string**: texto entre comillas (`"hola"`).
+- **variable**: nombre que guarda un valor (`x = 10`).
+- **módulo**: “paquete” con código reutilizable (`math`, `os`).
+- **import**: traer un módulo para usarlo (`import math`).
+- **directorio de trabajo**: carpeta actual donde Python busca/guarda archivos.
