@@ -1,0 +1,434 @@
+---
+title: "Capítulo 9 — Simulación de Monte Carlo"
+---
+
+[🚀 Abrir este capítulo en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/09-simulacion-monte-carlo.ipynb){.btn .btn-success target="_blank"}
+
+```{python}
+#| include: false
+# Setup interno (se ejecuta, pero no se muestra en HTML/PDF)
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+
+plt.rcParams["figure.figsize"] = (8, 4.5)
+plt.rcParams["figure.dpi"] = 120
+```
+
+::: {.callout-note}
+## Objetivos del capítulo
+
+- Entender **qué significa simular** en Python: repetir un experimento aleatorio muchas veces.
+- Programar una simulación para visualizar el **Teorema del Límite Central (TLC)** usando promedios muestrales.
+- Programar una simulación de Monte Carlo para estudiar:
+  - la frecuencia de **rechazos** en una prueba t cuando H0 es verdadera (error Tipo I),
+  - la **cobertura** de intervalos de confianza.
+:::
+
+::: {.column-margin}
+<div style="margin-top: 1.2rem;"></div>
+<details>
+<summary><strong>Glosario</strong></summary>
+
+- **Monte Carlo**: repetir muchas veces un experimento aleatorio para aproximar un resultado.
+- **replicación**: una corrida/iteración de la simulación (una vez que “repites”).
+- **semilla**: número que fija el generador aleatorio para reproducibilidad.
+- **TLC / CLT**: el promedio muestral tiende a ser normal cuando n crece.
+- **IID**: independientes e idénticamente distribuidas.
+- **cobertura**: proporción de intervalos que contienen el parámetro verdadero.
+- **error Tipo I**: rechazar H0 siendo H0 verdadera.
+</details>
+:::
+
+---
+
+## 1. ¿Qué es una simulación de Monte Carlo (en código)?
+
+En Python, una simulación de Monte Carlo casi siempre se ve así:
+
+1) defines una distribución o un mecanismo aleatorio,  
+2) repites `r` veces (un bucle),  
+3) guardas resultados en arrays,  
+4) resumes con una tabla, proporción o gráfico.
+
+La parte clave para programar bien no es “estadística”, sino:
+
+- **organizar resultados** (arrays),
+- **reproducibilidad** (semilla),
+- **evitar errores de lógica** (índices, condiciones, acumuladores).
+
+---
+
+## 2. Teorema del Límite Central (TLC) con una población asimétrica
+
+### 2.1 Población (asimétrica): chi-cuadrado
+
+```{python}
+# Ejemplo de distribución poblacional asimétrica (chi-cuadrado)
+y = np.linspace(0, 20, num=100)
+
+m = 1  # grados de libertad
+fy = stats.chi2.pdf(y, m)
+
+plt.plot(y, fy, linestyle="-", color="black")
+plt.title(rf"Distribución poblacional: PDF de Y ~ $\chi^2$({m})")
+plt.xlabel("Y")
+plt.ylabel("f(Y)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+
+# Media y varianza poblacionales (para chi-cuadrado con m g.l.)
+EYi = m
+VYi = 2 * m
+print(f"Media poblacional: E(Y_i) = {EYi}\n")
+print(f"Varianza poblacional: Var(Y_i) = {VYi}\n")
+```
+
+::: {.callout-note}
+### Sintaxis clave
+
+- `np.linspace(a, b, num=k)` crea k puntos entre a y b (útil para graficar).
+- `stats.chi2.pdf(y, m)` evalúa la PDF en cada punto de `y`.
+- `plt.plot(...)` grafica líneas; `plt.grid()` agrega grilla.
+:::
+
+---
+
+### 2.2 Una muestra y su promedio
+
+```{python}
+# Definimos el valor semilla (None = resultados distintos cada ejecución)
+semilla = None
+
+# Tamaño de muestra
+n = 10
+
+# Muestreo (una muestra desde la población chi-cuadrado)
+muestra = stats.chi2.rvs(m, size=n, random_state=semilla)
+
+# Promedio de la muestra
+y_promedio = muestra.mean()
+print(f"Promedio de la muestra (línea verde): {y_promedio:.4f}")
+
+# Gráfico: observaciones y promedio
+plt.scatter(np.arange(1, n + 1), muestra, label="Observaciones")
+plt.axhline(y_promedio, color="green", label="Promedio muestral")
+plt.ylabel("Y(i)")
+plt.xlabel("Individuo (i)")
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.grid()
+plt.show()
+plt.close()
+```
+
+::: {.callout-warning}
+### Error común
+Si quieres resultados **reproducibles**, no dejes `semilla = None`.  
+En ese caso, usa un entero (ej. `semilla = 1`).
+:::
+
+---
+
+### 2.3 Muchas muestras: distribución del promedio muestral
+
+Aquí repetimos el muestreo `r` veces y guardamos los promedios en un array.
+
+```{python}
+campana = True          # si True, sobrepone una normal teórica
+limites = None          # si quieres un rango fijo, usa limites=(a, b)
+semilla = None          # semilla base
+n = 5                   # tamaño de muestra
+r = 1000                # número de replicaciones
+
+promedios = np.zeros(r)
+
+for j in range(r):
+    semilla2 = semilla if semilla is None else semilla + j
+    muestra = stats.chi2.rvs(m, size=n, random_state=semilla2)
+    promedios[j] = muestra.mean()
+
+# Histograma de promedios
+plt.hist(promedios, bins=15, density=True, edgecolor="black", alpha=0.9,
+         label="Distribución del promedio muestral")
+
+# Normal teórica aproximada (por TLC): N(E(Y), Var(Y)/n)
+if campana:
+    EYp = EYi
+    VYp = VYi / n
+    if limites is None:
+        x = np.linspace(EYp - 3*np.sqrt(VYp), EYp + 3*np.sqrt(VYp), num=1000)
+    else:
+        x = np.linspace(*limites, num=1000)
+    pdfx = stats.norm.pdf(x, EYp, np.sqrt(VYp))
+    plt.plot(x, pdfx, linewidth=3, label="Normal teórica (aprox.)")
+
+plt.ylabel("Densidad")
+plt.xlabel("Promedio muestral")
+plt.title("TLC: histograma del promedio muestral")
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.show()
+plt.close()
+```
+
+::: {.callout-note}
+### Sintaxis clave (Monte Carlo)
+
+- `np.zeros(r)` reserva un array para guardar `r` resultados.
+- Dentro del bucle:
+  - generas una muestra aleatoria,
+  - calculas su promedio,
+  - lo guardas en `promedios[j]`.
+:::
+
+::: {.callout-tip}
+### Tip: controla semillas por iteración
+La línea `semilla2 = semilla + j` sirve para que cada réplica sea distinta, pero reproducible.
+:::
+
+---
+
+### 2.4 Ley de los grandes números (promedio vs n)
+
+```{python}
+semilla = None
+nmax = 1000
+
+promedios_nmax = np.zeros(nmax - 2)
+
+for j in range(2, nmax):
+    muestra = stats.chi2.rvs(m, size=j, random_state=semilla)
+    promedios_nmax[j - 2] = muestra.mean()
+
+plt.plot(promedios_nmax)
+plt.axhline(EYi, color="red")
+plt.grid()
+plt.xlabel("Tamaño de muestra (n)")
+plt.ylabel("Promedio muestral")
+plt.title("Ley de los grandes números: promedio muestral → media poblacional")
+plt.show()
+plt.close()
+```
+
+---
+
+## 3. Simulación de pruebas t e intervalos de confianza
+
+### 3.1 Población normal (para simular)
+
+```{python}
+mu = 40                 # media poblacional
+sigma = np.sqrt(100)    # desviación estándar poblacional
+
+y = np.linspace(10, 70, num=400)
+fy = stats.norm.pdf(y, mu, sigma)
+
+plt.plot(y, fy)
+plt.grid()
+plt.title("Población normal: PDF")
+plt.show()
+plt.close()
+```
+
+---
+
+### 3.2 Una muestra: promedio, desviación y SE
+
+```{python}
+semilla = 1
+n = 10
+
+muestra = stats.norm.rvs(mu, sigma, size=n, random_state=semilla)
+
+promedio_m = np.mean(muestra)
+desv_est_m = np.std(muestra, ddof=1)
+error_est = desv_est_m / np.sqrt(n)
+
+print(f"Promedio muestral: {promedio_m:.4f}\n")
+print(f"Desviación estándar muestral: {desv_est_m:.4f}\n")
+print(f"Error estándar: {error_est:.4f}")
+
+plt.scatter(np.arange(1, n + 1), muestra, label="Muestra")
+plt.axhline(promedio_m, color="green", label="Promedio")
+plt.grid()
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.show()
+plt.close()
+```
+
+::: {.callout-warning}
+### Error común: `ddof`
+Para inferencia con muestras, usa `np.std(..., ddof=1)` (desviación estándar muestral).
+:::
+
+---
+
+### 3.3 Prueba t (bilateral) y valor crítico
+
+```{python}
+alpha = 0.05
+mu0 = mu  # H0 verdadera en este experimento
+
+prueba_t = stats.ttest_1samp(muestra, popmean=mu0)
+valor_crit = stats.t.ppf(1 - alpha/2, df=n - 1)
+
+estadistico_t = prueba_t.statistic
+valorp = prueba_t.pvalue
+
+print(f"Estadístico t: {estadistico_t:.4f}\n")
+print(f"Valor crítico ({(1-alpha)*100:.2f}% confianza): {valor_crit:.2f}\n")
+print(f"Valor p: {valorp:.4f}")
+```
+
+::: {.callout-note}
+### Sintaxis clave
+- `ttest_1samp(muestra, popmean=mu0)` devuelve `.statistic` y `.pvalue`.
+- `t.ppf(1 - alpha/2, df=n-1)` es el cuantil bilateral para el valor crítico.
+:::
+
+---
+
+### 3.4 Intervalo de confianza e indicador “¿contiene mu?”
+
+```{python}
+LI = promedio_m - valor_crit * error_est
+LS = promedio_m + valor_crit * error_est
+
+print(f"IC al {(1-alpha)*100:.2f}%: [{LI:.2f}, {LS:.2f}]\n")
+print(f"¿El intervalo contiene a mu? {'Sí' if (mu >= LI and mu <= LS) else 'No'}")
+```
+
+---
+
+### 3.5 Monte Carlo: repetir r veces (p-values, error tipo I y cobertura)
+
+```{python}
+mu = 40
+sigma = np.sqrt(100)
+
+semilla = 1
+n = 10
+alpha = 0.05
+mu0 = mu
+r = 20
+
+resultados_valores_p = np.zeros(r)
+resultados_error1 = np.zeros(r)
+resultados_LI = np.zeros(r)
+resultados_LS = np.zeros(r)
+resultados_intervalo_mal = np.zeros(r)
+
+for i in range(r):
+    semilla2 = None if semilla is None else semilla + i
+
+    muestra = stats.norm.rvs(mu, sigma, size=n, random_state=semilla2)
+
+    promedio_m = np.mean(muestra)
+    desv_est_m = np.std(muestra, ddof=1)
+    error_est = desv_est_m / np.sqrt(n)
+
+    prueba_t = stats.ttest_1samp(muestra, popmean=mu0)
+    valor_crit = stats.t.ppf(1 - alpha/2, df=n - 1)
+
+    valorp = prueba_t.pvalue
+    resultados_valores_p[i] = valorp
+
+    if valorp < alpha:
+        resultados_error1[i] = 1
+
+    LI = promedio_m - valor_crit * error_est
+    LS = promedio_m + valor_crit * error_est
+    resultados_LI[i] = LI
+    resultados_LS[i] = LS
+
+    if (mu < LI) or (mu > LS):
+        resultados_intervalo_mal[i] = 1
+
+tabla_valores_p = pd.DataFrame({
+    "Valores p": resultados_valores_p,
+    "Error Tipo 1": resultados_error1,
+    "Lim inferior": resultados_LI,
+    "Lím superior": resultados_LS,
+    "¿No contiene mu?": resultados_intervalo_mal
+})
+
+print(f"{tabla_valores_p}\n" if r <= 20 else "Más de 20 simulaciones: omitimos tabla\n")
+print(f"Errores tipo I: {sum(resultados_error1)} de {r} ({sum(resultados_error1)/r*100:.2f}%)")
+print(f"Intervalos que NO contienen mu: {sum(resultados_intervalo_mal)} de {r} ({sum(resultados_intervalo_mal)/r*100:.2f}%)")
+```
+
+::: {.callout-tip}
+### Interpretación en modo “código”
+- `sum(resultados_error1)/r` es una **proporción** (frecuencia relativa).
+- `resultados_intervalo_mal` marca cuando el IC **falla** en cubrir `mu`.
+:::
+
+---
+
+### 3.6 Visualizar intervalos de confianza (rojo = no cubre mu)
+
+```{python}
+r_ej = 20  # debe ser <= r
+
+plt.figure(figsize=(3, 5))
+plt.xlim(10, 70)
+plt.ylim(-1, r_ej)
+
+for i in range(r_ej):
+    color = "grey" if (mu > resultados_LI[i] and mu < resultados_LS[i]) else "red"
+    plt.plot([resultados_LI[i], resultados_LS[i]], [i, i], linestyle="-", color=color)
+
+plt.axvline(mu, linestyle="--", color="green", linewidth=0.5)
+plt.ylabel("No. de simulación de Monte Carlo")
+plt.xlabel("Y")
+plt.title("Intervalos de confianza por simulación")
+plt.show()
+plt.close()
+```
+
+---
+
+## Ejercicios propuestos
+
+1) **Semillas y reproducibilidad**  
+   Ejecuta dos veces una simulación con `semilla=None` y luego con `semilla=1`.
+
+   **Respuesta esperada:** con `None` obtienes resultados diferentes; con `1` obtienes resultados idénticos.
+
+2) **TLC: cambia n**  
+   Repite la simulación de promedios con `n=5`, `n=30` y `n=100`.
+
+   **Respuesta esperada:** el histograma del promedio se vuelve cada vez más parecido a una normal.
+
+3) **Ley de grandes números**  
+   Aumenta `nmax` y mira el gráfico del promedio.
+
+   **Respuesta esperada:** la serie se estabiliza alrededor de `E(Y)=m`.
+
+4) **Error tipo I con más r**  
+   Cambia `r` a 500 o 1000 y calcula la proporción `sum(error1)/r`.
+
+   **Respuesta esperada:** la proporción se acerca a `alpha` (≈ 0.05).
+
+5) **Cobertura del IC**  
+   Con `r=1000`, calcula `1 - sum(intervalo_mal)/r`.
+
+   **Respuesta esperada:** la cobertura se acerca a `1-alpha` (≈ 0.95).
+
+6) **Exploración**  
+   Cambia `n` de 10 a 30 en la simulación t.
+
+   **Respuesta esperada:** los intervalos se vuelven (en promedio) más estrechos y la cobertura se mantiene cercana a 0.95.
+
+---
+
+::: {.content-visible when-format="pdf"}
+## Glosario (para Colab)
+
+- **Monte Carlo**: repetir muchas veces un experimento aleatorio.
+- **semilla**: hace reproducible el azar.
+- **TLC/CLT**: el promedio muestral tiende a normal.
+- **cobertura**: proporción de intervalos que contienen el valor verdadero.
+- **error Tipo I**: rechazar H0 siendo verdadera.
+:::

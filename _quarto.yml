@@ -16,6 +16,7 @@ book:
     - chapters/06-distribuciones-de-probabilidad.qmd
     - chapters/07-intervalos-de-confianza-e-inferencia.qmd
     - chapters/08-python-avanzado-condicionales-bucles-funciones-sympy.qmd
+    - chapters/09-simulacion-monte-carlo.qmd
 
 
 
