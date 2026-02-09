@@ -19,13 +19,12 @@ plt.rcParams["figure.dpi"] = 120
 ::: {.callout-note}
 ## Objetivos del capítulo
 
-Al terminar este capítulo vas a poder:
+Vas a aprender a usar `scipy.stats` para:
 
-- usar `scipy.stats` para trabajar con distribuciones **discretas** y **continuas**,
-- calcular **PMF/PDF** y **CDF** con `pmf`, `pdf`, `cdf`,
-- obtener probabilidades puntuales y acumuladas (ej. `P(X=2)`, `P(X≤x)`),
-- simular muestras con `rvs` y comparar con gráficos sencillos,
-- organizar resultados en tablas (`pandas`) y graficarlos (`matplotlib`).
+- calcular **PMF/PDF**, **CDF** y **cuantiles** (`ppf`),
+- graficar PMF/PDF y CDF de forma simple con `matplotlib`,
+- simular variables aleatorias con `rvs` y comparar **muestra vs teoría**,
+- entender (por código) qué significa “promedio acumulado” y por qué converge a la esperanza.
 :::
 
 ::: {.column-margin}
@@ -35,30 +34,30 @@ Al terminar este capítulo vas a poder:
 - **PMF**: *probability mass function* (masa) → discretas (`pmf`).
 - **PDF**: *probability density function* (densidad) → continuas (`pdf`).
 - **CDF**: *cumulative distribution function* (acumulada) → `cdf`.
-- **rvs**: *random variates* → genera una muestra aleatoria.
-- **parámetros**: números que “definen” la distribución (p, n, μ, σ, etc.).
-- **scale**: parámetro de escala en `scipy` (ej. exponencial).
+- **PPF**: *percent point function* (cuantil) → inversa de la CDF (`ppf`).
+- **rvs**: *random variates* → simular una muestra (`rvs`).
+- **loc / scale**: parámetros estándar de `scipy` (inicio y escala).
 </details>
 :::
 
 ---
 
-## 1. La idea (enfocado en código)
+## 1. `scipy.stats`: el patrón de uso
 
-`scipy.stats` trae **objetos de distribución** listos para usar. Casi siempre verás estos métodos:
+En `scipy.stats`, muchas distribuciones siguen este patrón:
 
-- `pmf(x, ...)` → probabilidad puntual (discretas).
-- `pdf(x, ...)` → densidad (continuas).
-- `cdf(x, ...)` → probabilidad acumulada.
-- `rvs(..., size=n)` → simulación (muestra aleatoria).
+- Discretas: `pmf(x, ...)` y `cdf(x, ...)`
+- Continuas: `pdf(x, ...)` y `cdf(x, ...)`
+- Cuantiles: `ppf(q, ...)` (por ejemplo, `q=0.95`)
+- Simulación: `rvs(..., size=n, random_state=...)`
 
 ::: {.callout-note}
-### Sintaxis clave (patrón general)
+### Sintaxis (plantilla)
 
-- Distribución discreta: `stats.binom.pmf(x, n, p)`
-- Distribución continua: `stats.norm.pdf(x, loc=mu, scale=sigma)`
-- Acumulada: `stats.norm.cdf(x, loc=mu, scale=sigma)`
-- Simulación: `stats.norm.rvs(loc=mu, scale=sigma, size=1000, random_state=123)`
+- Discreta: `stats.binom.pmf(x, n, p)` / `stats.binom.cdf(x, n, p)`
+- Continua: `stats.norm.pdf(x, mu, sigma)` / `stats.norm.cdf(x, mu, sigma)`
+- Cuantil: `stats.norm.ppf(0.975, mu, sigma)`
+- Simular: `stats.norm.rvs(mu, sigma, size=1000, random_state=123)`
 :::
 
 ---
@@ -67,38 +66,49 @@ Al terminar este capítulo vas a poder:
 
 ### 2.1 Uniforme discreta (`randint`)
 
-Ejemplo: valores enteros entre `a` y `b` (incluye `a`, excluye `b` en scipy).
-
 ```{python}
-a, b = 1, 7  # en scipy randint: soporte [a, b)
-x = np.arange(a, b)  # 1..6
+# Parámetros
+a = 1  # primer valor
+b = 6  # último valor
 
-pmf = stats.randint.pmf(x, a, b)
-cdf = stats.randint.cdf(x, a, b)
+# Valores de X (para tabla) y valores para gráfica CDF
+x = np.arange(a, b + 1)
+xg = np.arange(a - 1, b + 2)
 
-tabla = pd.DataFrame({"x": x, "pmf": pmf, "cdf": cdf})
-tabla
+# PMF y CDF
+fx = stats.randint.pmf(x, a, b + 1)
+Fx = stats.randint.cdf(x, a, b + 1)
+Fxg = stats.randint.cdf(xg, a, b + 1)
+
+tabla_dist = pd.DataFrame({"x": x, "PMF": fx, "CDF": Fx})
+tabla_dist
 ```
 
-**Gráfico PMF**:
+::: {.callout-note}
+### Sintaxis clave (`randint`)
+
+- En `scipy`, `randint(a, b+1)` representa enteros en **[a, b]**.
+- Por eso verás `b+1` en la función.
+:::
 
 ```{python}
-plt.bar(tabla["x"], tabla["pmf"])
-plt.title("Uniforme discreta — PMF")
+plt.bar(x, fx, color="0.6", edgecolor="black")
+plt.title(f"PMF — Uniforme discreta: X ~ U{{{a},{b}}}")
 plt.xlabel("x")
-plt.ylabel("P(X = x)")
+plt.ylabel("f(x)")
+plt.grid(alpha=0.4)
 plt.show()
+plt.close()
 ```
 
-**Gráfico CDF**:
-
 ```{python}
-plt.step(tabla["x"], tabla["cdf"], where="post")
-plt.title("Uniforme discreta — CDF")
+plt.step(xg, Fxg, where="post", color="black")
+plt.title(f"CDF — Uniforme discreta: X ~ U{{{a},{b}}}")
 plt.xlabel("x")
-plt.ylabel("P(X ≤ x)")
-plt.ylim(0, 1.05)
+plt.ylabel("F(x)")
+plt.grid(alpha=0.4)
 plt.show()
+plt.close()
 ```
 
 ---
@@ -106,46 +116,92 @@ plt.show()
 ### 2.2 Bernoulli (`bernoulli`)
 
 ```{python}
-p = 0.2
-x = np.array([0, 1])
+x = [0, 1]
+xg = np.linspace(-0.1, 1.1, num=1000)
 
-tabla = pd.DataFrame({
-    "x": x,
-    "pmf": stats.bernoulli.pmf(x, p),
-    "cdf": stats.bernoulli.cdf(x, p),
-})
-tabla
+p = 0.2
+
+fx = stats.bernoulli.pmf(x, p)
+Fx = stats.bernoulli.cdf(x, p)
+Fxg = stats.bernoulli.cdf(xg, p)
+
+tabla_dist = pd.DataFrame({"x": x, "PMF": fx, "CDF": Fx})
+tabla_dist
+```
+
+::: {.callout-note}
+### Sintaxis clave (Bernoulli)
+
+- `x` solo puede ser 0 o 1.
+- `p` es la probabilidad de éxito (`X=1`).
+:::
+
+```{python}
+plt.bar(x, fx, color="0.6", edgecolor="black")
+plt.xticks(x, ["0", "1"])
+plt.title(f"PMF — Bernoulli: X ~ Be({p})")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+```
+
+```{python}
+plt.step(xg, Fxg, color="black")
+plt.title(f"CDF — Bernoulli: X ~ Be({p})")
+plt.xlabel("x")
+plt.ylabel("F(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
 ```
 
 ---
 
 ### 2.3 Binomial (`binom`)
 
+Ejemplo típico: *n* ensayos Bernoulli independientes con probabilidad de éxito *p*.
+
 ```{python}
-n, p = 10, 0.2
-x = np.arange(0, n + 1)
+x = np.linspace(0, 10, num=11)
+xg = np.linspace(-0.5, 10.1, num=1000)
 
-pmf = stats.binom.pmf(x, n, p)
-cdf = stats.binom.cdf(x, n, p)
+p = 0.2
+n = 10
 
-tabla = pd.DataFrame({"x": x, "pmf": pmf, "cdf": cdf})
-tabla.head()
+fx = stats.binom.pmf(x, n, p)
+Fx = stats.binom.cdf(x, n, p)
+Fxg = stats.binom.cdf(xg, n, p)
+
+tabla_dist = pd.DataFrame({"x": x, "PMF": fx, "CDF": Fx})
+tabla_dist.head()
 ```
 
-**Probabilidad puntual** (ej. `P(X=2)`):
-
 ```{python}
-stats.binom.pmf(2, n, p)
-```
-
-**PMF como barras**:
-
-```{python}
-plt.bar(tabla["x"], tabla["pmf"])
-plt.title("Binomial — PMF")
+plt.bar(x, fx, color="0.6", edgecolor="black")
+plt.title(f"PMF — Binomial: X ~ Bn({n},{p})")
 plt.xlabel("x")
-plt.ylabel("P(X = x)")
+plt.ylabel("f(x)")
+plt.grid(alpha=0.4)
 plt.show()
+plt.close()
+```
+
+```{python}
+plt.step(xg, Fxg, color="black")
+plt.title(f"CDF — Binomial: X ~ Bn({n},{p})")
+plt.xlabel("x")
+plt.ylabel("F(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+```
+
+Probabilidad puntual (ejemplo): `P(X=2)` con `n=10`, `p=0.2`.
+
+```{python}
+stats.binom.pmf(2, 10, 0.2)
 ```
 
 ---
@@ -153,81 +209,156 @@ plt.show()
 ### 2.4 Poisson (`poisson`)
 
 ```{python}
-lam = 4  # tasa media
-x = np.arange(0, 16)
+x = np.linspace(0, 15, num=16)
+xg = np.linspace(-0.5, 15, num=1500)
 
-tabla = pd.DataFrame({
-    "x": x,
-    "pmf": stats.poisson.pmf(x, lam),
-    "cdf": stats.poisson.cdf(x, lam),
-})
-tabla.head()
+plambda = 4
+
+fx = stats.poisson.pmf(x, plambda)
+Fx = stats.poisson.cdf(x, plambda)
+Fxg = stats.poisson.cdf(xg, plambda)
+
+tabla_dist = pd.DataFrame({"x": x, "PMF": fx, "CDF": Fx})
+tabla_dist.head()
+```
+
+```{python}
+plt.bar(x, fx, color="0.6", edgecolor="black")
+plt.title(f"PMF — Poisson: X ~ Poi({plambda})")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+```
+
+```{python}
+plt.step(xg, Fxg, color="black")
+plt.title(f"CDF — Poisson: X ~ Poi({plambda})")
+plt.xlabel("x")
+plt.ylabel("F(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
 ```
 
 ---
 
 ### 2.5 Geométrica (`geom`)
 
-**Ojo práctico**: en `scipy.stats.geom`, el soporte empieza en `1` (número de ensayos hasta el primer éxito).
+En `scipy.stats.geom`, el soporte empieza en 1, pero es común graficar desde 0 para ver que `P(X=0)=0`.
 
 ```{python}
-p = 0.4
-x = np.arange(1, 16)
+x = np.linspace(0, 15, num=16)
+xg = np.linspace(-0.5, 15, num=1500)
 
-tabla = pd.DataFrame({
-    "x": x,
-    "pmf": stats.geom.pmf(x, p),
-    "cdf": stats.geom.cdf(x, p),
-})
-tabla.head()
+p = 0.4
+
+fx = stats.geom.pmf(x, p)
+Fx = stats.geom.cdf(x, p)
+Fxg = stats.geom.cdf(xg, p)
+
+tabla_dist = pd.DataFrame({"x": x, "PMF": fx, "CDF": Fx})
+tabla_dist.head()
+```
+
+```{python}
+plt.bar(x, fx, color="0.6", edgecolor="black")
+plt.title(f"PMF — Geométrica: X ~ Ge({p})")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+```
+
+```{python}
+plt.step(xg, Fxg, color="black")
+plt.title(f"CDF — Geométrica: X ~ Ge({p})")
+plt.xlabel("x")
+plt.ylabel("F(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
 ```
 
 ---
 
 ### 2.6 Binomial negativa (`nbinom`)
 
-En `scipy.stats.nbinom`, una parametrización común es:
+```{python}
+x = np.linspace(0, 20, num=21)
+xg = np.linspace(-0.5, 20, num=2000)
 
-- `n` = número de éxitos (r),
-- `p` = probabilidad de éxito,
-- `x` = número de fracasos antes de alcanzar esos `n` éxitos.
+p = 0.4
+r = 3
+
+fx = stats.nbinom.pmf(x, r, p)
+Fx = stats.nbinom.cdf(x, r, p)
+Fxg = stats.nbinom.cdf(xg, r, p)
+
+tabla_dist = pd.DataFrame({"x": x, "PMF": fx, "CDF": Fx})
+tabla_dist.head()
+```
 
 ```{python}
-r, p = 3, 0.4
-x = np.arange(0, 21)
+plt.bar(x, fx, color="0.6", edgecolor="black")
+plt.title(f"PMF — Binomial negativa: X ~ BN({r},{p})")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+```
 
-tabla = pd.DataFrame({
-    "x": x,
-    "pmf": stats.nbinom.pmf(x, r, p),
-    "cdf": stats.nbinom.cdf(x, r, p),
-})
-tabla.head()
+```{python}
+plt.step(xg, Fxg, color="black")
+plt.title(f"CDF — Binomial negativa: X ~ BN({r},{p})")
+plt.xlabel("x")
+plt.ylabel("F(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
 ```
 
 ---
 
 ### 2.7 Hipergeométrica (`hypergeom`)
 
-Parámetros típicos:
+```{python}
+x = np.linspace(0, 20, num=21)
+xg = np.linspace(0, 20, num=21)
 
-- `M` = población total,
-- `n` = número de “éxitos” en la población,
-- `N` = tamaño de la muestra.
+N = 100  # población
+m = 80   # éxitos en la población
+n = 20   # muestra
+
+fx = stats.hypergeom.pmf(x, N, m, n)
+Fx = stats.hypergeom.cdf(x, N, m, n)
+Fxg = stats.hypergeom.cdf(xg, N, m, n)
+
+tabla_dist = pd.DataFrame({"x": x, "PMF": fx, "CDF": Fx})
+tabla_dist.head()
+```
 
 ```{python}
-M = 100
-n_exitos = 80
-N = 20
+plt.bar(x, fx, color="0.6", edgecolor="black")
+plt.title(f"PMF — Hipergeométrica: X ~ H({N},{m},{n})")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+```
 
-# x: éxitos obtenidos en la muestra
-x = np.arange(0, N + 1)
-
-tabla = pd.DataFrame({
-    "x": x,
-    "pmf": stats.hypergeom.pmf(x, M, n_exitos, N),
-    "cdf": stats.hypergeom.cdf(x, M, n_exitos, N),
-})
-tabla.head()
+```{python}
+plt.step(xg, Fxg, color="black")
+plt.title(f"CDF — Hipergeométrica: X ~ H({N},{m},{n})")
+plt.xlabel("x")
+plt.ylabel("F(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
 ```
 
 ---
@@ -236,24 +367,56 @@ tabla.head()
 
 ### 3.1 Uniforme continua (`uniform`)
 
-En `scipy`, `uniform` usa `loc` (inicio) y `scale` (longitud del intervalo).
+```{python}
+x = np.linspace(-4, 4, num=200)
+xt = np.linspace(-4, 4, num=9)
+
+alpha = -3
+beta = 3
+
+fx = stats.uniform.pdf(x, alpha, beta - alpha)
+Fx = stats.uniform.cdf(x, alpha, beta - alpha)
+Fxt = stats.uniform.cdf(xt, alpha, beta - alpha)
+
+tabla_dist = pd.DataFrame({"x": xt, "CDF": Fxt})
+tabla_dist
+```
+
+::: {.callout-note}
+### Sintaxis clave (uniform)
+
+En `scipy`:
+
+- `loc = alpha`
+- `scale = beta - alpha`
+:::
 
 ```{python}
-alpha, beta = -3, 3
-x = np.linspace(-4, 4, 200)
-
-pdf = stats.uniform.pdf(x, loc=alpha, scale=beta - alpha)
-cdf = stats.uniform.cdf(x, loc=alpha, scale=beta - alpha)
-
-pdf[:3], cdf[:3]
+plt.plot(x, fx, linestyle="-", color="black")
+plt.title(f"PDF — Uniforme continua: X ~ U({alpha},{beta})")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
 ```
 
 ```{python}
-plt.plot(x, pdf)
-plt.title("Uniforme continua — PDF")
+plt.plot(x, Fx, linestyle="-", color="black")
+plt.title(f"CDF — Uniforme continua: X ~ U({alpha},{beta})")
 plt.xlabel("x")
-plt.ylabel("f(x)")
+plt.ylabel("F(x)")
+plt.grid(alpha=0.4)
 plt.show()
+plt.close()
+```
+
+Cuantiles (ejemplo): intervalo central 95%.
+
+```{python}
+q025 = stats.uniform.ppf(0.025, alpha, beta - alpha)
+q975 = stats.uniform.ppf(0.975, alpha, beta - alpha)
+q025, q975
 ```
 
 ---
@@ -261,38 +424,105 @@ plt.show()
 ### 3.2 Normal (`norm`)
 
 ```{python}
-mu, sigma = 5, 2
-x = np.linspace(-5, 15, 200)
+x = np.linspace(-5, 15, num=100)
+xt = np.linspace(-5, 15, num=11)
 
-pdf = stats.norm.pdf(x, loc=mu, scale=sigma)
-cdf = stats.norm.cdf(x, loc=mu, scale=sigma)
+mu = 5
+sigma = 2
 
-plt.plot(x, pdf)
-plt.title("Normal — PDF")
-plt.xlabel("x")
-plt.ylabel("f(x)")
-plt.show()
+fx = stats.norm.pdf(x, mu, sigma)
+Fx = stats.norm.cdf(x, mu, sigma)
+Fxt = stats.norm.cdf(xt, mu, sigma)
+
+tabla_dist = pd.DataFrame({"x": xt, "CDF": Fxt})
+tabla_dist
 ```
 
-**Probabilidad acumulada** (ejemplo de intervalo):
+```{python}
+plt.plot(x, fx, linestyle="-", color="black")
+plt.title(f"PDF — Normal: X ~ N({mu},{sigma})")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+```
 
 ```{python}
-# P(2 < X <= 6) cuando X ~ N(4, 9)  => sigma = 3
-stats.norm.cdf(6, loc=4, scale=3) - stats.norm.cdf(2, loc=4, scale=3)
+plt.plot(x, Fx, linestyle="-", color="black")
+plt.title(f"CDF — Normal: X ~ N({mu},{sigma})")
+plt.xlabel("x")
+plt.ylabel("F(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+```
+
+Cuantiles (intervalo central 95%):
+
+```{python}
+q025 = stats.norm.ppf(0.025, mu, sigma)
+q975 = stats.norm.ppf(0.975, mu, sigma)
+q025, q975
+```
+
+Ejemplo de probabilidad: si `X ~ N(4, 9)`, calcula `P(2 < X ≤ 6)`.
+
+```{python}
+stats.norm.cdf(6, 4, 3) - stats.norm.cdf(2, 4, 3)
 ```
 
 ---
 
-### 3.3 Estandarización (Z-score) con `numpy`
+### 3.3 Normal estándar: estandarización
 
-Esto es puro Python: restar media y dividir por desviación estándar.
+Aquí hacemos dos cosas:
+
+1) estandarizar valores: `z = (x - mu)/sigma`  
+2) usar la normal estándar `N(0,1)`.
 
 ```{python}
-mu, sigma = 5, 2
-x = np.array([1, 3, 5, 7, 9])
+x = np.linspace(-5, 15, num=100)
+xt = np.linspace(-5, 15, num=11)
+
+mu = 5
+sigma = 2
 
 z = (x - mu) / sigma
-z
+zt = (xt - mu) / sigma
+
+fz = stats.norm.pdf(z)
+Fz = stats.norm.cdf(z)
+Fzt = stats.norm.cdf(zt)
+
+tabla_dist = pd.DataFrame({"z": zt, "CDF": Fzt})
+tabla_dist
+```
+
+```{python}
+plt.plot(z, fz, linestyle="-", color="black")
+plt.title("PDF — Normal estándar: Z ~ N(0,1)")
+plt.xlabel("z")
+plt.ylabel("φ(z)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+```
+
+```{python}
+plt.plot(z, Fz, linestyle="-", color="black")
+plt.title("CDF — Normal estándar: Z ~ N(0,1)")
+plt.xlabel("z")
+plt.ylabel("Φ(z)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+```
+
+Cuantiles de la normal estándar (95% central):
+
+```{python}
+stats.norm.ppf(0.025), stats.norm.ppf(0.975)
 ```
 
 ---
@@ -300,35 +530,87 @@ z
 ### 3.4 Chi-cuadrado (`chi2`)
 
 ```{python}
-dfree = 5
-w = np.linspace(0, 15, 200)
+w = np.linspace(0, 15, num=100)
+wt = np.linspace(0, 15, num=16)
 
-pdf = stats.chi2.pdf(w, dfree)
-cdf = stats.chi2.cdf(w, dfree)
+m = 5
 
-plt.plot(w, pdf)
-plt.title("Chi-cuadrado — PDF")
+fw = stats.chi2.pdf(w, m)
+Fw = stats.chi2.cdf(w, m)
+Fwt = stats.chi2.cdf(wt, m)
+
+tabla_dist = pd.DataFrame({"w": wt, "CDF": Fwt})
+tabla_dist.head()
+```
+
+```{python}
+plt.plot(w, fw, linestyle="-", color="black")
+plt.title(rf"PDF — Chi-cuadrado: W ~ $\chi^2$({m})")
 plt.xlabel("w")
 plt.ylabel("f(w)")
+plt.grid(alpha=0.4)
 plt.show()
+plt.close()
+```
+
+```{python}
+plt.plot(w, Fw, linestyle="-", color="black")
+plt.title(rf"CDF — Chi-cuadrado: W ~ $\chi^2$({m})")
+plt.xlabel("w")
+plt.ylabel("F(w)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+```
+
+Cuantil 0.95:
+
+```{python}
+stats.chi2.ppf(0.95, m)
 ```
 
 ---
 
-### 3.5 t-Student (`t`)
+### 3.5 t de Student (`t`)
 
 ```{python}
-dfree = 5
-tvals = np.linspace(-5, 5, 200)
+v = np.linspace(-5, 5, num=100)
+vt = np.linspace(-5, 5, num=11)
 
-pdf = stats.t.pdf(tvals, dfree)
-cdf = stats.t.cdf(tvals, dfree)
+m = 5
 
-plt.plot(tvals, pdf)
-plt.title("t-Student — PDF")
-plt.xlabel("t")
-plt.ylabel("f(t)")
+fv = stats.t.pdf(v, m)
+Fv = stats.t.cdf(v, m)
+Fvt = stats.t.cdf(vt, m)
+
+tabla_dist = pd.DataFrame({"v": vt, "CDF": Fvt})
+tabla_dist
+```
+
+```{python}
+plt.plot(v, fv, linestyle="-", color="black")
+plt.title(f"PDF — t de Student: V ~ t({m})")
+plt.xlabel("v")
+plt.ylabel("f(v)")
+plt.grid(alpha=0.4)
 plt.show()
+plt.close()
+```
+
+```{python}
+plt.plot(v, Fv, linestyle="-", color="black")
+plt.title(f"CDF — t de Student: V ~ t({m})")
+plt.xlabel("v")
+plt.ylabel("F(v)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+```
+
+Cuantiles 0.025 y 0.975:
+
+```{python}
+stats.t.ppf(0.025, m), stats.t.ppf(0.975, m)
 ```
 
 ---
@@ -336,169 +618,417 @@ plt.show()
 ### 3.6 F de Fisher (`f`)
 
 ```{python}
-dfn, dfd = 5, 3
-r = np.linspace(0, 15, 200)
+r = np.linspace(0, 15, num=100)
+rt = np.linspace(0, 15, num=16)
 
-pdf = stats.f.pdf(r, dfn, dfd)
-cdf = stats.f.cdf(r, dfn, dfd)
+m1 = 5
+m2 = 3
 
-plt.plot(r, pdf)
-plt.title("F — PDF")
+fr = stats.f.pdf(r, m1, m2)
+Fr = stats.f.cdf(r, m1, m2)
+Frt = stats.f.cdf(rt, m1, m2)
+
+tabla_dist = pd.DataFrame({"r": rt, "CDF": Frt})
+tabla_dist.head()
+```
+
+```{python}
+plt.plot(r, fr, linestyle="-", color="black")
+plt.title(rf"PDF — F: R ~ F({m1},{m2})")
 plt.xlabel("r")
 plt.ylabel("f(r)")
+plt.grid(alpha=0.4)
 plt.show()
+plt.close()
+```
+
+```{python}
+plt.plot(r, Fr, linestyle="-", color="black")
+plt.title(rf"CDF — F: R ~ F({m1},{m2})")
+plt.xlabel("r")
+plt.ylabel("F(r)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+```
+
+Cuantil 0.95:
+
+```{python}
+stats.f.ppf(0.95, m1, m2)
 ```
 
 ---
 
 ### 3.7 Exponencial (`expon`)
 
-En `scipy`, `expon` usa `scale = 1/lambda` si tú trabajas con tasa `lambda`.
+```{python}
+x = np.linspace(-0.5, 6, num=150)
+xt = np.linspace(-0.5, 6, num=9)
+
+plambda = 1
+
+fx = stats.expon.pdf(x, scale=1 / plambda)
+Fx = stats.expon.cdf(x, scale=1 / plambda)
+Fxt = stats.expon.cdf(xt, scale=1 / plambda)
+
+tabla_dist = pd.DataFrame({"x": xt, "CDF": Fxt})
+tabla_dist
+```
+
+::: {.callout-note}
+### Sintaxis clave (expon)
+
+Si tú trabajas con tasa `λ`, en `scipy` se usa:
+
+- `scale = 1/λ`
+:::
 
 ```{python}
-lam = 1
-x = np.linspace(-0.5, 6, 200)
-
-pdf = stats.expon.pdf(x, scale=1/lam)
-cdf = stats.expon.cdf(x, scale=1/lam)
-
-plt.plot(x, pdf)
-plt.title("Exponencial — PDF")
+plt.plot(x, fx, linestyle="-", color="black")
+plt.title(f"PDF — Exponencial: X ~ Exp({plambda})")
 plt.xlabel("x")
 plt.ylabel("f(x)")
+plt.grid(alpha=0.4)
 plt.show()
+plt.close()
+```
+
+```{python}
+plt.plot(x, Fx, linestyle="-", color="black")
+plt.title(f"CDF — Exponencial: X ~ Exp({plambda})")
+plt.xlabel("x")
+plt.ylabel("F(x)")
+plt.grid(alpha=0.4)
+plt.show()
+plt.close()
+```
+
+Cuantil 0.95:
+
+```{python}
+stats.expon.ppf(0.95, scale=1 / plambda)
 ```
 
 ---
 
-## 4. Simulación: muestras aleatorias (`rvs`)
+## 4. Simulación (muestra vs teoría)
 
-La simulación sirve para “generar datos” siguiendo una distribución.
+La simulación tiene dos ideas útiles:
 
-**Ojo**: para reproducibilidad, usa `random_state=...` (en vez de `np.random.seed`).
+1) comparar “lo que salió” (frecuencia/histograma) con “la teoría” (PMF/PDF),  
+2) ver cómo el **promedio acumulado** converge a la esperanza teórica.
 
-### 4.1 Simular Bernoulli
+---
+
+### 4.1 Bernoulli simulada
 
 ```{python}
+semilla = None  # None -> resultados diferentes cada ejecución
+ns = 1000
 p = 0.5
-ns = 1000
 
-muestra = stats.bernoulli.rvs(p, size=ns, random_state=123)
-muestra[:10], muestra.mean()
+muestra = stats.bernoulli.rvs(p, size=ns, random_state=semilla)
+
+# Frecuencias
+valores, freq_abs = np.unique(muestra, return_counts=True)
+freq_rel = freq_abs / ns
+
+# PMF teórica
+pmft = stats.bernoulli.pmf(valores, p)
+
+# Comparación: muestra vs teoría
+plt.bar(valores - 0.15, freq_rel, width=0.2, color="blue", label="Muestra")
+plt.bar(valores + 0.15, pmft, width=0.2, color="red", label="Teoría")
+for xx, yy in zip(valores - 0.15, freq_rel):
+    plt.text(xx, yy + 0.005, f"{yy:.3f}", ha="center", va="bottom")
+plt.xlabel("Valor")
+plt.ylabel("Probabilidad / Frecuencia relativa")
+plt.grid(alpha=0.4)
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.title("Frecuencia relativa vs PMF teórica")
+plt.show()
+plt.close()
+
+# Promedio acumulado
+cum_ns = np.arange(1, ns + 1)
+plt.plot(cum_ns, muestra.cumsum() / cum_ns, label="Promedio acumulado")
+plt.axhline(y=p, color="red", label="Esperanza teórica")
+plt.xlabel("Número de simulaciones")
+plt.ylabel("Promedio acumulado de éxitos (X=1)")
+plt.grid(alpha=0.4)
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.title("Promedio acumulado vs Esperanza teórica")
+plt.show()
+plt.close()
 ```
 
 ---
 
-### 4.2 Simular uniforme discreta
+### 4.2 Uniforme discreta simulada
 
 ```{python}
-a, b = 1, 7
+semilla = None
 ns = 1000
+a, b = 1, 6
 
-muestra = stats.randint.rvs(a, b, size=ns, random_state=123)
-muestra[:10], muestra.mean()
+muestra = stats.randint.rvs(a, b + 1, size=ns, random_state=semilla)
+
+valores, freq_abs = np.unique(muestra, return_counts=True)
+freq_rel = freq_abs / ns
+
+pmft = stats.randint.pmf(valores, a, b + 1)
+
+plt.bar(valores - 0.15, freq_rel, width=0.2, color="blue", label="Muestra")
+plt.bar(valores + 0.15, pmft, width=0.2, color="red", label="Teoría")
+for xx, yy in zip(valores - 0.15, freq_rel):
+    plt.text(xx, yy + 0.005, f"{yy:.3f}", ha="center", va="bottom")
+plt.xlabel("Valor")
+plt.ylabel("Probabilidad / Frecuencia relativa")
+plt.grid(alpha=0.4)
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.title("Frecuencia relativa vs PMF teórica")
+plt.show()
+plt.close()
+
+cum_ns = np.arange(1, ns + 1)
+plt.plot(cum_ns, muestra.cumsum() / cum_ns, label="Promedio acumulado")
+plt.axhline(y=(a + b) / 2, color="red", label="Esperanza teórica")
+plt.xlabel("Número de simulaciones")
+plt.ylabel("Promedio acumulado de valores de X")
+plt.grid(alpha=0.4)
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.title("Promedio acumulado vs Esperanza teórica")
+plt.show()
+plt.close()
 ```
 
 ---
 
-### 4.3 Simular normal
+### 4.3 Normal simulada
 
 ```{python}
+semilla = None
+ns = 1000
 mu, sigma = 0, 1
-ns = 1000
 
-muestra = stats.norm.rvs(loc=mu, scale=sigma, size=ns, random_state=123)
+muestra = stats.norm.rvs(mu, sigma, size=ns, random_state=semilla)
 
-plt.hist(muestra, bins=30, density=True)
-x = np.linspace(-4, 4, 200)
-plt.plot(x, stats.norm.pdf(x, loc=mu, scale=sigma))
-plt.title("Simulación Normal vs PDF teórica")
-plt.xlabel("x")
-plt.ylabel("densidad")
+lim = max(abs(muestra.min()), abs(muestra.max()))
+x = np.linspace(-lim, lim, num=100)
+pdft = stats.norm.pdf(x, mu, sigma)
+
+plt.hist(muestra, bins=10, density=True, edgecolor="black", color="blue", alpha=0.5, label="Muestra")
+plt.plot(x, pdft, color="red", linewidth=3, label="Teoría")
+plt.xlabel("X")
+plt.ylabel("Densidad")
+plt.grid(alpha=0.4)
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.title("Histograma vs PDF teórica")
 plt.show()
+plt.close()
+
+cum_ns = np.arange(1, ns + 1)
+plt.plot(cum_ns, muestra.cumsum() / cum_ns, label="Promedio acumulado")
+plt.axhline(y=mu, color="red", label="Esperanza teórica")
+plt.xlabel("Número de simulaciones")
+plt.ylabel("Promedio acumulado de valores de X")
+plt.grid(alpha=0.4)
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.title("Promedio acumulado vs Esperanza teórica")
+plt.show()
+plt.close()
 ```
 
 ---
 
-### 4.4 Simular chi-cuadrado
+### 4.4 Chi-cuadrado simulada (por partes)
+
+La chi-cuadrado puede verse como suma de cuadrados de normales estándar.
 
 ```{python}
-dfree = 5
+semilla = None
 ns = 1000
+m = 5
 
-muestra = stats.chi2.rvs(dfree, size=ns, random_state=123)
+sim_partes = True
+if sim_partes:
+    sim_var2 = []
+    for i in range(1, m + 1):
+        semilla2 = None if semilla is None else semilla + i
+        sim_var = stats.norm.rvs(size=ns, random_state=semilla2)  # Z ~ N(0,1)
+        sim_var2.append(sim_var**2)
+    muestra = sum(sim_var2)
+else:
+    muestra = stats.chi2.rvs(m, size=ns, random_state=semilla)
 
-plt.hist(muestra, bins=30, density=True)
-x = np.linspace(0, 20, 200)
-plt.plot(x, stats.chi2.pdf(x, dfree))
-plt.title("Simulación Chi-cuadrado vs PDF teórica")
-plt.xlabel("x")
-plt.ylabel("densidad")
+# PDF teórica
+lim = max(abs(muestra.min()), abs(muestra.max()))
+x = np.linspace(0, lim, num=200)
+pdft = stats.chi2.pdf(x, m)
+
+plt.hist(muestra, bins=12, density=True, edgecolor="black", color="blue", alpha=0.5, label="Muestra")
+plt.plot(x, pdft, color="red", linewidth=3, label="Teoría")
+plt.xlabel("X")
+plt.ylabel("Densidad")
+plt.grid(alpha=0.4)
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.title("Histograma vs PDF teórica")
 plt.show()
+plt.close()
+
+cum_ns = np.arange(1, ns + 1)
+plt.plot(cum_ns, muestra.cumsum() / cum_ns, label="Promedio acumulado")
+plt.axhline(y=m, color="red", label="Esperanza teórica")
+plt.xlabel("Número de simulaciones")
+plt.ylabel("Promedio acumulado de valores de X")
+plt.grid(alpha=0.4)
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.title("Promedio acumulado vs Esperanza teórica")
+plt.show()
+plt.close()
 ```
 
 ---
 
-### 4.5 Simular t y F
+### 4.5 t de Student simulada (por construcción)
+
+Una forma de construir una t es: `Z / sqrt(W/m)` con `Z ~ N(0,1)` y `W ~ chi^2(m)` independientes.
 
 ```{python}
-dfree = 5
+semilla = None
 ns = 1000
+m = 5
 
-muestra_t = stats.t.rvs(dfree, size=ns, random_state=123)
-muestra_t.mean(), muestra_t.std()
+sim_partes = True
+if sim_partes:
+    semilla2 = None if semilla is None else semilla + 1
+    sim_var_Z = stats.norm.rvs(size=ns, random_state=semilla)
+    sim_var_W = stats.chi2.rvs(m, size=ns, random_state=semilla2)
+    muestra = sim_var_Z / np.sqrt(sim_var_W / m)
+else:
+    muestra = stats.t.rvs(m, size=ns, random_state=semilla)
+
+# PDF teórica
+lim = max(abs(muestra.min()), abs(muestra.max()))
+x = np.linspace(-lim, lim, num=200)
+pdft = stats.t.pdf(x, m)
+
+plt.hist(muestra, bins=20, density=True, edgecolor="black", color="blue", alpha=0.5, label="Muestra")
+plt.plot(x, pdft, color="red", linewidth=3, label="Teoría")
+plt.xlabel("X")
+plt.ylabel("Densidad")
+plt.grid(alpha=0.4)
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.title("Histograma vs PDF teórica")
+plt.show()
+plt.close()
+
+cum_ns = np.arange(1, ns + 1)
+plt.plot(cum_ns, muestra.cumsum() / cum_ns, label="Promedio acumulado")
+plt.axhline(y=0, color="red", label="Esperanza teórica")
+plt.xlabel("Número de simulaciones")
+plt.ylabel("Promedio acumulado de valores de X")
+plt.grid(alpha=0.4)
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.title("Promedio acumulado vs Esperanza teórica")
+plt.show()
+plt.close()
 ```
 
-```{python}
-dfn, dfd = 5, 3
-ns = 1000
+---
 
-muestra_f = stats.f.rvs(dfn, dfd, size=ns, random_state=123)
-muestra_f.mean()
+### 4.6 F de Fisher simulada (por construcción)
+
+Construcción típica:
+
+\[
+R = (W_1/m_1) / (W_2/m_2),
+\]
+donde `W1 ~ chi^2(m1)` y `W2 ~ chi^2(m2)` independientes.
+
+```{python}
+semilla = None
+ns = 1000
+m1, m2 = 5, 3
+
+sim_partes = True
+if sim_partes:
+    semilla2 = None if semilla is None else semilla + 1
+    sim_var_W1 = stats.chi2.rvs(m1, size=ns, random_state=semilla)
+    sim_var_W2 = stats.chi2.rvs(m2, size=ns, random_state=semilla2)
+    muestra = (sim_var_W1 / m1) / (sim_var_W2 / m2)
+else:
+    muestra = stats.f.rvs(m1, m2, size=ns, random_state=semilla)
+
+# PDF teórica
+lim = np.quantile(muestra, 0.99)  # evita que un extremo gigante "rompa" la gráfica
+x = np.linspace(0, lim, num=200)
+pdft = stats.f.pdf(x, m1, m2)
+
+plt.hist(muestra, bins=30, density=True, edgecolor="black", color="blue", alpha=0.5, label="Muestra")
+plt.plot(x, pdft, color="red", linewidth=3, label="Teoría")
+plt.xlabel("X")
+plt.ylabel("Densidad")
+plt.grid(alpha=0.4)
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.title("Histograma vs PDF teórica")
+plt.show()
+plt.close()
+
+cum_ns = np.arange(1, ns + 1)
+plt.plot(cum_ns, muestra.cumsum() / cum_ns, label="Promedio acumulado")
+plt.axhline(y=m2 / (m2 - 2), color="red", label="Esperanza teórica")
+plt.xlabel("Número de simulaciones")
+plt.ylabel("Promedio acumulado de valores de X")
+plt.grid(alpha=0.4)
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12))
+plt.title("Promedio acumulado vs Esperanza teórica")
+plt.show()
+plt.close()
 ```
 
 ---
 
 ## Ejercicios propuestos
 
-1) **PMF y CDF (binomial)**  
-   Para `X ~ Bin(n=12, p=0.3)`, calcula `P(X=4)` y `P(X ≤ 4)`.
+1) **Binomial (PMF y CDF)**  
+   Para `X ~ Bn(10, 0.2)`, calcula `P(X=2)` y `P(X≤2)`.
 
-   **Respuesta esperada:** dos números entre 0 y 1 (una prob puntual y una acumulada).
+   **Respuesta esperada:** dos números en (0, 1).
 
-2) **Tablas con `crosstab` “falso”**  
-   Simula 1000 Bernoulli con `p=0.4` y arma una tabla de frecuencias con `value_counts()`.
+2) **Cuantiles (normal)**  
+   Para `X ~ N(5,2)`, calcula el intervalo central del 95% usando `ppf(0.025)` y `ppf(0.975)`.
 
-   **Respuesta esperada:** dos filas (0 y 1) con conteos que suman 1000.
+   **Respuesta esperada:** dos valores (límite inferior y superior).
 
-3) **Comparación histograma vs PDF**  
-   Simula 2000 normales con `μ=10, σ=2`, grafica el histograma con `density=True` y superpone la `pdf`.
+3) **Normal estándar**  
+   Estandariza `x=9` si `X ~ N(5,2)` y calcula `P(X≤9)` usando `Φ(z)` (CDF estándar).
 
-   **Respuesta esperada:** histograma y curva teórica “encajan” aproximadamente.
+   **Respuesta esperada:** un valor cercano a `0.977` (aprox.).
 
-4) **Estandarización**  
-   Dado `x = [2, 4, 6]`, `μ=4`, `σ=2`, calcula `z`.
+4) **Simulación Bernoulli**  
+   Simula `ns=5000` con `p=0.3` y grafica el promedio acumulado.
 
-   **Respuesta esperada:** `[-1, 0, 1]`.
+   **Respuesta esperada:** el promedio acumulado se acerca a `0.3`.
 
-5) **Exponencial: CDF**  
-   Con `lambda=2`, calcula `P(X ≤ 1)` usando `stats.expon.cdf` con `scale=1/lambda`.
+5) **Exponencial**  
+   Con `λ=1`, calcula el cuantil 0.95 con `ppf`.
 
-   **Respuesta esperada:** un número entre 0 y 1, mayor que 0.8.
+   **Respuesta esperada:** un valor cercano a `≈ 3`.
 
-6) **Hipergeométrica**  
-   Con `M=50`, `n=10`, `N=5`, calcula `P(X=0)` y `P(X≥1)`.
+6) **F de Fisher**  
+   Para `F(5,3)`, calcula el cuantil 0.95.
 
-   **Respuesta esperada:** dos probabilidades que suman menos o igual a 1; `P(X≥1)=1-P(X=0)`.
+   **Respuesta esperada:** un número positivo mayor que 1.
 
 ---
 
 ::: {.content-visible when-format="pdf"}
 ## Glosario (para Colab)
 
-- **PMF**: probabilidad puntual (discretas).
-- **PDF**: densidad (continuas).
-- **CDF**: acumulada.
-- **rvs**: simulación / muestra aleatoria.
-- **loc/scale**: parámetros usados por `scipy` en varias distribuciones.
+- **PMF/PDF/CDF**: masa / densidad / acumulada.
+- **PPF**: cuantil (inversa de la CDF).
+- **rvs**: simulación (muestra aleatoria).
+- **loc/scale**: parámetros estándar de `scipy`.
 :::

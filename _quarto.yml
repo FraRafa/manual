@@ -13,7 +13,7 @@ book:
     - chapters/03-datos-externos.qmd
     - chapters/04-graficos-basicos-matplotlib.qmd
     - chapters/05-estadisticas-descriptivas.qmd
-    - chapters/06-limpieza-y-transformacion-pandas.qmd
+    - chapters/06-distribuciones-de-probabilidad.qmd
 
 
 
