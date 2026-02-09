@@ -768,5 +768,75 @@
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Capítulo 6 — Distribuciones de probabilidad (scipy.stats)</span>"
     ]
+  },
+  {
+    "objectID": "chapters/07-intervalos-de-confianza-e-inferencia.html",
+    "href": "chapters/07-intervalos-de-confianza-e-inferencia.html",
+    "title": "8  Capítulo 7 — Intervalos de confianza e inferencia (t-test)",
+    "section": "",
+    "text": "8.1 1. Intervalos de confianza con una muestra (ejemplo local)\n🚀 Abrir este capítulo en Google Colab\nTrabajaremos con una muestra pequeña (sin depender de internet).",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Capítulo 7 — Intervalos de confianza e inferencia (t-test)</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/07-intervalos-de-confianza-e-inferencia.html#intervalos-de-confianza-con-una-muestra-ejemplo-local",
+    "href": "chapters/07-intervalos-de-confianza-e-inferencia.html#intervalos-de-confianza-con-una-muestra-ejemplo-local",
+    "title": "8  Capítulo 7 — Intervalos de confianza e inferencia (t-test)",
+    "section": "",
+    "text": "8.1.1 1.1 Datos (variación en una tasa)\n\n# Base de datos de \"tasas de desperdicio\" (TD) para una muestra de 20 empresas\nTD87 = np.array([10, 1, 6, .45, 1.25, 1.3, 1.06, 3, 8.18, 1.67, .98, 1, .45, 5.03, 8, 9, 18, .28, 7, 3.97])\nTD88 = np.array([3, 1, 5, .5, 1.54, 1.5, .8, 2, .67, 1.17, .51, .5, .61, 6.7, 4, 7, 19, .2, 5, 3.83])\n\nvariacion = TD88 - TD87\nn = len(variacion)\n\nbaseTD = pd.DataFrame({\n    \"Empresa\": np.arange(1, n + 1),\n    \"Tasa de desperdicio (1987)\": TD87,\n    \"Tasa de desperdicio (1988)\": TD88,\n    \"Variación\": variacion\n})\nbaseTD.head()\n\n\n\n\n\n\n\n\nEmpresa\nTasa de desperdicio (1987)\nTasa de desperdicio (1988)\nVariación\n\n\n\n\n0\n1\n10.00\n3.00\n-7.00\n\n\n1\n2\n1.00\n1.00\n0.00\n\n\n2\n3\n6.00\n5.00\n-1.00\n\n\n3\n4\n0.45\n0.50\n0.05\n\n\n4\n5\n1.25\n1.54\n0.29\n\n\n\n\n\n\n\n\n\n\n\n\n\nNoteSintaxis clave\n\n\n\n\nnp.array([...]) crea un arreglo numérico.\nvariacion = TD88 - TD87 resta elemento a elemento.\nlen(variacion) devuelve el tamaño de la muestra.\npd.DataFrame({...}) crea una tabla con columnas.\n\n\n\n\n\n\n8.1.2 1.2 Promedio muestral\n\npromedio_var = np.mean(variacion)\nprint(f\"Variación promedio: {promedio_var:.4f}\")\n\nVariación promedio: -1.1545\n\n\n\n\n\n\n\n\nNoteSintaxis clave (promedio)\n\n\n\n\nnp.mean(x) calcula el promedio de x.\nf\"...\" (f-string) permite formatear con decimales: {valor:.4f}.\n\n\n\n\n\n\n8.1.3 1.3 Desviación estándar, error estándar y cuantil t\n\n# Desviación estándar muestral (ddof=1)\ndest_var = np.std(variacion, ddof=1)\nprint(f\"Desviación estándar muestral: {dest_var:.4f}\")\n\n# Error estándar del promedio: s / sqrt(n)\nse_var = dest_var / np.sqrt(n)\nprint(f\"Error estándar del promedio: {se_var:.4f}\")\n\n# Cuantil 0.975 de t(n-1) para IC 95% bilateral\nc = stats.t.ppf(0.975, n - 1)\nprint(f\"Cuantil t(0.975, {n-1}): {c:.4f}\")\n\nDesviación estándar muestral: 2.4006\nError estándar del promedio: 0.5368\nCuantil t(0.975, 19): 2.0930\n\n\n\n\n\n\n\n\nNoteSintaxis clave (std, SE y ppf)\n\n\n\n\nnp.std(x, ddof=1) usa la desviación estándar muestral.\nnp.sqrt(n) es la raíz cuadrada de n.\nstats.t.ppf(q, df) devuelve el cuantil q de una t con df grados de libertad.\n\n\n\n\n\n\n8.1.4 1.4 Intervalo de confianza al 95%\n\nLI95 = promedio_var - c * se_var\nLS95 = promedio_var + c * se_var\nprint(f\"IC 95%: [{LI95:.4f}, {LS95:.4f}]\")\n\nIC 95%: [-2.2780, -0.0310]",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Capítulo 7 — Intervalos de confianza e inferencia (t-test)</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/07-intervalos-de-confianza-e-inferencia.html#prueba-t-manual-una-cola",
+    "href": "chapters/07-intervalos-de-confianza-e-inferencia.html#prueba-t-manual-una-cola",
+    "title": "8  Capítulo 7 — Intervalos de confianza e inferencia (t-test)",
+    "section": "8.2 2. Prueba t (manual): una cola",
+    "text": "8.2 2. Prueba t (manual): una cola\nQueremos contrastar si el promedio es menor que 0 (una cola a la izquierda).\n\n8.2.1 2.1 Estadístico t y valor crítico\n\n# Estadístico t: (promedio - mu0) / SE; aquí mu0 = 0\nest_t_manual = promedio_var / se_var\nprint(f\"t (manual): {est_t_manual:.4f}\")\n\n# Valor crítico a una cola (izquierda) al 5%\nvalc_1cola_izq = stats.t.ppf(0.05, n - 1)\nprint(f\"Valor crítico (1 cola, izq, 5%): {valc_1cola_izq:.4f}\")\n\nt (manual): -2.1507\nValor crítico (1 cola, izq, 5%): -1.7291\n\n\n\n\n\n\n\n\nNoteSintaxis clave (t y valor crítico)\n\n\n\n\nstats.t.ppf(0.05, df) da el cuantil del 5% (cola izquierda).\nLa regla típica (cola izquierda): rechazar si t es menor que el valor crítico.\n\n\n\n\n\n\n8.2.2 2.2 Valor p (manual): una cola\n\nvalorp_manual = stats.t.cdf(est_t_manual, n - 1)\nprint(f\"Valor p (1 cola, izq): {valorp_manual:.4f}\")\n\nValor p (1 cola, izq): 0.0223\n\n\n\n\n\n\n\n\nNoteSintaxis clave (valor p)\n\n\n\n\nstats.t.cdf(t, df) devuelve P(T ≤ t) si T ~ t(df).\nEn cola izquierda, ese valor es exactamente el valor p.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Capítulo 7 — Intervalos de confianza e inferencia (t-test)</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/07-intervalos-de-confianza-e-inferencia.html#prueba-t-automática-ttest_1samp",
+    "href": "chapters/07-intervalos-de-confianza-e-inferencia.html#prueba-t-automática-ttest_1samp",
+    "title": "8  Capítulo 7 — Intervalos de confianza e inferencia (t-test)",
+    "section": "8.3 3. Prueba t automática (ttest_1samp)",
+    "text": "8.3 3. Prueba t automática (ttest_1samp)\n\ntest_auto = stats.ttest_1samp(variacion, popmean=0)  # por defecto: bilateral\nest_t_auto = test_auto.statistic\n\n# Para una cola (izquierda), si esperas un t negativo:\nvalorp_1cola = test_auto.pvalue / 2\n\nprint(f\"t (automático): {est_t_auto:.4f}\")\nprint(f\"valor p (bilateral): {test_auto.pvalue:.4f}\")\nprint(f\"valor p (una cola): {valorp_1cola:.4f}\")\n\nt (automático): -2.1507\nvalor p (bilateral): 0.0446\nvalor p (una cola): 0.0223\n\n\n\n\n\n\n\n\nNoteSintaxis clave (ttest_1samp)\n\n\n\n\nstats.ttest_1samp(muestra, popmean=mu0) hace una t con 1 muestra.\nDevuelve un objeto con .statistic y .pvalue.\nSi tu hipótesis es de una cola, normalmente divides entre 2 (con el signo correcto).",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Capítulo 7 — Intervalos de confianza e inferencia (t-test)</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/07-intervalos-de-confianza-e-inferencia.html#ejemplo-práctico-con-una-base-tipo-auditoría-local",
+    "href": "chapters/07-intervalos-de-confianza-e-inferencia.html#ejemplo-práctico-con-una-base-tipo-auditoría-local",
+    "title": "8  Capítulo 7 — Intervalos de confianza e inferencia (t-test)",
+    "section": "8.4 4. Ejemplo práctico con una base “tipo auditoría” (local)",
+    "text": "8.4 4. Ejemplo práctico con una base “tipo auditoría” (local)\nAquí usamos un ejemplo pequeño con una variable y que toma valores -1, 0, 1:\n\ny = -1: favorece al grupo A\ny = 0: decisión igual\ny = 1: favorece al grupo B\n\n\naudit_like = pd.DataFrame({\n    \"y\": [-1, 0, 0, -1, 1, 0, -1, 0, 0, 1,\n          0, 0, -1, 0, 1, 0, 0, -1, 0, 0,\n          1, 0, -1, 0, 0, 0, -1, 0, 0, 1]\n})\naudit_like[\"y\"].value_counts()\n\ny\n 0    18\n-1     7\n 1     5\nName: count, dtype: int64\n\n\n\n\n8.4.1 4.1 Intervalos de confianza (95% y 99%) usando normalidad\n\ny = audit_like[\"y\"]\n\npromedio_y = np.mean(y)\nn = len(y)\ndesv_est_y = np.std(y, ddof=1)\nse_y = desv_est_y / np.sqrt(n)\n\nc95 = stats.norm.ppf(0.975)\nc99 = stats.norm.ppf(0.995)\n\nLI95 = promedio_y - c95 * se_y\nLS95 = promedio_y + c95 * se_y\n\nLI99 = promedio_y - c99 * se_y\nLS99 = promedio_y + c99 * se_y\n\nprint(f\"IC 95%: [{LI95:.4f}, {LS95:.4f}]\")\nprint(f\"IC 99%: [{LI99:.4f}, {LS99:.4f}]\")\n\nIC 95%: [-0.2956, 0.1622]\nIC 99%: [-0.3675, 0.2342]\n\n\n\n\n\n\n\n\nNoteSintaxis clave (cuantiles normales)\n\n\n\n\nstats.norm.ppf(0.975) es el cuantil para IC 95% bilateral (≈ 1.96).\nstats.norm.ppf(0.995) es el cuantil para IC 99% bilateral (≈ 2.576).\n\n\n\n\n\n\n8.4.2 4.2 Prueba t sobre el promedio de y\n\ntest_auto = stats.ttest_1samp(y, popmean=0)  # bilateral\nest_t_auto = test_auto.statistic\nvalorp_auto = test_auto.pvalue\n\nvalc_2colas = stats.t.ppf(0.025, n - 1)  # cuantil de cola izquierda\n\nprint(f\"promedio_y: {promedio_y:.4f}\")\nprint(f\"t (automático): {est_t_auto:.4f}\")\nprint(f\"valor crítico (2 colas): {valc_2colas:.4f}\")\nprint(f\"valor p (2 colas): {valorp_auto:.4f}\")\n\npromedio_y: -0.0667\nt (automático): -0.5708\nvalor crítico (2 colas): -2.0452\nvalor p (2 colas): 0.5725",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Capítulo 7 — Intervalos de confianza e inferencia (t-test)</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/07-intervalos-de-confianza-e-inferencia.html#aplicación-con-datos-reales-opcional-online",
+    "href": "chapters/07-intervalos-de-confianza-e-inferencia.html#aplicación-con-datos-reales-opcional-online",
+    "title": "8  Capítulo 7 — Intervalos de confianza e inferencia (t-test)",
+    "section": "8.5 5. Aplicación con datos reales (opcional, online)",
+    "text": "8.5 5. Aplicación con datos reales (opcional, online)\nSi quieres replicar este flujo con un dataset real, puedes usar paquetes de datasets educativos.\nEste bloque queda desactivado en Quarto (para no depender de internet o instalación).\n\n# En VSCode: pip install wooldridge\n# En Colab:  !pip -q install wooldridge\nimport wooldridge as woo\nfrom scipy import stats\nimport numpy as np\n\naudit = woo.dataWoo(\"audit\")\n\ny = audit[\"y\"]\npromedio_y = np.mean(y)\nn = len(y)\ndesv_est_y = np.std(y, ddof=1)\nse_y = desv_est_y / np.sqrt(n)\n\nc95 = stats.norm.ppf(0.975)\nLI95 = promedio_y - c95 * se_y\nLS95 = promedio_y + c95 * se_y\nprint(f\"IC 95%: [{LI95:.4f}, {LS95:.4f}]\")\n\ntest_auto = stats.ttest_1samp(y, popmean=0)\nprint(test_auto)",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Capítulo 7 — Intervalos de confianza e inferencia (t-test)</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/07-intervalos-de-confianza-e-inferencia.html#ejercicios-propuestos",
+    "href": "chapters/07-intervalos-de-confianza-e-inferencia.html#ejercicios-propuestos",
+    "title": "8  Capítulo 7 — Intervalos de confianza e inferencia (t-test)",
+    "section": "8.6 Ejercicios propuestos",
+    "text": "8.6 Ejercicios propuestos\n\nIC al 95%\nCon la variable variacion, calcula el IC 95% usando t (ppf(0.975, n-1)).\nRespuesta esperada: dos números (LI, LS).\nPrueba t (manual)\nCon variacion, calcula t = promedio / SE y el valor crítico de cola izquierda al 5%.\nRespuesta esperada: un t (negativo) y un valor crítico (negativo).\nValor p (una cola)\nCon tu t manual, calcula stats.t.cdf(t, n-1).\nRespuesta esperada: un número pequeño (menor que 0.05 si hay evidencia).\nAutomático vs manual\nCompara el t manual con stats.ttest_1samp(variacion, 0).statistic.\nRespuesta esperada: valores muy cercanos (diferencias por redondeo).\nIC 99% (normal)\nCon audit_like[\"y\"], calcula el IC 99% usando stats.norm.ppf(0.995).\nRespuesta esperada: intervalo más ancho que el IC 95%.\nDos colas\nCon audit_like[\"y\"], ejecuta ttest_1samp(y, 0) y reporta el pvalue.\nRespuesta esperada: un número entre 0 y 1.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Capítulo 7 — Intervalos de confianza e inferencia (t-test)</span>"
+    ]
   }
 ]

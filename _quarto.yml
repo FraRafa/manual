@@ -14,6 +14,7 @@ book:
     - chapters/04-graficos-basicos-matplotlib.qmd
     - chapters/05-estadisticas-descriptivas.qmd
     - chapters/06-distribuciones-de-probabilidad.qmd
+    - chapters/07-intervalos-de-confianza-e-inferencia.qmd
 
 
 
