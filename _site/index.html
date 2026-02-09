@@ -175,6 +175,14 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#índice-del-manual" id="toc-índice-del-manual" class="nav-link" data-scroll-target="#índice-del-manual">Índice del Manual</a>
   <ul class="collapse">
   <li><a href="#capítulo-1-empezando-en-python" id="toc-capítulo-1-empezando-en-python" class="nav-link" data-scroll-target="#capítulo-1-empezando-en-python">Capítulo 1 — Empezando en Python</a></li>
+  <li><a href="#capítulo-2-objetos-en-python" id="toc-capítulo-2-objetos-en-python" class="nav-link" data-scroll-target="#capítulo-2-objetos-en-python">Capítulo 2 — Objetos en Python</a></li>
+  <li><a href="#capítulo-3-operadores-y-estructuras-de-datos" id="toc-capítulo-3-operadores-y-estructuras-de-datos" class="nav-link" data-scroll-target="#capítulo-3-operadores-y-estructuras-de-datos">Capítulo 3 — Operadores y estructuras de datos</a></li>
+  <li><a href="#capítulo-4-gráficos-básicos-con-matplotlib" id="toc-capítulo-4-gráficos-básicos-con-matplotlib" class="nav-link" data-scroll-target="#capítulo-4-gráficos-básicos-con-matplotlib">Capítulo 4 — Gráficos básicos con Matplotlib</a></li>
+  <li><a href="#capítulo-5-estadísticas-descriptivas" id="toc-capítulo-5-estadísticas-descriptivas" class="nav-link" data-scroll-target="#capítulo-5-estadísticas-descriptivas">Capítulo 5 — Estadísticas descriptivas</a></li>
+  <li><a href="#capítulo-6-distribuciones-de-probabilidad" id="toc-capítulo-6-distribuciones-de-probabilidad" class="nav-link" data-scroll-target="#capítulo-6-distribuciones-de-probabilidad">Capítulo 6 — Distribuciones de probabilidad</a></li>
+  <li><a href="#capítulo-7-intervalos-de-confianza-e-inferencia-t-test" id="toc-capítulo-7-intervalos-de-confianza-e-inferencia-t-test" class="nav-link" data-scroll-target="#capítulo-7-intervalos-de-confianza-e-inferencia-t-test">Capítulo 7 — Intervalos de confianza e inferencia (t-test)</a></li>
+  <li><a href="#capítulo-8-python-avanzado-condicionales-bucles-funciones-y-sympy" id="toc-capítulo-8-python-avanzado-condicionales-bucles-funciones-y-sympy" class="nav-link" data-scroll-target="#capítulo-8-python-avanzado-condicionales-bucles-funciones-y-sympy">Capítulo 8 — Python avanzado: condicionales, bucles, funciones y SymPy</a></li>
+  <li><a href="#capítulo-9-simulación-de-monte-carlo" id="toc-capítulo-9-simulación-de-monte-carlo" class="nav-link" data-scroll-target="#capítulo-9-simulación-de-monte-carlo">Capítulo 9 — Simulación de Monte Carlo</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -215,7 +223,9 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="presentación-del-manual" class="level2">
 <h2 class="anchored" data-anchor-id="presentación-del-manual">Presentación del Manual</h2>
-<p>Este manual te enseña a programar en Python desde cero, paso a paso, con un enfoque práctico. No necesitas haber programado antes.</p>
+<p>Este manual te enseña a programar en <strong>Python desde cero</strong>, paso a paso, con un enfoque práctico. No necesitas haber programado antes.</p>
+<p>Aquí vas a ver <strong>código real</strong>, explicado con claridad: qué hace, cómo se usa y qué errores evitar.</p>
+<hr>
 </section>
 <section id="qué-vas-a-obtener-después-de-este-manual" class="level2">
 <h2 class="anchored" data-anchor-id="qué-vas-a-obtener-después-de-este-manual">¿Qué vas a obtener después de este manual?</h2>
@@ -225,26 +235,81 @@ ul.task-list li input[type="checkbox"] {
 <li>Trabajar con datos usando <code>pandas</code> y <code>numpy</code>.</li>
 <li>Hacer gráficos básicos con <code>matplotlib</code>.</li>
 <li>Entender la lógica de programación (condicionales, bucles y funciones).</li>
+<li>Usar distribuciones, intervalos de confianza y simulación de Monte Carlo desde Python.</li>
 <li>Ejecutar y adaptar código en tu propio entorno (VSCode) o en la nube (Google Colab).</li>
 </ul>
+<hr>
 </section>
 <section id="lecturas-recomendadas-html-pdf-y-colab" class="level2">
 <h2 class="anchored" data-anchor-id="lecturas-recomendadas-html-pdf-y-colab">Lecturas recomendadas (HTML, PDF y Colab)</h2>
 <ul>
-<li><strong>HTML:</strong> navegación rápida y lectura cómoda.</li>
+<li><strong>HTML:</strong> navegación rápida, lectura cómoda y capítulos ordenados.</li>
 <li><strong>PDF:</strong> ideal para imprimir o leer offline.</li>
-<li><strong>Google Colab:</strong> ejecutas el código sin instalar nada.</li>
+<li><strong>Google Colab:</strong> ejecutas el código sin instalar nada (recomendado para practicar).</li>
 </ul>
 <blockquote class="blockquote">
-<p>Recomendación: <strong>lee el capítulo en HTML/PDF y practica en Colab</strong>.</p>
+<p>Recomendación práctica: <strong>lee el capítulo en HTML/PDF y practica en Colab</strong>.</p>
 </blockquote>
+<hr>
 </section>
 <section id="índice-del-manual" class="level2">
 <h2 class="anchored" data-anchor-id="índice-del-manual">Índice del Manual</h2>
+<blockquote class="blockquote">
+<p>Cada capítulo tiene su botón para abrirlo en <strong>Google Colab</strong>.</p>
+</blockquote>
+<hr>
 <section id="capítulo-1-empezando-en-python" class="level3">
 <h3 class="anchored" data-anchor-id="capítulo-1-empezando-en-python">Capítulo 1 — Empezando en Python</h3>
-<p>Vas a aprender cómo ejecutar código, usar variables, importar módulos y entender tu directorio de trabajo.</p>
-<p><a href="https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/01-empezando-en-python.ipynb" class="btn btn-primary" target="_blank">🚀 Abrir Capítulo 1 en Google Colab</a></p>
+<p>Aprendes a ejecutar código, usar variables, importar módulos y entender tu directorio de trabajo.</p>
+<p><a href="./chapters/01-empezando-en-python.html" class="btn btn-outline-primary">📘 Leer Capítulo 1</a> <a href="https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/01-empezando-en-python.ipynb" class="btn btn-primary" target="_blank">🚀 Abrir en Google Colab</a></p>
+<hr>
+</section>
+<section id="capítulo-2-objetos-en-python" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-2-objetos-en-python">Capítulo 2 — Objetos en Python</h3>
+<p>Entiendes tipos de datos, operaciones, estructuras básicas (listas/diccionarios) y cómo inspeccionar objetos.</p>
+<p><a href="./chapters/02-objetos-en-python.html" class="btn btn-outline-primary">📘 Leer Capítulo 2</a> <a href="https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/02-objetos-en-python.ipynb" class="btn btn-primary" target="_blank">🚀 Abrir en Google Colab</a></p>
+<hr>
+</section>
+<section id="capítulo-3-operadores-y-estructuras-de-datos" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-3-operadores-y-estructuras-de-datos">Capítulo 3 — Operadores y estructuras de datos</h3>
+<p>Practicas operadores, comparaciones, manejo de textos, y estructuras comunes con ejemplos claros.</p>
+<p><a href="chapters/03-operadores-y-estructuras-de-datos.qmd" class="btn btn-outline-primary">📘 Leer Capítulo 3</a> <a href="https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/03-operadores-y-estructuras-de-datos.ipynb" class="btn btn-primary" target="_blank">🚀 Abrir en Google Colab</a></p>
+<hr>
+</section>
+<section id="capítulo-4-gráficos-básicos-con-matplotlib" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-4-gráficos-básicos-con-matplotlib">Capítulo 4 — Gráficos básicos con Matplotlib</h3>
+<p>Aprendes a graficar de forma profesional: líneas, dispersión, etiquetas, títulos y leyendas.</p>
+<p><a href="./chapters/04-graficos-basicos-matplotlib.html" class="btn btn-outline-primary">📘 Leer Capítulo 4</a> <a href="https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/04-graficos-basicos-matplotlib.ipynb" class="btn btn-primary" target="_blank">🚀 Abrir en Google Colab</a></p>
+<hr>
+</section>
+<section id="capítulo-5-estadísticas-descriptivas" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-5-estadísticas-descriptivas">Capítulo 5 — Estadísticas descriptivas</h3>
+<p>Generas resúmenes, medidas descriptivas y tablas usando Python (enfoque 100% en programación).</p>
+<p><a href="./chapters/05-estadisticas-descriptivas.html" class="btn btn-outline-primary">📘 Leer Capítulo 5</a> <a href="https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/05-estadisticas-descriptivas.ipynb" class="btn btn-primary" target="_blank">🚀 Abrir en Google Colab</a></p>
+<hr>
+</section>
+<section id="capítulo-6-distribuciones-de-probabilidad" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-6-distribuciones-de-probabilidad">Capítulo 6 — Distribuciones de probabilidad</h3>
+<p>Aprendes a usar distribuciones (PMF/PDF/CDF), cuantiles (<code>ppf</code>) y simulación desde distribuciones.</p>
+<p><a href="./chapters/06-distribuciones-de-probabilidad.html" class="btn btn-outline-primary">📘 Leer Capítulo 6</a> <a href="https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/06-distribuciones-de-probabilidad.ipynb" class="btn btn-primary" target="_blank">🚀 Abrir en Google Colab</a></p>
+<hr>
+</section>
+<section id="capítulo-7-intervalos-de-confianza-e-inferencia-t-test" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-7-intervalos-de-confianza-e-inferencia-t-test">Capítulo 7 — Intervalos de confianza e inferencia (t-test)</h3>
+<p>Construyes intervalos de confianza y pruebas t paso a paso (manual y automático), evitando errores típicos.</p>
+<p><a href="./chapters/07-intervalos-de-confianza-e-inferencia.html" class="btn btn-outline-primary">📘 Leer Capítulo 7</a> <a href="https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/07-intervalos-de-confianza-e-inferencia.ipynb" class="btn btn-primary" target="_blank">🚀 Abrir en Google Colab</a></p>
+<hr>
+</section>
+<section id="capítulo-8-python-avanzado-condicionales-bucles-funciones-y-sympy" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-8-python-avanzado-condicionales-bucles-funciones-y-sympy">Capítulo 8 — Python avanzado: condicionales, bucles, funciones y SymPy</h3>
+<p>Dominas patrones de programación (if/for/while/funciones) y tienes una sección opcional de SymPy.</p>
+<p><a href="./chapters/08-python-avanzado-condicionales-bucles-funciones-sympy.html" class="btn btn-outline-primary">📘 Leer Capítulo 8</a> <a href="https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/08-python-avanzado-condicionales-bucles-funciones-sympy.ipynb" class="btn btn-primary" target="_blank">🚀 Abrir en Google Colab</a></p>
+<hr>
+</section>
+<section id="capítulo-9-simulación-de-monte-carlo" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-9-simulación-de-monte-carlo">Capítulo 9 — Simulación de Monte Carlo</h3>
+<p>Simulas promedios muestrales (TLC), cobertura de intervalos y error Tipo I con Monte Carlo.</p>
+<p><a href="./chapters/09-simulacion-monte-carlo.html" class="btn btn-outline-primary">📘 Leer Capítulo 9</a> <a href="https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/09-simulacion-monte-carlo.ipynb" class="btn btn-primary" target="_blank">🚀 Abrir en Google Colab</a></p>
 
 
 </section>

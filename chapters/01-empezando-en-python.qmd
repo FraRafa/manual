@@ -219,7 +219,7 @@ Si Python “no encuentra un archivo”, casi siempre es porque:
 
 ---
 
-## Instalación de librerías (opcional)
+## 3. Instalación de librerías (opcional)
 
 En capítulos futuros verás librerías que pueden no venir instaladas por defecto.
 

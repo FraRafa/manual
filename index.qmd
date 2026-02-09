@@ -4,8 +4,12 @@ title: "Manual de Python"
 
 ## Presentación del Manual
 
-Este manual te enseña a programar en Python desde cero, paso a paso, con un enfoque práctico.
+Este manual te enseña a programar en **Python desde cero**, paso a paso, con un enfoque práctico.
 No necesitas haber programado antes.
+
+Aquí vas a ver **código real**, explicado con claridad: qué hace, cómo se usa y qué errores evitar.
+
+---
 
 ## ¿Qué vas a obtener después de este manual?
 
@@ -15,20 +19,102 @@ Al finalizar, vas a poder:
 - Trabajar con datos usando `pandas` y `numpy`.
 - Hacer gráficos básicos con `matplotlib`.
 - Entender la lógica de programación (condicionales, bucles y funciones).
+- Usar distribuciones, intervalos de confianza y simulación de Monte Carlo desde Python.
 - Ejecutar y adaptar código en tu propio entorno (VSCode) o en la nube (Google Colab).
+
+---
 
 ## Lecturas recomendadas (HTML, PDF y Colab)
 
-- **HTML:** navegación rápida y lectura cómoda.
+- **HTML:** navegación rápida, lectura cómoda y capítulos ordenados.
 - **PDF:** ideal para imprimir o leer offline.
-- **Google Colab:** ejecutas el código sin instalar nada.
+- **Google Colab:** ejecutas el código sin instalar nada (recomendado para practicar).
 
-> Recomendación: **lee el capítulo en HTML/PDF y practica en Colab**.
+> Recomendación práctica: **lee el capítulo en HTML/PDF y practica en Colab**.
+
+---
 
 ## Índice del Manual
 
+> Cada capítulo tiene su botón para abrirlo en **Google Colab**.
+
+---
+
 ### Capítulo 1 — Empezando en Python
 
-Vas a aprender cómo ejecutar código, usar variables, importar módulos y entender tu directorio de trabajo.
+Aprendes a ejecutar código, usar variables, importar módulos y entender tu directorio de trabajo.
 
-[🚀 Abrir Capítulo 1 en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/01-empezando-en-python.ipynb){.btn .btn-primary target="_blank"}
+[📘 Leer Capítulo 1](chapters/01-empezando-en-python.qmd){.btn .btn-outline-primary}
+[🚀 Abrir en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/01-empezando-en-python.ipynb){.btn .btn-primary target="_blank"}
+
+---
+
+### Capítulo 2 — Objetos en Python
+
+Entiendes tipos de datos, operaciones, estructuras básicas (listas/diccionarios) y cómo inspeccionar objetos.
+
+[📘 Leer Capítulo 2](chapters/02-objetos-en-python.qmd){.btn .btn-outline-primary}
+[🚀 Abrir en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/02-objetos-en-python.ipynb){.btn .btn-primary target="_blank"}
+
+---
+
+### Capítulo 3 — Operadores y estructuras de datos
+
+Practicas operadores, comparaciones, manejo de textos, y estructuras comunes con ejemplos claros.
+
+[📘 Leer Capítulo 3](chapters/03-operadores-y-estructuras-de-datos.qmd){.btn .btn-outline-primary}
+[🚀 Abrir en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/03-operadores-y-estructuras-de-datos.ipynb){.btn .btn-primary target="_blank"}
+
+---
+
+### Capítulo 4 — Gráficos básicos con Matplotlib
+
+Aprendes a graficar de forma profesional: líneas, dispersión, etiquetas, títulos y leyendas.
+
+[📘 Leer Capítulo 4](chapters/04-graficos-basicos-matplotlib.qmd){.btn .btn-outline-primary}
+[🚀 Abrir en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/04-graficos-basicos-matplotlib.ipynb){.btn .btn-primary target="_blank"}
+
+---
+
+### Capítulo 5 — Estadísticas descriptivas
+
+Generas resúmenes, medidas descriptivas y tablas usando Python (enfoque 100% en programación).
+
+[📘 Leer Capítulo 5](chapters/05-estadisticas-descriptivas.qmd){.btn .btn-outline-primary}
+[🚀 Abrir en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/05-estadisticas-descriptivas.ipynb){.btn .btn-primary target="_blank"}
+
+---
+
+### Capítulo 6 — Distribuciones de probabilidad
+
+Aprendes a usar distribuciones (PMF/PDF/CDF), cuantiles (`ppf`) y simulación desde distribuciones.
+
+[📘 Leer Capítulo 6](chapters/06-distribuciones-de-probabilidad.qmd){.btn .btn-outline-primary}
+[🚀 Abrir en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/06-distribuciones-de-probabilidad.ipynb){.btn .btn-primary target="_blank"}
+
+---
+
+### Capítulo 7 — Intervalos de confianza e inferencia (t-test)
+
+Construyes intervalos de confianza y pruebas t paso a paso (manual y automático), evitando errores típicos.
+
+[📘 Leer Capítulo 7](chapters/07-intervalos-de-confianza-e-inferencia.qmd){.btn .btn-outline-primary}
+[🚀 Abrir en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/07-intervalos-de-confianza-e-inferencia.ipynb){.btn .btn-primary target="_blank"}
+
+---
+
+### Capítulo 8 — Python avanzado: condicionales, bucles, funciones y SymPy
+
+Dominas patrones de programación (if/for/while/funciones) y tienes una sección opcional de SymPy.
+
+[📘 Leer Capítulo 8](chapters/08-python-avanzado-condicionales-bucles-funciones-sympy.qmd){.btn .btn-outline-primary}
+[🚀 Abrir en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/08-python-avanzado-condicionales-bucles-funciones-sympy.ipynb){.btn .btn-primary target="_blank"}
+
+---
+
+### Capítulo 9 — Simulación de Monte Carlo
+
+Simulas promedios muestrales (TLC), cobertura de intervalos y error Tipo I con Monte Carlo.
+
+[📘 Leer Capítulo 9](chapters/09-simulacion-monte-carlo.qmd){.btn .btn-outline-primary}
+[🚀 Abrir en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/09-simulacion-monte-carlo.ipynb){.btn .btn-primary target="_blank"}

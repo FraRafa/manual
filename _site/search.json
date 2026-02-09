@@ -52,9 +52,9 @@
   {
     "objectID": "chapters/01-empezando-en-python.html",
     "href": "chapters/01-empezando-en-python.html",
-    "title": "2  Capítulo 1 — Empezando en Python",
+    "title": "Capítulo 1 — Empezando en Python",
     "section": "",
-    "text": "2.1 1. Comentarios, texto y variables\n🚀 Abrir este capítulo en Google Colab",
+    "text": "1. Comentarios, texto y variables\n🚀 Abrir este capítulo en Google Colab",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1 — Empezando en Python</span>"
     ]
@@ -62,9 +62,9 @@
   {
     "objectID": "chapters/01-empezando-en-python.html#comentarios-texto-y-variables",
     "href": "chapters/01-empezando-en-python.html#comentarios-texto-y-variables",
-    "title": "2  Capítulo 1 — Empezando en Python",
+    "title": "Capítulo 1 — Empezando en Python",
     "section": "",
-    "text": "Glosario\n\n\ncomentario: texto que Python ignora (# ...).\nstring: texto entre comillas (\"hola\").\nvariable: nombre que guarda un valor (x = 10).\nmódulo: “paquete” con código reutilizable (math, os).\nimport: traer un módulo para usarlo (import math).\ndirectorio de trabajo: carpeta actual donde Python busca/guarda archivos.\n\n\n\n2.1.1 Comentarios\nLos comentarios son líneas que Python no ejecuta. Sirven para explicar el código o dejar recordatorios.\n\n# Esto es un comentario: Python lo ignora.\n# Úsalo para explicar qué hace tu código.\n\n\n\n\n\n\n\nTip\n\n\n\nTip rápido Si una línea empieza con # y “no pasa nada”, no es un error: es un comentario.\n\n\n\n\n\n2.1.2 Texto (strings)\nEn Python, el texto se escribe entre comillas simples o dobles.\n\nprint(\"Hola mundo\")\n\nHola mundo\n\n\n\nQué hace: muestra el texto en pantalla.\nCómo se usa: print(\"...\") o print('...').\n\n\n\n\n\n\n\nWarning\n\n\n\nError típico Escribir texto sin comillas: print(Hola) → Python cree que Hola es una variable y lanza NameError.\n\n\n\n\n\n2.1.3 Operaciones matemáticas\nPython funciona como una calculadora.\n\n1 + 1\n\n2\n\n\n\n\n\n\n\n\nTip\n\n\n\nPrioridad de operaciones Python respeta la prioridad matemática: () → ** → * / → + -.\n\n\n\n\n\n2.1.4 Variables\nUna variable es un nombre que “apunta” a un valor.\n\nvar1 = 1 + 1\nvar2 = 5 * (4 - 1) ** 2\n\nPara ver el contenido de una variable:\n\nvar1\n\n2\n\n\n\nvar2\n\n45\n\n\n\n\n\n\n\n\nNote\n\n\n\nIdea clave En Python, = no significa “igualdad matemática”. Significa asignación: “guarda esto con este nombre”.\n\n\n\n\n\n2.1.5 Imprimir resultados con print() y f-strings\nCuando quieras mostrar texto + variables de forma clara, usa f-strings:\n\nprint(f\"Uno más uno: {var1}\")\nprint(f\"El valor de var2 es: {var2}\")\n\nUno más uno: 2\nEl valor de var2 es: 45\n\n\nSintaxis importante - f\"...\" activa el modo f-string. - {var1} inserta el valor de var1 en el texto.\nTambién puedes forzar un salto de línea con \\n:\n\nprint(f\"Uno más uno:\\n{var1}\")\n\nUno más uno:\n2",
+    "text": "Glosario\n\n\ncomentario: texto que Python ignora (# ...).\nstring: texto entre comillas (\"hola\").\nvariable: nombre que guarda un valor (x = 10).\nmódulo: “paquete” con código reutilizable (math, os).\nimport: traer un módulo para usarlo (import math).\ndirectorio de trabajo: carpeta actual donde Python busca/guarda archivos.\n\n\n\nComentarios\nLos comentarios son líneas que Python no ejecuta. Sirven para explicar el código o dejar recordatorios.\n\n# Esto es un comentario: Python lo ignora.\n# Úsalo para explicar qué hace tu código.\n\n\n\n\n\n\n\nTip\n\n\n\nTip rápido Si una línea empieza con # y “no pasa nada”, no es un error: es un comentario.\n\n\n\n\n\nTexto (strings)\nEn Python, el texto se escribe entre comillas simples o dobles.\n\nprint(\"Hola mundo\")\n\nHola mundo\n\n\n\nQué hace: muestra el texto en pantalla.\nCómo se usa: print(\"...\") o print('...').\n\n\n\n\n\n\n\nWarning\n\n\n\nError típico Escribir texto sin comillas: print(Hola) → Python cree que Hola es una variable y lanza NameError.\n\n\n\n\n\nOperaciones matemáticas\nPython funciona como una calculadora.\n\n1 + 1\n\n2\n\n\n\n\n\n\n\n\nTip\n\n\n\nPrioridad de operaciones Python respeta la prioridad matemática: () → ** → * / → + -.\n\n\n\n\n\nVariables\nUna variable es un nombre que “apunta” a un valor.\n\nvar1 = 1 + 1\nvar2 = 5 * (4 - 1) ** 2\n\nPara ver el contenido de una variable:\n\nvar1\n\n2\n\n\n\nvar2\n\n45\n\n\n\n\n\n\n\n\nNote\n\n\n\nIdea clave En Python, = no significa “igualdad matemática”. Significa asignación: “guarda esto con este nombre”.\n\n\n\n\n\nImprimir resultados con print() y f-strings\nCuando quieras mostrar texto + variables de forma clara, usa f-strings:\n\nprint(f\"Uno más uno: {var1}\")\nprint(f\"El valor de var2 es: {var2}\")\n\nUno más uno: 2\nEl valor de var2 es: 45\n\n\nSintaxis importante - f\"...\" activa el modo f-string. - {var1} inserta el valor de var1 en el texto.\nTambién puedes forzar un salto de línea con \\n:\n\nprint(f\"Uno más uno:\\n{var1}\")\n\nUno más uno:\n2",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1 — Empezando en Python</span>"
     ]
@@ -72,9 +72,9 @@
   {
     "objectID": "chapters/01-empezando-en-python.html#módulos-y-directorio-de-trabajo",
     "href": "chapters/01-empezando-en-python.html#módulos-y-directorio-de-trabajo",
-    "title": "2  Capítulo 1 — Empezando en Python",
-    "section": "2.2 2. Módulos y directorio de trabajo",
-    "text": "2.2 2. Módulos y directorio de trabajo\n\n2.2.1 ¿Qué es un módulo?\nUn módulo es código ya escrito y listo para usar (funciones y constantes). Python trae muchos módulos “de fábrica”.\n\n\n\n2.2.2 Importar y usar math\nPrimero importamos el módulo math. Usaremos un alias (m) para escribir menos.\n\nimport math as m\n\nAhora puedes usar funciones/constantes con m.:\n\nraiz = m.sqrt(16)   # raíz cuadrada\npi = m.pi           # constante pi\ne = m.e             # constante e\n\nprint(f\"sqrt(16) = {raiz}\")\nprint(f\"pi = {pi}\")\nprint(f\"e = {e}\")\n\nsqrt(16) = 4.0\npi = 3.141592653589793\ne = 2.718281828459045\n\n\n\n\n\n\n\n\nWarning\n\n\n\nErrores típicos con módulos - Usar m.sqrt(...) sin importar antes → NameError: name 'm' is not defined. - Escribir m.pi() → error, porque pi no es una función (no lleva paréntesis).\n\n\n\n\n\n2.2.3 Directorio de trabajo con os\nPara trabajar con carpetas y archivos usamos el módulo os.\n\nimport os\n\nEl directorio de trabajo es la carpeta desde donde Python “mira” para leer/guardar archivos.\nVer el directorio actual:\n\nos.getcwd()\n\n'C:\\\\Users\\\\USUARIO\\\\Documents\\\\QUARTO\\\\Manual de Python\\\\manual\\\\chapters'\n\n\nListar archivos de la carpeta actual (limitamos a los primeros 10 para que se vea limpio):\n\narchivos = sorted(os.listdir())\narchivos[:10]\n\n['01-empezando-en-python.qmd',\n '01-empezando-en-python.quarto_ipynb',\n '02-objetos-en-python.qmd']\n\n\nCambiar de directorio (ejemplo, no lo ejecutes si no sabes lo que haces):\n\nos.chdir(\"C:/ruta/a/tu/carpeta\")\n\n\n\n\n\n\n\nTip\n\n\n\nTip docente Si Python “no encuentra un archivo”, casi siempre es porque: 1) estás en el directorio equivocado, o 2) la ruta/nombre del archivo está mal.",
+    "title": "Capítulo 1 — Empezando en Python",
+    "section": "2. Módulos y directorio de trabajo",
+    "text": "2. Módulos y directorio de trabajo\n\n¿Qué es un módulo?\nUn módulo es código ya escrito y listo para usar (funciones y constantes). Python trae muchos módulos “de fábrica”.\n\n\n\nImportar y usar math\nPrimero importamos el módulo math. Usaremos un alias (m) para escribir menos.\n\nimport math as m\n\nAhora puedes usar funciones/constantes con m.:\n\nraiz = m.sqrt(16)   # raíz cuadrada\npi = m.pi           # constante pi\ne = m.e             # constante e\n\nprint(f\"sqrt(16) = {raiz}\")\nprint(f\"pi = {pi}\")\nprint(f\"e = {e}\")\n\nsqrt(16) = 4.0\npi = 3.141592653589793\ne = 2.718281828459045\n\n\n\n\n\n\n\n\nWarning\n\n\n\nErrores típicos con módulos - Usar m.sqrt(...) sin importar antes → NameError: name 'm' is not defined. - Escribir m.pi() → error, porque pi no es una función (no lleva paréntesis).\n\n\n\n\n\nDirectorio de trabajo con os\nPara trabajar con carpetas y archivos usamos el módulo os.\n\nimport os\n\nEl directorio de trabajo es la carpeta desde donde Python “mira” para leer/guardar archivos.\nVer el directorio actual:\n\nos.getcwd()\n\n'C:\\\\Users\\\\USUARIO\\\\Documents\\\\QUARTO\\\\Manual de Python\\\\manual\\\\chapters'\n\n\nListar archivos de la carpeta actual (limitamos a los primeros 10 para que se vea limpio):\n\narchivos = sorted(os.listdir())\narchivos[:10]\n\n['01-empezando-en-python.qmd',\n '01-empezando-en-python.quarto_ipynb',\n '02-objetos-en-python.qmd',\n '03-datos-externos.qmd',\n '04-graficos-basicos-matplotlib.qmd',\n '05-estadisticas-descriptivas.qmd',\n '06-distribuciones-de-probabilidad.qmd',\n '07-intervalos-de-confianza-e-inferencia.qmd',\n '08-python-avanzado-condicionales-bucles-funciones-sympy.qmd',\n '09-simulacion-monte-carlo.qmd']\n\n\nCambiar de directorio (ejemplo, no lo ejecutes si no sabes lo que haces):\n\nos.chdir(\"C:/ruta/a/tu/carpeta\")\n\n\n\n\n\n\n\nTip\n\n\n\nTip docente Si Python “no encuentra un archivo”, casi siempre es porque: 1) estás en el directorio equivocado, o 2) la ruta/nombre del archivo está mal.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1 — Empezando en Python</span>"
     ]
@@ -82,9 +82,9 @@
   {
     "objectID": "chapters/01-empezando-en-python.html#instalación-de-librerías-opcional",
     "href": "chapters/01-empezando-en-python.html#instalación-de-librerías-opcional",
-    "title": "2  Capítulo 1 — Empezando en Python",
-    "section": "2.3 Instalación de librerías (opcional)",
-    "text": "2.3 Instalación de librerías (opcional)\nEn capítulos futuros verás librerías que pueden no venir instaladas por defecto.\n\n\n\n\n\n\nNote\n\n\n\nRegla práctica - En VSCode instalas con pip install ... en la terminal. - En Colab instalas con !pip install ... dentro de una celda.\n\n\n\n2.3.1 VSCode (terminal)\n#| eval: false\npip install wooldridge yfinance pandas_datareader\n\n\n2.3.2 Google Colab\n\n!pip -q install wooldridge yfinance pandas_datareader",
+    "title": "Capítulo 1 — Empezando en Python",
+    "section": "3. Instalación de librerías (opcional)",
+    "text": "3. Instalación de librerías (opcional)\nEn capítulos futuros verás librerías que pueden no venir instaladas por defecto.\n\n\n\n\n\n\nNote\n\n\n\nRegla práctica - En VSCode instalas con pip install ... en la terminal. - En Colab instalas con !pip install ... dentro de una celda.\n\n\n\nVSCode (terminal)\n#| eval: false\npip install wooldridge yfinance pandas_datareader\n\n\nGoogle Colab\n\n!pip -q install wooldridge yfinance pandas_datareader",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1 — Empezando en Python</span>"
     ]
@@ -92,9 +92,9 @@
   {
     "objectID": "chapters/01-empezando-en-python.html#ejercicios-propuestos",
     "href": "chapters/01-empezando-en-python.html#ejercicios-propuestos",
-    "title": "2  Capítulo 1 — Empezando en Python",
-    "section": "2.4 Ejercicios propuestos",
-    "text": "2.4 Ejercicios propuestos\n\nTu primera impresión con f-string Crea dos variables: nombre (texto) y edad (número). Imprime una frase usando f-string.\n\nPista: print(f\"...{nombre}...{edad}...\")\nRespuesta esperada: una frase bien formada con tu nombre y tu edad.\n\nOperaciones básicas Crea a = 10 y b = 3. Calcula e imprime:\n\na + b\na * b\na ** b\nPista: ** es potencia.\nRespuesta esperada: 13, 30, 1000.\n\nUsa math Calcula la raíz cuadrada de 81 usando math.\n\nPista: m.sqrt(81).\nRespuesta esperada: 9.0.\n\nChequea tu directorio de trabajo Muestra tu directorio actual y lista los primeros 10 archivos.\n\nPista: os.getcwd() y sorted(os.listdir())[:10]\nRespuesta esperada: una ruta + una lista con nombres de archivos/carpetas.",
+    "title": "Capítulo 1 — Empezando en Python",
+    "section": "Ejercicios propuestos",
+    "text": "Ejercicios propuestos\n\nTu primera impresión con f-string Crea dos variables: nombre (texto) y edad (número). Imprime una frase usando f-string.\n\nPista: print(f\"...{nombre}...{edad}...\")\nRespuesta esperada: una frase bien formada con tu nombre y tu edad.\n\nOperaciones básicas Crea a = 10 y b = 3. Calcula e imprime:\n\na + b\na * b\na ** b\nPista: ** es potencia.\nRespuesta esperada: 13, 30, 1000.\n\nUsa math Calcula la raíz cuadrada de 81 usando math.\n\nPista: m.sqrt(81).\nRespuesta esperada: 9.0.\n\nChequea tu directorio de trabajo Muestra tu directorio actual y lista los primeros 10 archivos.\n\nPista: os.getcwd() y sorted(os.listdir())[:10]\nRespuesta esperada: una ruta + una lista con nombres de archivos/carpetas.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1 — Empezando en Python</span>"
     ]
@@ -144,7 +144,7 @@
     "href": "index.html",
     "title": "Manual de Python",
     "section": "",
-    "text": "Presentación del Manual\nEste manual te enseña a programar en Python desde cero, paso a paso, con un enfoque práctico. No necesitas haber programado antes.",
+    "text": "Presentación del Manual\nEste manual te enseña a programar en Python desde cero, paso a paso, con un enfoque práctico. No necesitas haber programado antes.\nAquí vas a ver código real, explicado con claridad: qué hace, cómo se usa y qué errores evitar.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Manual de Python</span>"
     ]
@@ -154,7 +154,7 @@
     "href": "index.html#qué-vas-a-obtener-después-de-este-manual",
     "title": "Manual de Python",
     "section": "¿Qué vas a obtener después de este manual?",
-    "text": "¿Qué vas a obtener después de este manual?\nAl finalizar, vas a poder:\n\nLeer y escribir código en Python con confianza.\nTrabajar con datos usando pandas y numpy.\nHacer gráficos básicos con matplotlib.\nEntender la lógica de programación (condicionales, bucles y funciones).\nEjecutar y adaptar código en tu propio entorno (VSCode) o en la nube (Google Colab).",
+    "text": "¿Qué vas a obtener después de este manual?\nAl finalizar, vas a poder:\n\nLeer y escribir código en Python con confianza.\nTrabajar con datos usando pandas y numpy.\nHacer gráficos básicos con matplotlib.\nEntender la lógica de programación (condicionales, bucles y funciones).\nUsar distribuciones, intervalos de confianza y simulación de Monte Carlo desde Python.\nEjecutar y adaptar código en tu propio entorno (VSCode) o en la nube (Google Colab).",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Manual de Python</span>"
     ]
@@ -164,7 +164,7 @@
     "href": "index.html#lecturas-recomendadas-html-pdf-y-colab",
     "title": "Manual de Python",
     "section": "Lecturas recomendadas (HTML, PDF y Colab)",
-    "text": "Lecturas recomendadas (HTML, PDF y Colab)\n\nHTML: navegación rápida y lectura cómoda.\nPDF: ideal para imprimir o leer offline.\nGoogle Colab: ejecutas el código sin instalar nada.\n\n\nRecomendación: lee el capítulo en HTML/PDF y practica en Colab.",
+    "text": "Lecturas recomendadas (HTML, PDF y Colab)\n\nHTML: navegación rápida, lectura cómoda y capítulos ordenados.\nPDF: ideal para imprimir o leer offline.\nGoogle Colab: ejecutas el código sin instalar nada (recomendado para practicar).\n\n\nRecomendación práctica: lee el capítulo en HTML/PDF y practica en Colab.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Manual de Python</span>"
     ]
@@ -174,7 +174,7 @@
     "href": "index.html#índice-del-manual",
     "title": "Manual de Python",
     "section": "Índice del Manual",
-    "text": "Índice del Manual\n\nCapítulo 1 — Empezando en Python\nVas a aprender cómo ejecutar código, usar variables, importar módulos y entender tu directorio de trabajo.\n🚀 Abrir Capítulo 1 en Google Colab",
+    "text": "Índice del Manual\n\nCada capítulo tiene su botón para abrirlo en Google Colab.\n\n\n\nCapítulo 1 — Empezando en Python\nAprendes a ejecutar código, usar variables, importar módulos y entender tu directorio de trabajo.\n📘 Leer Capítulo 1 🚀 Abrir en Google Colab\n\n\n\nCapítulo 2 — Objetos en Python\nEntiendes tipos de datos, operaciones, estructuras básicas (listas/diccionarios) y cómo inspeccionar objetos.\n📘 Leer Capítulo 2 🚀 Abrir en Google Colab\n\n\n\nCapítulo 3 — Operadores y estructuras de datos\nPracticas operadores, comparaciones, manejo de textos, y estructuras comunes con ejemplos claros.\n📘 Leer Capítulo 3 🚀 Abrir en Google Colab\n\n\n\nCapítulo 4 — Gráficos básicos con Matplotlib\nAprendes a graficar de forma profesional: líneas, dispersión, etiquetas, títulos y leyendas.\n📘 Leer Capítulo 4 🚀 Abrir en Google Colab\n\n\n\nCapítulo 5 — Estadísticas descriptivas\nGeneras resúmenes, medidas descriptivas y tablas usando Python (enfoque 100% en programación).\n📘 Leer Capítulo 5 🚀 Abrir en Google Colab\n\n\n\nCapítulo 6 — Distribuciones de probabilidad\nAprendes a usar distribuciones (PMF/PDF/CDF), cuantiles (ppf) y simulación desde distribuciones.\n📘 Leer Capítulo 6 🚀 Abrir en Google Colab\n\n\n\nCapítulo 7 — Intervalos de confianza e inferencia (t-test)\nConstruyes intervalos de confianza y pruebas t paso a paso (manual y automático), evitando errores típicos.\n📘 Leer Capítulo 7 🚀 Abrir en Google Colab\n\n\n\nCapítulo 8 — Python avanzado: condicionales, bucles, funciones y SymPy\nDominas patrones de programación (if/for/while/funciones) y tienes una sección opcional de SymPy.\n📘 Leer Capítulo 8 🚀 Abrir en Google Colab\n\n\n\nCapítulo 9 — Simulación de Monte Carlo\nSimulas promedios muestrales (TLC), cobertura de intervalos y error Tipo I con Monte Carlo.\n📘 Leer Capítulo 9 🚀 Abrir en Google Colab",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Manual de Python</span>"
     ]
