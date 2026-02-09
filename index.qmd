@@ -58,12 +58,12 @@ Entiendes tipos de datos, operaciones, estructuras básicas (listas/diccionarios
 
 ---
 
-### Capítulo 3 — Operadores y estructuras de datos
+### Capítulo 3 — Datos externos
 
 Practicas operadores, comparaciones, manejo de textos, y estructuras comunes con ejemplos claros.
 
-[📘 Leer Capítulo 3](chapters/03-operadores-y-estructuras-de-datos.qmd){.btn .btn-outline-primary}
-[🚀 Abrir en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/03-operadores-y-estructuras-de-datos.ipynb){.btn .btn-primary target="_blank"}
+[📘 Leer Capítulo 3](chapters/03-datos-externos.qmd){.btn .btn-outline-primary}
+[🚀 Abrir en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/03-datos-externos.ipynb){.btn .btn-primary target="_blank"}
 
 ---
 
