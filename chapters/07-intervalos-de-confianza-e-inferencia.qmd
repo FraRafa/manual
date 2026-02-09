@@ -1,0 +1,339 @@
+---
+title: "Capítulo 7 — Intervalos de confianza e inferencia (t-test)"
+---
+
+[🚀 Abrir este capítulo en Google Colab](https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/07-intervalos-de-confianza-e-inferencia.ipynb){.btn .btn-success target="_blank"}
+
+```{python}
+#| include: false
+# Setup interno (se ejecuta, pero no se muestra en HTML/PDF)
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+
+plt.rcParams["figure.figsize"] = (8, 4.5)
+plt.rcParams["figure.dpi"] = 120
+```
+
+::: {.callout-note}
+## Objetivos del capítulo
+
+Vas a aprender a programar (en Python) cómo:
+
+- construir **intervalos de confianza** paso a paso,
+- calcular **estadístico t**, **valores críticos** y **valor p**,
+- usar `scipy.stats.ttest_1samp` para hacer una prueba t automáticamente,
+- interpretar “una cola” vs “dos colas” desde el código.
+:::
+
+::: {.column-margin}
+<details>
+<summary><strong>Glosario</strong></summary>
+
+- **estimador**: número calculado con la muestra (ej. promedio).
+- **error estándar (SE)**: desviación del estimador; típicamente `s / sqrt(n)`.
+- **ddof=1**: “grados de libertad” para desviación estándar muestral.
+- **cuantil**: punto de corte; en `scipy` se calcula con `ppf`.
+- **valor crítico**: cuantil usado para decidir rechazo.
+- **valor p**: probabilidad (bajo H0) de observar un estadístico tan extremo.
+- **una cola / dos colas**: forma de definir qué significa “extremo”.
+</details>
+:::
+
+---
+
+## 1. Intervalos de confianza con una muestra (ejemplo local)
+
+Trabajaremos con una muestra pequeña (sin depender de internet).
+
+### 1.1 Datos (variación en una tasa)
+
+```{python}
+# Base de datos de "tasas de desperdicio" (TD) para una muestra de 20 empresas
+TD87 = np.array([10, 1, 6, .45, 1.25, 1.3, 1.06, 3, 8.18, 1.67, .98, 1, .45, 5.03, 8, 9, 18, .28, 7, 3.97])
+TD88 = np.array([3, 1, 5, .5, 1.54, 1.5, .8, 2, .67, 1.17, .51, .5, .61, 6.7, 4, 7, 19, .2, 5, 3.83])
+
+variacion = TD88 - TD87
+n = len(variacion)
+
+baseTD = pd.DataFrame({
+    "Empresa": np.arange(1, n + 1),
+    "Tasa de desperdicio (1987)": TD87,
+    "Tasa de desperdicio (1988)": TD88,
+    "Variación": variacion
+})
+baseTD.head()
+```
+
+::: {.callout-note}
+### Sintaxis clave
+
+- `np.array([...])` crea un arreglo numérico.
+- `variacion = TD88 - TD87` resta elemento a elemento.
+- `len(variacion)` devuelve el tamaño de la muestra.
+- `pd.DataFrame({...})` crea una tabla con columnas.
+:::
+
+---
+
+### 1.2 Promedio muestral
+
+```{python}
+promedio_var = np.mean(variacion)
+print(f"Variación promedio: {promedio_var:.4f}")
+```
+
+::: {.callout-note}
+### Sintaxis clave (promedio)
+
+- `np.mean(x)` calcula el promedio de `x`.
+- `f"..."` (f-string) permite formatear con decimales: `{valor:.4f}`.
+:::
+
+---
+
+### 1.3 Desviación estándar, error estándar y cuantil t
+
+```{python}
+# Desviación estándar muestral (ddof=1)
+dest_var = np.std(variacion, ddof=1)
+print(f"Desviación estándar muestral: {dest_var:.4f}")
+
+# Error estándar del promedio: s / sqrt(n)
+se_var = dest_var / np.sqrt(n)
+print(f"Error estándar del promedio: {se_var:.4f}")
+
+# Cuantil 0.975 de t(n-1) para IC 95% bilateral
+c = stats.t.ppf(0.975, n - 1)
+print(f"Cuantil t(0.975, {n-1}): {c:.4f}")
+```
+
+::: {.callout-note}
+### Sintaxis clave (std, SE y ppf)
+
+- `np.std(x, ddof=1)` usa la desviación estándar **muestral**.
+- `np.sqrt(n)` es la raíz cuadrada de `n`.
+- `stats.t.ppf(q, df)` devuelve el cuantil `q` de una t con `df` grados de libertad.
+:::
+
+---
+
+### 1.4 Intervalo de confianza al 95%
+
+```{python}
+LI95 = promedio_var - c * se_var
+LS95 = promedio_var + c * se_var
+print(f"IC 95%: [{LI95:.4f}, {LS95:.4f}]")
+```
+
+---
+
+## 2. Prueba t (manual): una cola
+
+Queremos contrastar si el promedio es **menor que 0** (una cola a la izquierda).
+
+### 2.1 Estadístico t y valor crítico
+
+```{python}
+# Estadístico t: (promedio - mu0) / SE; aquí mu0 = 0
+est_t_manual = promedio_var / se_var
+print(f"t (manual): {est_t_manual:.4f}")
+
+# Valor crítico a una cola (izquierda) al 5%
+valc_1cola_izq = stats.t.ppf(0.05, n - 1)
+print(f"Valor crítico (1 cola, izq, 5%): {valc_1cola_izq:.4f}")
+```
+
+::: {.callout-note}
+### Sintaxis clave (t y valor crítico)
+
+- `stats.t.ppf(0.05, df)` da el cuantil del 5% (cola izquierda).
+- La regla típica (cola izquierda): rechazar si `t` es **menor** que el valor crítico.
+:::
+
+---
+
+### 2.2 Valor p (manual): una cola
+
+```{python}
+valorp_manual = stats.t.cdf(est_t_manual, n - 1)
+print(f"Valor p (1 cola, izq): {valorp_manual:.4f}")
+```
+
+::: {.callout-note}
+### Sintaxis clave (valor p)
+
+- `stats.t.cdf(t, df)` devuelve `P(T ≤ t)` si `T ~ t(df)`.
+- En cola izquierda, ese valor es exactamente el **valor p**.
+:::
+
+---
+
+## 3. Prueba t automática (`ttest_1samp`)
+
+```{python}
+test_auto = stats.ttest_1samp(variacion, popmean=0)  # por defecto: bilateral
+est_t_auto = test_auto.statistic
+
+# Para una cola (izquierda), si esperas un t negativo:
+valorp_1cola = test_auto.pvalue / 2
+
+print(f"t (automático): {est_t_auto:.4f}")
+print(f"valor p (bilateral): {test_auto.pvalue:.4f}")
+print(f"valor p (una cola): {valorp_1cola:.4f}")
+```
+
+::: {.callout-note}
+### Sintaxis clave (`ttest_1samp`)
+
+- `stats.ttest_1samp(muestra, popmean=mu0)` hace una t con 1 muestra.
+- Devuelve un objeto con `.statistic` y `.pvalue`.
+- Si tu hipótesis es de **una cola**, normalmente divides entre 2 (con el signo correcto).
+:::
+
+---
+
+## 4. Ejemplo práctico con una base “tipo auditoría” (local)
+
+Aquí usamos un ejemplo pequeño con una variable `y` que toma valores `-1, 0, 1`:
+
+- `y = -1`: favorece al grupo A
+- `y = 0`: decisión igual
+- `y = 1`: favorece al grupo B
+
+```{python}
+audit_like = pd.DataFrame({
+    "y": [-1, 0, 0, -1, 1, 0, -1, 0, 0, 1,
+          0, 0, -1, 0, 1, 0, 0, -1, 0, 0,
+          1, 0, -1, 0, 0, 0, -1, 0, 0, 1]
+})
+audit_like["y"].value_counts()
+```
+
+---
+
+### 4.1 Intervalos de confianza (95% y 99%) usando normalidad
+
+```{python}
+y = audit_like["y"]
+
+promedio_y = np.mean(y)
+n = len(y)
+desv_est_y = np.std(y, ddof=1)
+se_y = desv_est_y / np.sqrt(n)
+
+c95 = stats.norm.ppf(0.975)
+c99 = stats.norm.ppf(0.995)
+
+LI95 = promedio_y - c95 * se_y
+LS95 = promedio_y + c95 * se_y
+
+LI99 = promedio_y - c99 * se_y
+LS99 = promedio_y + c99 * se_y
+
+print(f"IC 95%: [{LI95:.4f}, {LS95:.4f}]")
+print(f"IC 99%: [{LI99:.4f}, {LS99:.4f}]")
+```
+
+::: {.callout-note}
+### Sintaxis clave (cuantiles normales)
+
+- `stats.norm.ppf(0.975)` es el cuantil para IC 95% bilateral (≈ 1.96).
+- `stats.norm.ppf(0.995)` es el cuantil para IC 99% bilateral (≈ 2.576).
+:::
+
+---
+
+### 4.2 Prueba t sobre el promedio de `y`
+
+```{python}
+test_auto = stats.ttest_1samp(y, popmean=0)  # bilateral
+est_t_auto = test_auto.statistic
+valorp_auto = test_auto.pvalue
+
+valc_2colas = stats.t.ppf(0.025, n - 1)  # cuantil de cola izquierda
+
+print(f"promedio_y: {promedio_y:.4f}")
+print(f"t (automático): {est_t_auto:.4f}")
+print(f"valor crítico (2 colas): {valc_2colas:.4f}")
+print(f"valor p (2 colas): {valorp_auto:.4f}")
+```
+
+---
+
+## 5. Aplicación con datos reales (opcional, online)
+
+Si quieres replicar este flujo con un dataset real, puedes usar paquetes de datasets educativos.  
+Este bloque queda desactivado en Quarto (para no depender de internet o instalación).
+
+```{python}
+#| eval: false
+# En VSCode: pip install wooldridge
+# En Colab:  !pip -q install wooldridge
+import wooldridge as woo
+from scipy import stats
+import numpy as np
+
+audit = woo.dataWoo("audit")
+
+y = audit["y"]
+promedio_y = np.mean(y)
+n = len(y)
+desv_est_y = np.std(y, ddof=1)
+se_y = desv_est_y / np.sqrt(n)
+
+c95 = stats.norm.ppf(0.975)
+LI95 = promedio_y - c95 * se_y
+LS95 = promedio_y + c95 * se_y
+print(f"IC 95%: [{LI95:.4f}, {LS95:.4f}]")
+
+test_auto = stats.ttest_1samp(y, popmean=0)
+print(test_auto)
+```
+
+---
+
+## Ejercicios propuestos
+
+1) **IC al 95%**  
+   Con la variable `variacion`, calcula el IC 95% usando t (`ppf(0.975, n-1)`).
+
+   **Respuesta esperada:** dos números (LI, LS).
+
+2) **Prueba t (manual)**  
+   Con `variacion`, calcula `t = promedio / SE` y el valor crítico de cola izquierda al 5%.
+
+   **Respuesta esperada:** un `t` (negativo) y un valor crítico (negativo).
+
+3) **Valor p (una cola)**  
+   Con tu `t` manual, calcula `stats.t.cdf(t, n-1)`.
+
+   **Respuesta esperada:** un número pequeño (menor que 0.05 si hay evidencia).
+
+4) **Automático vs manual**  
+   Compara el `t` manual con `stats.ttest_1samp(variacion, 0).statistic`.
+
+   **Respuesta esperada:** valores muy cercanos (diferencias por redondeo).
+
+5) **IC 99% (normal)**  
+   Con `audit_like["y"]`, calcula el IC 99% usando `stats.norm.ppf(0.995)`.
+
+   **Respuesta esperada:** intervalo más ancho que el IC 95%.
+
+6) **Dos colas**  
+   Con `audit_like["y"]`, ejecuta `ttest_1samp(y, 0)` y reporta el `pvalue`.
+
+   **Respuesta esperada:** un número entre 0 y 1.
+
+---
+
+::: {.content-visible when-format="pdf"}
+## Glosario (para Colab)
+
+- **SE**: error estándar del promedio.
+- **ddof=1**: ajuste para desviación estándar muestral.
+- **ppf**: cuantil (inversa de CDF).
+- **t-test 1 muestra**: prueba sobre el promedio contra un valor `mu0`.
+- **una cola / dos colas**: definición de “extremo” en la prueba.
+:::
