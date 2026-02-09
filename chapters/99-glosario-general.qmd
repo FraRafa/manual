@@ -1,0 +1,254 @@
+---
+title: "Glosario general"
+---
+
+::: {.callout-note}
+Este glosario reúne (en un solo lugar) los términos de programación y de Python que aparecen a lo largo del manual.
+Las definiciones son **prácticas**: están pensadas para que entiendas el código cuando lo veas.
+:::
+
+---
+
+## A
+
+**acumulador**  
+Variable que se va “actualizando” dentro de un bucle para ir guardando un resultado parcial (sumas, conteos, texto, listas, etc.).
+
+**argumento**  
+Valor que le pasas a una función al llamarla. Ej.: en `len(lista)`, el argumento es `lista`.
+
+**array (NumPy)**  
+Estructura de datos (tipo `np.ndarray`) para trabajar con vectores y matrices de forma eficiente.
+
+---
+
+## B
+
+**bucle** (*loop*)  
+Estructura que repite un bloque de código: `for` o `while`.
+
+**booleano** (*bool*)  
+Tipo de dato con solo dos valores: `True` o `False`.
+
+---
+
+## C
+
+**callout**  
+Caja resaltada en el manual (nota, tip o advertencia). No es “Python”, es parte del formato del documento.
+
+**CDF** (*función de distribución acumulada*)  
+Probabilidad acumulada hasta un punto. En SciPy suele verse como `.cdf(...)`.
+
+**cobertura**  
+Proporción de intervalos de confianza que contienen el valor verdadero del parámetro (en simulaciones).
+
+**comentario**  
+Texto que Python ignora. Empieza con `#`. Se usa para explicar el código.
+
+**condicional**  
+Bloque que decide qué se ejecuta según una condición: `if`, `elif`, `else`.
+
+**cuantil**  
+Punto de corte de una distribución (porcentaje acumulado). En SciPy se calcula con `ppf`.
+
+---
+
+## D
+
+**dataframe (pandas)**  
+Tabla de datos con filas y columnas (tipo `pd.DataFrame`).
+
+**ddof=1**  
+Ajuste para usar “grados de libertad” en cálculos muestrales (por ejemplo, en la desviación estándar muestral).
+
+**debug / depurar**  
+Proceso de encontrar y corregir errores en el código.
+
+**densidad (PDF)**  
+Función que describe la distribución continua. En SciPy suele verse como `.pdf(...)`.
+
+**diccionario** (*dict*)  
+Estructura “clave → valor”. Ej.: `{"pais": "Ecuador", "anio": 2026}`.
+
+---
+
+## E
+
+**error estándar (SE)**  
+Medida de variabilidad de un estimador (por ejemplo, del promedio). Típico: `s / sqrt(n)`.
+
+**error Tipo I**  
+Rechazar H0 siendo H0 verdadera (en pruebas de hipótesis).
+
+**estimador**  
+Número calculado con la muestra (promedio, varianza muestral, etc.).
+
+**expresión**  
+Combinación de valores y operadores que produce un resultado. Ej.: `2*x + 1`.
+
+---
+
+## F
+
+**f-string**  
+Forma de formatear texto con variables: `f"Promedio: {prom:.2f}"`.
+
+**función**  
+Bloque reusable que recibe argumentos y devuelve un resultado. Se define con `def`.
+
+**función implícita**  
+Ecuación del tipo `F(x, y) = 0` (no despejada como `y = g(x)`).
+
+---
+
+## G
+
+**grados de libertad (df)**  
+Cantidad que aparece en distribuciones (t, chi-cuadrado, F) y en estimaciones muestrales. En t usualmente es `n-1`.
+
+---
+
+## H
+
+**histograma**  
+Gráfico de barras para visualizar la distribución de un conjunto de datos.
+
+---
+
+## I
+
+**IID**  
+“Independientes e idénticamente distribuidas”. Propiedad común en modelos probabilísticos.
+
+**índice**  
+Posición en una secuencia. En Python empieza en 0: `x[0]` es el primer elemento.
+
+**importar**  
+Cargar un módulo o parte de un módulo con `import ...` o `from ... import ...`.
+
+---
+
+## K
+
+**kernel**  
+Motor que ejecuta el código de Python en notebooks/Quarto. Cada capítulo puede ejecutar con su propio kernel si se configura así.
+
+---
+
+## L
+
+**lista** (*list*)  
+Secuencia ordenada y mutable: `["a", "b", "c"]`.
+
+**loop**  
+Ver “bucle”.
+
+---
+
+## M
+
+**módulo**  
+Archivo o librería que contiene código reutilizable. Ej.: `numpy`, `pandas`, `matplotlib`.
+
+**Monte Carlo**  
+Método que repite muchas veces un experimento aleatorio para aproximar resultados (probabilidades, coberturas, tasas de error, etc.).
+
+---
+
+## N
+
+**NaN**  
+“Not a Number”: valor especial que representa dato faltante (muy común en `pandas`).
+
+**notebook (.ipynb)**  
+Documento ejecutable con celdas (texto y código). Se usa mucho en Colab/Jupyter.
+
+---
+
+## O
+
+**operador**  
+Símbolo que realiza una operación: `+`, `-`, `*`, `/`, `**`, `%`, `==`, `<`, `and`, etc.
+
+---
+
+## P
+
+**parámetro**  
+Valor que define una distribución o modelo (μ, σ, df, etc.) o el nombre de un argumento en una función.
+
+**PDF** (*función de densidad*)  
+Ver “densidad (PDF)”.
+
+**ppf** (*percent point function*)  
+Función inversa de la CDF: devuelve el cuantil. En SciPy se usa como `stats.t.ppf(...)`, `stats.norm.ppf(...)`.
+
+**prueba t (t-test)**  
+Procedimiento para evaluar hipótesis sobre un promedio con varianza desconocida.
+
+---
+
+## R
+
+**random_state / semilla**  
+Número usado para hacer reproducibles los números aleatorios. Si repites con la misma semilla, obtienes lo mismo.
+
+**return**  
+Palabra clave para devolver un resultado desde una función y terminar su ejecución.
+
+---
+
+## S
+
+**SciPy**  
+Librería científica; `scipy.stats` contiene distribuciones y pruebas (pdf/cdf/ppf/ttest).
+
+**SE**  
+Ver “error estándar”.
+
+**setup**  
+Bloque inicial de configuración (importaciones, parámetros de gráficos, etc.). En el manual se ejecuta “por detrás” (sin mostrarse).
+
+**SymPy**  
+Librería para matemáticas simbólicas (resolver ecuaciones, derivar, integrar, graficar expresiones).
+
+---
+
+## T
+
+**t (distribución)**  
+Distribución usada frecuentemente para inferencia sobre medias cuando σ es desconocida.
+
+**TLC / CLT**  
+Teorema del límite central: el promedio muestral tiende a normal cuando `n` crece (bajo condiciones típicas).
+
+**tipo de dato**  
+Clasificación de un valor: `int`, `float`, `str`, `bool`, `list`, `dict`, `np.ndarray`, etc.
+
+---
+
+## V
+
+**valor crítico**  
+Cuantil que define la región de rechazo en una prueba (por ejemplo, `t.ppf(0.975, n-1)`).
+
+**valor p (p-value)**  
+Probabilidad (bajo H0) de observar un estadístico tan extremo como el obtenido.
+
+---
+
+## W
+
+**while**  
+Bucle que se repite mientras una condición sea verdadera. Requiere actualizar la condición o el contador para evitar bucles infinitos.
+
+---
+
+## Tips rápidos (para evitar errores típicos)
+
+- Si tu resultado cambia en cada ejecución y no quieres eso: fija una **semilla**.
+- Si estás calculando desviación estándar muestral: usa `ddof=1`.
+- En índices: recuerda que Python empieza en 0 (`x[0]`).
+- En intervalos bilaterales: usa el cuantil correcto (`0.975` para 95%).
+- Si un bloque “online” no corre en Quarto: déjalo con `eval: false` y ejecútalo en Colab.

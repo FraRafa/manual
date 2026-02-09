@@ -17,6 +17,7 @@ book:
     - chapters/07-intervalos-de-confianza-e-inferencia.qmd
     - chapters/08-python-avanzado-condicionales-bucles-funciones-sympy.qmd
     - chapters/09-simulacion-monte-carlo.qmd
+    - chapters/99-glosario-general.qmd
 
 
 

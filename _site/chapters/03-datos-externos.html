@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Capítulo 3 — Datos externos (leer y guardar archivos con pandas) – Manual de Python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/04-graficos-basicos-matplotlib.html" rel="next">
+<link href="../chapters/02-objetos-en-python.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-0edeb2bfa3bdafc2264c871846f989cd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+
+</head>
+
+<body class="nav-sidebar floating slimcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/03-datos-externos.html"><span class="chapter-title">Capítulo 3 — Datos externos (leer y guardar archivos con pandas)</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Manual de Python</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Manual de Python</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-empezando-en-python.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 1 — Empezando en Python</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-objetos-en-python.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 2 — Objetos en Python (variables, listas, numpy y pandas)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-datos-externos.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Capítulo 3 — Datos externos (leer y guardar archivos con pandas)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-graficos-basicos-matplotlib.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 4 — Gráficos básicos con matplotlib</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-estadisticas-descriptivas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 5 — Estadísticas descriptivas (tablas, gráficos y resumen)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-distribuciones-de-probabilidad.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 6 — Distribuciones de probabilidad (scipy.stats)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-intervalos-de-confianza-e-inferencia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 7 — Intervalos de confianza e inferencia (t-test)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-python-avanzado-condicionales-bucles-funciones-sympy.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 8 — Python avanzado: condicionales, bucles, funciones y SymPy</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-simulacion-monte-carlo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 9 — Simulación de Monte Carlo</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#la-idea-general-archivo-dataframe" id="toc-la-idea-general-archivo-dataframe" class="nav-link active" data-scroll-target="#la-idea-general-archivo-dataframe">1. La idea general: “archivo → DataFrame”</a></li>
+  <li><a href="#leer-archivos-de-texto-.txt-y-csv-.csv" id="toc-leer-archivos-de-texto-.txt-y-csv-.csv" class="nav-link" data-scroll-target="#leer-archivos-de-texto-.txt-y-csv-.csv">2. Leer archivos de texto (<code>.txt</code>) y CSV (<code>.csv</code>)</a>
+  <ul class="collapse">
+  <li><a href="#texto-con-separador-por-espacios" id="toc-texto-con-separador-por-espacios" class="nav-link" data-scroll-target="#texto-con-separador-por-espacios">2.1 Texto con separador por espacios</a></li>
+  <li><a href="#csv-simple" id="toc-csv-simple" class="nav-link" data-scroll-target="#csv-simple">2.2 CSV simple</a></li>
+  <li><a href="#cuando-el-archivo-no-tiene-encabezados" id="toc-cuando-el-archivo-no-tiene-encabezados" class="nav-link" data-scroll-target="#cuando-el-archivo-no-tiene-encabezados">2.3 Cuando el archivo NO tiene encabezados</a></li>
+  </ul></li>
+  <li><a href="#guardar-datos-exportar" id="toc-guardar-datos-exportar" class="nav-link" data-scroll-target="#guardar-datos-exportar">3. Guardar datos (exportar)</a>
+  <ul class="collapse">
+  <li><a href="#guardar-csv-ejemplo" id="toc-guardar-csv-ejemplo" class="nav-link" data-scroll-target="#guardar-csv-ejemplo">3.1 Guardar CSV (ejemplo)</a></li>
+  <li><a href="#guardar-excel-ejemplo" id="toc-guardar-excel-ejemplo" class="nav-link" data-scroll-target="#guardar-excel-ejemplo">3.2 Guardar Excel (ejemplo)</a></li>
+  </ul></li>
+  <li><a href="#leer-excel-.xlsx-sin-depender-de-internet" id="toc-leer-excel-.xlsx-sin-depender-de-internet" class="nav-link" data-scroll-target="#leer-excel-.xlsx-sin-depender-de-internet">4. Leer Excel (<code>.xlsx</code>) sin depender de internet</a></li>
+  <li><a href="#aplicación-con-datos-reales-opcional-online" id="toc-aplicación-con-datos-reales-opcional-online" class="nav-link" data-scroll-target="#aplicación-con-datos-reales-opcional-online">5. Aplicación con datos reales (opcional, online)</a>
+  <ul class="collapse">
+  <li><a href="#bases-de-ejemplo-wooldridge" id="toc-bases-de-ejemplo-wooldridge" class="nav-link" data-scroll-target="#bases-de-ejemplo-wooldridge">5.1 Bases de ejemplo (wooldridge)</a></li>
+  <li><a href="#datos-financieros-y-macro-fred-stooq-yahoo-finance" id="toc-datos-financieros-y-macro-fred-stooq-yahoo-finance" class="nav-link" data-scroll-target="#datos-financieros-y-macro-fred-stooq-yahoo-finance">5.2 Datos financieros y macro (FRED / Stooq / Yahoo Finance)</a></li>
+  <li><a href="#datos-desde-un-enlace-google-drive" id="toc-datos-desde-un-enlace-google-drive" class="nav-link" data-scroll-target="#datos-desde-un-enlace-google-drive">5.3 Datos desde un enlace (Google Drive)</a></li>
+  </ul></li>
+  <li><a href="#ejercicios-propuestos" id="toc-ejercicios-propuestos" class="nav-link" data-scroll-target="#ejercicios-propuestos">Ejercicios propuestos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Capítulo 3 — Datos externos (leer y guardar archivos con pandas)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://colab.research.google.com/github/FraRafa/manual/blob/main/notebooks/03-datos-externos.ipynb" class="btn btn-success" target="_blank">🚀 Abrir este capítulo en Google Colab</a></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Objetivos del capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al terminar este capítulo vas a poder:</p>
+<ul>
+<li>leer datos desde archivos comunes (<code>.txt</code>, <code>.csv</code>, <code>.xlsx</code>) usando <code>pandas</code>,</li>
+<li>entender los parámetros más importantes de lectura: <code>sep</code>, <code>header</code>, <code>names</code>,</li>
+<li>guardar tus datos desde Python (<code>to_csv</code>, <code>to_excel</code>) de forma reproducible,</li>
+<li>distinguir claramente lo <strong>local</strong> (sin internet) de lo <strong>online</strong> (opcional, depende de conexión).</li>
+</ul>
+</div>
+</div>
+<hr>
+<section id="la-idea-general-archivo-dataframe" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="la-idea-general-archivo-dataframe">1. La idea general: “archivo → DataFrame”</h2>
+<p>En la práctica, casi todo flujo de datos es:</p>
+<ol type="1">
+<li><strong>leer</strong> un archivo en un <code>DataFrame</code><br>
+</li>
+<li><strong>transformar</strong> (limpiar, filtrar, crear variables)<br>
+</li>
+<li><strong>guardar</strong> el resultado</li>
+</ol>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<details>
+<summary>
+<strong>Glosario</strong>
+</summary>
+<ul>
+<li><strong>DataFrame</strong>: tabla de datos en <code>pandas</code> (filas y columnas).</li>
+<li><strong>CSV</strong>: archivo de texto con valores separados por comas.</li>
+<li><strong>delimiter / sep</strong>: separador entre columnas (coma, espacio, tab, etc.).</li>
+<li><strong>header</strong>: indica si el archivo tiene fila de nombres.</li>
+<li><strong>ruta (path)</strong>: ubicación del archivo (ej. <code>Datos/mi_archivo.csv</code>).</li>
+<li><strong>relativa</strong>: ruta desde tu carpeta del proyecto.</li>
+<li><strong>absoluta</strong>: ruta completa del disco (más frágil).</li>
+</ul>
+</details>
+</div></div><hr>
+</section>
+<section id="leer-archivos-de-texto-.txt-y-csv-.csv" class="level2">
+<h2 class="anchored" data-anchor-id="leer-archivos-de-texto-.txt-y-csv-.csv">2. Leer archivos de texto (<code>.txt</code>) y CSV (<code>.csv</code>)</h2>
+<p>Vamos a usar ejemplos <strong>locales</strong> (sin internet). Para simular un archivo, usaremos <code>StringIO</code> (un “archivo en memoria”).</p>
+<div id="e44f0ca7" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Sintaxis clave (leer archivos)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>pd.read_table(...)</code> se usa para texto con separador (por ejemplo espacios o tabulaciones).</li>
+<li><code>pd.read_csv(...)</code> se usa para CSV (separado por comas).</li>
+<li>En ambos, el separador se controla con <code>sep=</code> (o <code>delimiter=</code>).</li>
+</ul>
+</div>
+</div>
+<hr>
+<section id="texto-con-separador-por-espacios" class="level3">
+<h3 class="anchored" data-anchor-id="texto-con-separador-por-espacios">2.1 Texto con separador por espacios</h3>
+<div id="cbea6ce4" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>texto <span class="op">=</span> <span class="st">'''year product1 product2 product3</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">2010  3        1        2</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="st">2011  4        2        2</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">2012  6        3        1</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df_txt <span class="op">=</span> pd.read_table(StringIO(texto), sep<span class="op">=</span><span class="vs">r"</span><span class="dv">\s</span><span class="op">+</span><span class="vs">"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>df_txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">product1</th>
+<th data-quarto-table-cell-role="th">product2</th>
+<th data-quarto-table-cell-role="th">product3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>2010</td>
+<td>3</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2011</td>
+<td>4</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>2012</td>
+<td>6</td>
+<td>3</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><strong>Qué significa <code>sep=r"\s+"</code></strong><br>
+- <code>\s+</code> es “uno o más espacios” (sirve si hay varios espacios entre columnas).</p>
+<hr>
+</section>
+<section id="csv-simple" class="level3">
+<h3 class="anchored" data-anchor-id="csv-simple">2.2 CSV simple</h3>
+<div id="af7e98dc" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>csv <span class="op">=</span> <span class="st">'''year,product1,product2,product3</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">2010,3,1,2</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="st">2011,4,2,2</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="st">2012,6,3,1</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>df_csv <span class="op">=</span> pd.read_csv(StringIO(csv))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>df_csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">product1</th>
+<th data-quarto-table-cell-role="th">product2</th>
+<th data-quarto-table-cell-role="th">product3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>2010</td>
+<td>3</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2011</td>
+<td>4</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>2012</td>
+<td>6</td>
+<td>3</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="cuando-el-archivo-no-tiene-encabezados" class="level3">
+<h3 class="anchored" data-anchor-id="cuando-el-archivo-no-tiene-encabezados">2.3 Cuando el archivo NO tiene encabezados</h3>
+<p>A veces un archivo viene sin nombres de columnas. En ese caso:</p>
+<ul>
+<li><code>header=None</code> para decir “no hay encabezado”</li>
+<li><code>names=[...]</code> para asignar nombres</li>
+</ul>
+<div id="5ed97cc4" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>csv_sin_header <span class="op">=</span> <span class="st">'''2010,3,1,2</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">2011,4,2,2</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="st">2012,6,3,1</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>df_csv2 <span class="op">=</span> pd.read_csv(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    StringIO(csv_sin_header),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    header<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    names<span class="op">=</span>[<span class="st">"year"</span>, <span class="st">"product1"</span>, <span class="st">"product2"</span>, <span class="st">"product3"</span>]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>df_csv2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">product1</th>
+<th data-quarto-table-cell-role="th">product2</th>
+<th data-quarto-table-cell-role="th">product3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>2010</td>
+<td>3</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2011</td>
+<td>4</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>2012</td>
+<td>6</td>
+<td>3</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="guardar-datos-exportar" class="level2">
+<h2 class="anchored" data-anchor-id="guardar-datos-exportar">3. Guardar datos (exportar)</h2>
+<p>Guardar es importante por 2 razones:</p>
+<ul>
+<li><p>para no perder trabajo,</p></li>
+<li><p>para poder compartir resultados.</p></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Sintaxis clave (guardar)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>df.to_csv("archivo.csv", index=False)</code> guarda CSV.</li>
+<li><code>df.to_excel("archivo.xlsx", index=False)</code> guarda Excel.</li>
+<li><code>index=False</code> evita guardar la columna de índice como una columna extra.</li>
+</ul>
+</div>
+</div>
+<hr>
+<section id="guardar-csv-ejemplo" class="level3">
+<h3 class="anchored" data-anchor-id="guardar-csv-ejemplo">3.1 Guardar CSV (ejemplo)</h3>
+<div id="f4480706" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_csv2.to_csv(<span class="st">"salida_ejemplo.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p>En el manual (Quarto) no lo ejecutamos para no crear archivos en el render.<br>
+En VSCode o Colab sí puedes ejecutarlo sin problema.</p>
+</blockquote>
+<hr>
+</section>
+<section id="guardar-excel-ejemplo" class="level3">
+<h3 class="anchored" data-anchor-id="guardar-excel-ejemplo">3.2 Guardar Excel (ejemplo)</h3>
+<div id="987be5b4" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_csv2.to_excel(<span class="st">"salida_ejemplo.xlsx"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="leer-excel-.xlsx-sin-depender-de-internet" class="level2">
+<h2 class="anchored" data-anchor-id="leer-excel-.xlsx-sin-depender-de-internet">4. Leer Excel (<code>.xlsx</code>) sin depender de internet</h2>
+<p>Para practicar la sintaxis sin archivos externos, vamos a:</p>
+<ol type="1">
+<li>crear un <code>DataFrame</code>,</li>
+<li>guardarlo a un Excel en memoria,</li>
+<li>volverlo a leer con <code>read_excel</code>.</li>
+</ol>
+<div id="a050be24" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> BytesIO</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cb471870" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df_base <span class="op">=</span> pd.DataFrame({<span class="st">"A"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], <span class="st">"B"</span>: [<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>]})</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">buffer</span> <span class="op">=</span> BytesIO()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pd.ExcelWriter(<span class="bu">buffer</span>, engine<span class="op">=</span><span class="st">"openpyxl"</span>) <span class="im">as</span> writer:</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    df_base.to_excel(writer, sheet_name<span class="op">=</span><span class="st">"Hoja1"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">buffer</span>.seek(<span class="dv">0</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>df_excel <span class="op">=</span> pd.read_excel(<span class="bu">buffer</span>, sheet_name<span class="op">=</span><span class="st">"Hoja1"</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>df_excel</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">A</th>
+<th data-quarto-table-cell-role="th">B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Por qué hacemos esto</strong><br>
+Porque te permite aprender <code>read_excel()</code> sin depender de archivos externos ni internet.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="aplicación-con-datos-reales-opcional-online" class="level2">
+<h2 class="anchored" data-anchor-id="aplicación-con-datos-reales-opcional-online">5. Aplicación con datos reales (opcional, online)</h2>
+<p>Todo lo de esta sección <strong>depende de internet</strong> y puede fallar en renderización local.<br>
+Por eso, en el manual lo dejamos <strong>comentado</strong> (<code>eval: false</code>).<br>
+En <strong>Google Colab</strong> suele funcionar mejor.</p>
+<hr>
+<section id="bases-de-ejemplo-wooldridge" class="level3">
+<h3 class="anchored" data-anchor-id="bases-de-ejemplo-wooldridge">5.1 Bases de ejemplo (wooldridge)</h3>
+<div id="43a9469f" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># En VSCode: pip install wooldridge</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># En Colab:  !pip -q install wooldridge</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> wooldridge <span class="im">as</span> woo</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>wage1 <span class="op">=</span> woo.dataWoo(<span class="st">"wage1"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>wage1.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+<section id="datos-financieros-y-macro-fred-stooq-yahoo-finance" class="level3">
+<h3 class="anchored" data-anchor-id="datos-financieros-y-macro-fred-stooq-yahoo-finance">5.2 Datos financieros y macro (FRED / Stooq / Yahoo Finance)</h3>
+<div id="a027fb40" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># En Colab:</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip -q install pandas_datareader yfinance</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas_datareader <span class="im">as</span> pdr</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>wti <span class="op">=</span> pdr.data.DataReader(</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"DCOILWTICO"</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    data_source<span class="op">=</span><span class="st">"fred"</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    start<span class="op">=</span><span class="st">"2014-01-01"</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    end<span class="op">=</span><span class="st">"2024-12-31"</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>aapl <span class="op">=</span> pdr.data.DataReader(</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"AAPL"</span>,</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    data_source<span class="op">=</span><span class="st">"stooq"</span>,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    start<span class="op">=</span><span class="st">"2017-01-01"</span>,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    end<span class="op">=</span><span class="st">"2024-12-31"</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>btc <span class="op">=</span> yf.download(</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BTC-USD"</span>,</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    start<span class="op">=</span><span class="st">"2017-01-01"</span>,</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    end<span class="op">=</span><span class="st">"2024-12-31"</span>,</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    auto_adjust<span class="op">=</span><span class="va">False</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>wti.tail(), aapl.head(), btc.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+<section id="datos-desde-un-enlace-google-drive" class="level3">
+<h3 class="anchored" data-anchor-id="datos-desde-un-enlace-google-drive">5.3 Datos desde un enlace (Google Drive)</h3>
+<div id="9af7a3d9" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_online <span class="op">=</span> pd.read_table(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://drive.google.com/uc?id=TU_ID"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="vs">r"</span><span class="dv">\s</span><span class="op">+</span><span class="vs">"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>df_online.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="ejercicios-propuestos" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios-propuestos">Ejercicios propuestos</h2>
+<ol type="1">
+<li><p><strong>Lectura sin encabezado</strong><br>
+Crea un CSV sin encabezado con 4 columnas (puedes copiar el ejemplo del capítulo). Léelo con <code>read_csv</code> y asigna los nombres <code>["a","b","c","d"]</code>.</p>
+<p><strong>Respuesta esperada:</strong> un <code>DataFrame</code> con columnas exactamente <code>a, b, c, d</code> y 3 filas.</p></li>
+<li><p><strong>Separadores “raros”</strong><br>
+Crea un texto donde las columnas estén separadas por varios espacios (no uno). Léelo con <code>read_table</code> usando <code>sep=r"\s+"</code>.</p>
+<p><strong>Respuesta esperada:</strong> un <code>DataFrame</code> con las columnas correctas (sin que se junte todo en una sola columna).</p></li>
+<li><p><strong>Exportación consistente</strong><br>
+Toma un <code>DataFrame</code> cualquiera del capítulo y guarda:</p>
+<ul>
+<li>un CSV sin índice,</li>
+<li>un Excel sin índice.</li>
+</ul>
+<p><strong>Respuesta esperada:</strong> dos archivos creados (<code>.csv</code> y <code>.xlsx</code>) sin una columna extra de índice.</p></li>
+<li><p><strong>Excel con hojas</strong><br>
+Crea un Excel en memoria con dos hojas (<code>Hoja1</code>, <code>Hoja2</code>), cada una con un DataFrame distinto. Luego lee solo <code>Hoja2</code>.</p>
+<p><strong>Respuesta esperada:</strong> <code>read_excel(..., sheet_name="Hoja2")</code> devuelve exactamente la tabla de <code>Hoja2</code>.</p></li>
+<li><p><strong>Mini-proyecto</strong><br>
+Crea un <code>DataFrame</code> con columnas <code>ventas</code> y <code>clientes</code>. Calcula <code>ventas_por_cliente</code>, luego guarda el resultado en CSV.</p>
+<p><strong>Respuesta esperada:</strong> un <code>DataFrame</code> con 3 columnas (<code>ventas</code>, <code>clientes</code>, <code>ventas_por_cliente</code>) y un CSV con esas mismas columnas.</p></li>
+</ol>
+<hr>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/02-objetos-en-python.html" class="pagination-link" aria-label="Capítulo 2 — Objetos en Python (variables, listas, numpy y pandas)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Capítulo 2 — Objetos en Python (variables, listas, numpy y pandas)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/04-graficos-basicos-matplotlib.html" class="pagination-link" aria-label="Capítulo 4 — Gráficos básicos con matplotlib">
+        <span class="nav-page-text"><span class="chapter-title">Capítulo 4 — Gráficos básicos con matplotlib</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

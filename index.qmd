@@ -34,6 +34,10 @@ Al finalizar, vas a poder:
 
 ---
 
+[📄 Descargar PDF oficial](Manual-de-Python.pdf){.btn .btn-danger target="_blank"}
+
+---
+
 ## Índice del Manual
 
 > Cada capítulo tiene su botón para abrirlo en **Google Colab**.
