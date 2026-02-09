@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Capítulo 4 — Gráficos básicos con matplotlib – Manual de Python</title>
+<title>Capítulo 4 — Gráficos básicos con matplotlib – Manual de Python</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/05-control-de-flujo-y-funciones.html" rel="next">
+<link href="../chapters/05-estadisticas-descriptivas.html" rel="next">
 <link href="../chapters/03-datos-externos.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/04-graficos-basicos-matplotlib.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Capítulo 4 — Gráficos básicos con matplotlib</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/04-graficos-basicos-matplotlib.html"><span class="chapter-title">Capítulo 4 — Gráficos básicos con matplotlib</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -145,44 +145,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Manual de Python</span></span></a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Manual de Python</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/01-empezando-en-python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Capítulo 1 — Empezando en Python</span></span></a>
+  <a href="../chapters/01-empezando-en-python.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 1 — Empezando en Python</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/02-objetos-en-python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Capítulo 2 — Objetos en Python (variables, listas, numpy y pandas)</span></span></a>
+  <a href="../chapters/02-objetos-en-python.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 2 — Objetos en Python (variables, listas, numpy y pandas)</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/03-datos-externos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Capítulo 3 — Datos externos (leer y guardar archivos con pandas)</span></span></a>
+  <a href="../chapters/03-datos-externos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 3 — Datos externos (leer y guardar archivos con pandas)</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/04-graficos-basicos-matplotlib.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Capítulo 4 — Gráficos básicos con matplotlib</span></span></a>
+  <a href="../chapters/04-graficos-basicos-matplotlib.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Capítulo 4 — Gráficos básicos con matplotlib</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/05-control-de-flujo-y-funciones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Capítulo 5 — Control de flujo y funciones (if, for, while, def)</span></span></a>
+  <a href="../chapters/05-estadisticas-descriptivas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 5 — Estadísticas descriptivas (tablas, gráficos y resumen)</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/06-limpieza-y-transformacion-pandas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 6 — Limpieza y transformación de datos con pandas</span></span></a>
+  <a href="../chapters/06-distribuciones-de-probabilidad.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 6 — Distribuciones de probabilidad (scipy.stats)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-intervalos-de-confianza-e-inferencia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 7 — Intervalos de confianza e inferencia (t-test)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-python-avanzado-condicionales-bucles-funciones-sympy.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 8 — Python avanzado: condicionales, bucles, funciones y SymPy</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-simulacion-monte-carlo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 9 — Simulación de Monte Carlo</span></a>
   </div>
 </li>
     </ul>
@@ -195,13 +203,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#qué-es-matplotlib" id="toc-qué-es-matplotlib" class="nav-link active" data-scroll-target="#qué-es-matplotlib"><span class="header-section-number">5.1</span> 1. ¿Qué es matplotlib?</a></li>
-  <li><a href="#nuestro-primer-gráfico-línea" id="toc-nuestro-primer-gráfico-línea" class="nav-link" data-scroll-target="#nuestro-primer-gráfico-línea"><span class="header-section-number">5.2</span> 2. Nuestro primer gráfico (línea)</a></li>
-  <li><a href="#gráfico-de-dispersión-scatter" id="toc-gráfico-de-dispersión-scatter" class="nav-link" data-scroll-target="#gráfico-de-dispersión-scatter"><span class="header-section-number">5.3</span> 3. Gráfico de dispersión (scatter)</a></li>
-  <li><a href="#histograma-hist" id="toc-histograma-hist" class="nav-link" data-scroll-target="#histograma-hist"><span class="header-section-number">5.4</span> 4. Histograma (hist)</a></li>
-  <li><a href="#sobreponer-varios-gráficos-varias-líneas" id="toc-sobreponer-varios-gráficos-varias-líneas" class="nav-link" data-scroll-target="#sobreponer-varios-gráficos-varias-líneas"><span class="header-section-number">5.5</span> 5. Sobreponer varios gráficos (varias líneas)</a></li>
-  <li><a href="#guardar-un-gráfico-opcional" id="toc-guardar-un-gráfico-opcional" class="nav-link" data-scroll-target="#guardar-un-gráfico-opcional"><span class="header-section-number">5.6</span> 6. Guardar un gráfico (opcional)</a></li>
-  <li><a href="#ejercicios-propuestos" id="toc-ejercicios-propuestos" class="nav-link" data-scroll-target="#ejercicios-propuestos"><span class="header-section-number">5.7</span> Ejercicios propuestos</a></li>
+  <li><a href="#qué-es-matplotlib" id="toc-qué-es-matplotlib" class="nav-link active" data-scroll-target="#qué-es-matplotlib">1. ¿Qué es matplotlib?</a></li>
+  <li><a href="#nuestro-primer-gráfico-línea" id="toc-nuestro-primer-gráfico-línea" class="nav-link" data-scroll-target="#nuestro-primer-gráfico-línea">2. Nuestro primer gráfico (línea)</a></li>
+  <li><a href="#gráfico-de-dispersión-scatter" id="toc-gráfico-de-dispersión-scatter" class="nav-link" data-scroll-target="#gráfico-de-dispersión-scatter">3. Gráfico de dispersión (scatter)</a></li>
+  <li><a href="#histograma-hist" id="toc-histograma-hist" class="nav-link" data-scroll-target="#histograma-hist">4. Histograma (hist)</a></li>
+  <li><a href="#sobreponer-varios-gráficos-varias-líneas" id="toc-sobreponer-varios-gráficos-varias-líneas" class="nav-link" data-scroll-target="#sobreponer-varios-gráficos-varias-líneas">5. Sobreponer varios gráficos (varias líneas)</a></li>
+  <li><a href="#guardar-un-gráfico-opcional" id="toc-guardar-un-gráfico-opcional" class="nav-link" data-scroll-target="#guardar-un-gráfico-opcional">6. Guardar un gráfico (opcional)</a></li>
+  <li><a href="#ejercicios-propuestos" id="toc-ejercicios-propuestos" class="nav-link" data-scroll-target="#ejercicios-propuestos">Ejercicios propuestos</a></li>
   </ul>
 </nav>
     </div>
@@ -210,7 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Capítulo 4 — Gráficos básicos con matplotlib</span></h1>
+<h1 class="title"><span class="chapter-title">Capítulo 4 — Gráficos básicos con matplotlib</span></h1>
 </div>
 
 
@@ -248,8 +256,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <hr>
-<section id="qué-es-matplotlib" class="level2 page-columns page-full" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="qué-es-matplotlib"><span class="header-section-number">5.1</span> 1. ¿Qué es matplotlib?</h2>
+<section id="qué-es-matplotlib" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="qué-es-matplotlib">1. ¿Qué es matplotlib?</h2>
 <p><code>matplotlib</code> es una librería para hacer gráficos en Python. La forma más común de usarla es:</p>
 <div id="83f6de72" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -287,8 +295,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div></div><hr>
 </section>
-<section id="nuestro-primer-gráfico-línea" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="nuestro-primer-gráfico-línea"><span class="header-section-number">5.2</span> 2. Nuestro primer gráfico (línea)</h2>
+<section id="nuestro-primer-gráfico-línea" class="level2">
+<h2 class="anchored" data-anchor-id="nuestro-primer-gráfico-línea">2. Nuestro primer gráfico (línea)</h2>
 <p>Vamos a crear datos simples y graficarlos.</p>
 <div id="925a15d9" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -331,8 +339,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <hr>
 </section>
-<section id="gráfico-de-dispersión-scatter" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="gráfico-de-dispersión-scatter"><span class="header-section-number">5.3</span> 3. Gráfico de dispersión (scatter)</h2>
+<section id="gráfico-de-dispersión-scatter" class="level2">
+<h2 class="anchored" data-anchor-id="gráfico-de-dispersión-scatter">3. Gráfico de dispersión (scatter)</h2>
 <p>Un <code>scatter</code> muestra puntos individuales. Es típico cuando quieres ver relación entre dos variables.</p>
 <div id="3abfe9e5" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">123</span>)</span>
@@ -371,8 +379,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <hr>
 </section>
-<section id="histograma-hist" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="histograma-hist"><span class="header-section-number">5.4</span> 4. Histograma (hist)</h2>
+<section id="histograma-hist" class="level2">
+<h2 class="anchored" data-anchor-id="histograma-hist">4. Histograma (hist)</h2>
 <p>Un histograma sirve para ver “cómo se distribuyen” los valores.</p>
 <div id="9c162e45" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>datos <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">0</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">500</span>)</span>
@@ -408,8 +416,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <hr>
 </section>
-<section id="sobreponer-varios-gráficos-varias-líneas" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="sobreponer-varios-gráficos-varias-líneas"><span class="header-section-number">5.5</span> 5. Sobreponer varios gráficos (varias líneas)</h2>
+<section id="sobreponer-varios-gráficos-varias-líneas" class="level2">
+<h2 class="anchored" data-anchor-id="sobreponer-varios-gráficos-varias-líneas">5. Sobreponer varios gráficos (varias líneas)</h2>
 <p>Cuando quieres comparar series, puedes dibujar varias líneas en la misma figura.</p>
 <div id="e76ca1d4" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">10</span>)</span>
@@ -452,8 +460,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <hr>
 </section>
-<section id="guardar-un-gráfico-opcional" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="guardar-un-gráfico-opcional"><span class="header-section-number">5.6</span> 6. Guardar un gráfico (opcional)</h2>
+<section id="guardar-un-gráfico-opcional" class="level2">
+<h2 class="anchored" data-anchor-id="guardar-un-gráfico-opcional">6. Guardar un gráfico (opcional)</h2>
 <p>Guardar gráficos es útil para informes. En Quarto lo dejamos desactivado para no crear archivos en el render.</p>
 <div id="b5a5cc20" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">9</span>])</span>
@@ -476,8 +484,8 @@ En proyectos reales, guarda figuras en una carpeta como <code>figuras/</code> pa
 </div>
 <hr>
 </section>
-<section id="ejercicios-propuestos" class="level2" data-number="5.7">
-<h2 data-number="5.7" class="anchored" data-anchor-id="ejercicios-propuestos"><span class="header-section-number">5.7</span> Ejercicios propuestos</h2>
+<section id="ejercicios-propuestos" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios-propuestos">Ejercicios propuestos</h2>
 <ol type="1">
 <li><p><strong>Línea con transformación</strong><br>
 Crea <code>x = np.arange(0, 11)</code> y <code>y = 3*x + 2</code>. Grafica <code>y</code> contra <code>x</code> con título y etiquetas.</p>
@@ -914,12 +922,12 @@ Crea un gráfico y guárdalo en <code>figuras/ejemplo.png</code>.</p>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../chapters/03-datos-externos.html" class="pagination-link" aria-label="Capítulo 3 — Datos externos (leer y guardar archivos con pandas)">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Capítulo 3 — Datos externos (leer y guardar archivos con pandas)</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Capítulo 3 — Datos externos (leer y guardar archivos con pandas)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/05-control-de-flujo-y-funciones.html" class="pagination-link" aria-label="Capítulo 5 — Control de flujo y funciones (if, for, while, def)">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Capítulo 5 — Control de flujo y funciones (if, for, while, def)</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/05-estadisticas-descriptivas.html" class="pagination-link" aria-label="Capítulo 5 — Estadísticas descriptivas (tablas, gráficos y resumen)">
+        <span class="nav-page-text"><span class="chapter-title">Capítulo 5 — Estadísticas descriptivas (tablas, gráficos y resumen)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
