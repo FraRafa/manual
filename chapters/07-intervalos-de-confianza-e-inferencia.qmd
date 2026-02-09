@@ -48,8 +48,6 @@ En este capítulo vas a programar (en Python) el flujo completo de inferencia co
 Vamos a trabajar con una muestra pequeña (sin depender de internet).  
 Tenemos una medida en dos años y queremos analizar la **variación**.
 
-> La parte “estadística” la asumes conocida. Aquí nos enfocamos en el **código** que implementa el procedimiento.
-
 ---
 
 ## 2. Construcción de la base y variable de interés

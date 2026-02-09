@@ -15,6 +15,7 @@ book:
     - chapters/05-estadisticas-descriptivas.qmd
     - chapters/06-distribuciones-de-probabilidad.qmd
     - chapters/07-intervalos-de-confianza-e-inferencia.qmd
+    - chapters/08-python-avanzado-condicionales-bucles-funciones-sympy.qmd
 
 
 
