@@ -25,12 +25,12 @@ format:
   html:
     toc: true
     toc-depth: 3
-    number-sections: true
+    number-sections: False
     code-copy: true
     code-overflow: wrap
   pdf:
     toc: true
-    number-sections: true
+    number-sections: False
     documentclass: scrreprt
 
 execute:

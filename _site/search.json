@@ -144,7 +144,7 @@
     "href": "index.html",
     "title": "Manual de Python",
     "section": "",
-    "text": "0.1 Presentación del Manual\nEste manual te enseña a programar en Python desde cero, paso a paso, con un enfoque práctico. No necesitas haber programado antes.",
+    "text": "Presentación del Manual\nEste manual te enseña a programar en Python desde cero, paso a paso, con un enfoque práctico. No necesitas haber programado antes.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Manual de Python</span>"
     ]
@@ -153,8 +153,8 @@
     "objectID": "index.html#qué-vas-a-obtener-después-de-este-manual",
     "href": "index.html#qué-vas-a-obtener-después-de-este-manual",
     "title": "Manual de Python",
-    "section": "0.2 ¿Qué vas a obtener después de este manual?",
-    "text": "0.2 ¿Qué vas a obtener después de este manual?\nAl finalizar, vas a poder:\n\nLeer y escribir código en Python con confianza.\nTrabajar con datos usando pandas y numpy.\nHacer gráficos básicos con matplotlib.\nEntender la lógica de programación (condicionales, bucles y funciones).\nEjecutar y adaptar código en tu propio entorno (VSCode) o en la nube (Google Colab).",
+    "section": "¿Qué vas a obtener después de este manual?",
+    "text": "¿Qué vas a obtener después de este manual?\nAl finalizar, vas a poder:\n\nLeer y escribir código en Python con confianza.\nTrabajar con datos usando pandas y numpy.\nHacer gráficos básicos con matplotlib.\nEntender la lógica de programación (condicionales, bucles y funciones).\nEjecutar y adaptar código en tu propio entorno (VSCode) o en la nube (Google Colab).",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Manual de Python</span>"
     ]
@@ -163,8 +163,8 @@
     "objectID": "index.html#lecturas-recomendadas-html-pdf-y-colab",
     "href": "index.html#lecturas-recomendadas-html-pdf-y-colab",
     "title": "Manual de Python",
-    "section": "0.3 Lecturas recomendadas (HTML, PDF y Colab)",
-    "text": "0.3 Lecturas recomendadas (HTML, PDF y Colab)\n\nHTML: navegación rápida y lectura cómoda.\nPDF: ideal para imprimir o leer offline.\nGoogle Colab: ejecutas el código sin instalar nada.\n\n\nRecomendación: lee el capítulo en HTML/PDF y practica en Colab.",
+    "section": "Lecturas recomendadas (HTML, PDF y Colab)",
+    "text": "Lecturas recomendadas (HTML, PDF y Colab)\n\nHTML: navegación rápida y lectura cómoda.\nPDF: ideal para imprimir o leer offline.\nGoogle Colab: ejecutas el código sin instalar nada.\n\n\nRecomendación: lee el capítulo en HTML/PDF y practica en Colab.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Manual de Python</span>"
     ]
@@ -173,8 +173,8 @@
     "objectID": "index.html#índice-del-manual",
     "href": "index.html#índice-del-manual",
     "title": "Manual de Python",
-    "section": "0.4 Índice del Manual",
-    "text": "0.4 Índice del Manual\n\n0.4.1 Capítulo 1 — Empezando en Python\nVas a aprender cómo ejecutar código, usar variables, importar módulos y entender tu directorio de trabajo.\n🚀 Abrir Capítulo 1 en Google Colab",
+    "section": "Índice del Manual",
+    "text": "Índice del Manual\n\nCapítulo 1 — Empezando en Python\nVas a aprender cómo ejecutar código, usar variables, importar módulos y entender tu directorio de trabajo.\n🚀 Abrir Capítulo 1 en Google Colab",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Manual de Python</span>"
     ]
