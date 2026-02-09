@@ -106,7 +106,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
+
+
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
 
 
 </head>
@@ -203,26 +206,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#intervalos-de-confianza-con-una-muestra-ejemplo-local" id="toc-intervalos-de-confianza-con-una-muestra-ejemplo-local" class="nav-link active" data-scroll-target="#intervalos-de-confianza-con-una-muestra-ejemplo-local"><span class="header-section-number">8.1</span> 1. Intervalos de confianza con una muestra (ejemplo local)</a>
+  <li><a href="#una-muestra-datos-y-objetivo" id="toc-una-muestra-datos-y-objetivo" class="nav-link active" data-scroll-target="#una-muestra-datos-y-objetivo"><span class="header-section-number">8.1</span> 1. Una muestra: datos y objetivo</a></li>
+  <li><a href="#construcción-de-la-base-y-variable-de-interés" id="toc-construcción-de-la-base-y-variable-de-interés" class="nav-link" data-scroll-target="#construcción-de-la-base-y-variable-de-interés"><span class="header-section-number">8.2</span> 2. Construcción de la base y variable de interés</a></li>
+  <li><a href="#intervalo-de-confianza-para-el-promedio-con-t" id="toc-intervalo-de-confianza-para-el-promedio-con-t" class="nav-link" data-scroll-target="#intervalo-de-confianza-para-el-promedio-con-t"><span class="header-section-number">8.3</span> 3. Intervalo de confianza para el promedio (con t)</a>
   <ul class="collapse">
-  <li><a href="#datos-variación-en-una-tasa" id="toc-datos-variación-en-una-tasa" class="nav-link" data-scroll-target="#datos-variación-en-una-tasa"><span class="header-section-number">8.1.1</span> 1.1 Datos (variación en una tasa)</a></li>
-  <li><a href="#promedio-muestral" id="toc-promedio-muestral" class="nav-link" data-scroll-target="#promedio-muestral"><span class="header-section-number">8.1.2</span> 1.2 Promedio muestral</a></li>
-  <li><a href="#desviación-estándar-error-estándar-y-cuantil-t" id="toc-desviación-estándar-error-estándar-y-cuantil-t" class="nav-link" data-scroll-target="#desviación-estándar-error-estándar-y-cuantil-t"><span class="header-section-number">8.1.3</span> 1.3 Desviación estándar, error estándar y cuantil t</a></li>
-  <li><a href="#intervalo-de-confianza-al-95" id="toc-intervalo-de-confianza-al-95" class="nav-link" data-scroll-target="#intervalo-de-confianza-al-95"><span class="header-section-number">8.1.4</span> 1.4 Intervalo de confianza al 95%</a></li>
+  <li><a href="#promedio-desviación-estándar-y-error-estándar" id="toc-promedio-desviación-estándar-y-error-estándar" class="nav-link" data-scroll-target="#promedio-desviación-estándar-y-error-estándar"><span class="header-section-number">8.3.1</span> 3.1 Promedio, desviación estándar y error estándar</a></li>
+  <li><a href="#cuantil-t-y-el-ic-95-bilateral" id="toc-cuantil-t-y-el-ic-95-bilateral" class="nav-link" data-scroll-target="#cuantil-t-y-el-ic-95-bilateral"><span class="header-section-number">8.3.2</span> 3.2 Cuantil t y el IC 95% (bilateral)</a></li>
   </ul></li>
-  <li><a href="#prueba-t-manual-una-cola" id="toc-prueba-t-manual-una-cola" class="nav-link" data-scroll-target="#prueba-t-manual-una-cola"><span class="header-section-number">8.2</span> 2. Prueba t (manual): una cola</a>
+  <li><a href="#prueba-t-manual-una-cola-a-la-izquierda" id="toc-prueba-t-manual-una-cola-a-la-izquierda" class="nav-link" data-scroll-target="#prueba-t-manual-una-cola-a-la-izquierda"><span class="header-section-number">8.4</span> 4. Prueba t “manual” (una cola a la izquierda)</a>
   <ul class="collapse">
-  <li><a href="#estadístico-t-y-valor-crítico" id="toc-estadístico-t-y-valor-crítico" class="nav-link" data-scroll-target="#estadístico-t-y-valor-crítico"><span class="header-section-number">8.2.1</span> 2.1 Estadístico t y valor crítico</a></li>
-  <li><a href="#valor-p-manual-una-cola" id="toc-valor-p-manual-una-cola" class="nav-link" data-scroll-target="#valor-p-manual-una-cola"><span class="header-section-number">8.2.2</span> 2.2 Valor p (manual): una cola</a></li>
+  <li><a href="#estadístico-t" id="toc-estadístico-t" class="nav-link" data-scroll-target="#estadístico-t"><span class="header-section-number">8.4.1</span> 4.1 Estadístico t</a></li>
+  <li><a href="#valor-crítico-cola-izquierda-al-5" id="toc-valor-crítico-cola-izquierda-al-5" class="nav-link" data-scroll-target="#valor-crítico-cola-izquierda-al-5"><span class="header-section-number">8.4.2</span> 4.2 Valor crítico (cola izquierda al 5%)</a></li>
+  <li><a href="#valor-p-cola-izquierda" id="toc-valor-p-cola-izquierda" class="nav-link" data-scroll-target="#valor-p-cola-izquierda"><span class="header-section-number">8.4.3</span> 4.3 Valor p (cola izquierda)</a></li>
   </ul></li>
-  <li><a href="#prueba-t-automática-ttest_1samp" id="toc-prueba-t-automática-ttest_1samp" class="nav-link" data-scroll-target="#prueba-t-automática-ttest_1samp"><span class="header-section-number">8.3</span> 3. Prueba t automática (<code>ttest_1samp</code>)</a></li>
-  <li><a href="#ejemplo-práctico-con-una-base-tipo-auditoría-local" id="toc-ejemplo-práctico-con-una-base-tipo-auditoría-local" class="nav-link" data-scroll-target="#ejemplo-práctico-con-una-base-tipo-auditoría-local"><span class="header-section-number">8.4</span> 4. Ejemplo práctico con una base “tipo auditoría” (local)</a>
+  <li><a href="#prueba-t-automática-ttest_1samp" id="toc-prueba-t-automática-ttest_1samp" class="nav-link" data-scroll-target="#prueba-t-automática-ttest_1samp"><span class="header-section-number">8.5</span> 5. Prueba t automática (<code>ttest_1samp</code>)</a></li>
+  <li><a href="#ejemplo-práctico-con-una-variable-y-en--1-0-1-local" id="toc-ejemplo-práctico-con-una-variable-y-en--1-0-1-local" class="nav-link" data-scroll-target="#ejemplo-práctico-con-una-variable-y-en--1-0-1-local"><span class="header-section-number">8.6</span> 6. Ejemplo práctico con una variable <code>y</code> en {-1, 0, 1} (local)</a>
   <ul class="collapse">
-  <li><a href="#intervalos-de-confianza-95-y-99-usando-normalidad" id="toc-intervalos-de-confianza-95-y-99-usando-normalidad" class="nav-link" data-scroll-target="#intervalos-de-confianza-95-y-99-usando-normalidad"><span class="header-section-number">8.4.1</span> 4.1 Intervalos de confianza (95% y 99%) usando normalidad</a></li>
-  <li><a href="#prueba-t-sobre-el-promedio-de-y" id="toc-prueba-t-sobre-el-promedio-de-y" class="nav-link" data-scroll-target="#prueba-t-sobre-el-promedio-de-y"><span class="header-section-number">8.4.2</span> 4.2 Prueba t sobre el promedio de <code>y</code></a></li>
+  <li><a href="#ic-95-y-99-usando-cuantiles-normales" id="toc-ic-95-y-99-usando-cuantiles-normales" class="nav-link" data-scroll-target="#ic-95-y-99-usando-cuantiles-normales"><span class="header-section-number">8.6.1</span> 6.1 IC 95% y 99% usando cuantiles normales</a></li>
+  <li><a href="#prueba-t-dos-colas-para-y" id="toc-prueba-t-dos-colas-para-y" class="nav-link" data-scroll-target="#prueba-t-dos-colas-para-y"><span class="header-section-number">8.6.2</span> 6.2 Prueba t (dos colas) para <code>y</code></a></li>
   </ul></li>
-  <li><a href="#aplicación-con-datos-reales-opcional-online" id="toc-aplicación-con-datos-reales-opcional-online" class="nav-link" data-scroll-target="#aplicación-con-datos-reales-opcional-online"><span class="header-section-number">8.5</span> 5. Aplicación con datos reales (opcional, online)</a></li>
-  <li><a href="#ejercicios-propuestos" id="toc-ejercicios-propuestos" class="nav-link" data-scroll-target="#ejercicios-propuestos"><span class="header-section-number">8.6</span> Ejercicios propuestos</a></li>
+  <li><a href="#aplicación-con-datos-reales-opcional-online" id="toc-aplicación-con-datos-reales-opcional-online" class="nav-link" data-scroll-target="#aplicación-con-datos-reales-opcional-online"><span class="header-section-number">8.7</span> 7. Aplicación con datos reales (opcional, online)</a></li>
+  <li><a href="#ejercicios-propuestos" id="toc-ejercicios-propuestos" class="nav-link" data-scroll-target="#ejercicios-propuestos"><span class="header-section-number">8.8</span> Ejercicios propuestos</a></li>
   </ul>
 </nav>
     </div>
@@ -259,12 +263,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Vas a aprender a programar (en Python) cómo:</p>
+<p>En este capítulo vas a programar (en Python) el flujo completo de inferencia con una muestra:</p>
 <ul>
-<li>construir <strong>intervalos de confianza</strong> paso a paso,</li>
-<li>calcular <strong>estadístico t</strong>, <strong>valores críticos</strong> y <strong>valor p</strong>,</li>
-<li>usar <code>scipy.stats.ttest_1samp</code> para hacer una prueba t automáticamente,</li>
-<li>interpretar “una cola” vs “dos colas” desde el código.</li>
+<li>calcular un <strong>intervalo de confianza (IC)</strong> para un promedio,</li>
+<li>construir una <strong>prueba t</strong> “a mano”: estadístico t, valor crítico y valor p,</li>
+<li>comparar con la versión automática <code>ttest_1samp</code>,</li>
+<li>evitar errores típicos: <strong><code>ddof</code></strong>, <strong>una cola vs dos colas</strong>, y <strong>cuantiles mal puestos</strong>.</li>
 </ul>
 </div>
 </div>
@@ -275,35 +279,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <strong>Glosario</strong>
 </summary>
 <ul>
-<li><strong>estimador</strong>: número calculado con la muestra (ej. promedio).</li>
-<li><strong>error estándar (SE)</strong>: desviación del estimador; típicamente <code>s / sqrt(n)</code>.</li>
-<li><strong>ddof=1</strong>: “grados de libertad” para desviación estándar muestral.</li>
-<li><strong>cuantil</strong>: punto de corte; en <code>scipy</code> se calcula con <code>ppf</code>.</li>
-<li><strong>valor crítico</strong>: cuantil usado para decidir rechazo.</li>
-<li><strong>valor p</strong>: probabilidad (bajo H0) de observar un estadístico tan extremo.</li>
-<li><strong>una cola / dos colas</strong>: forma de definir qué significa “extremo”.</li>
+<li><strong>estimador</strong>: cantidad calculada con la muestra (ej. promedio).</li>
+<li><strong>SE (error estándar)</strong>: variabilidad del estimador; típico <code>s / sqrt(n)</code>.</li>
+<li><strong>ddof=1</strong>: ajuste de “grados de libertad” para la desviación estándar muestral.</li>
+<li><strong>cuantil / ppf</strong>: “punto de corte” de una distribución; <code>ppf(q, df)</code>.</li>
+<li><strong>valor crítico</strong>: cuantil que delimita la región de rechazo.</li>
+<li><strong>valor p</strong>: probabilidad (bajo H0) de ver un estadístico igual o más extremo.</li>
+<li><strong>una cola / dos colas</strong>: define qué significa “extremo”.</li>
 </ul>
 </details>
 </div></div><hr>
-<section id="intervalos-de-confianza-con-una-muestra-ejemplo-local" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="intervalos-de-confianza-con-una-muestra-ejemplo-local"><span class="header-section-number">8.1</span> 1. Intervalos de confianza con una muestra (ejemplo local)</h2>
-<p>Trabajaremos con una muestra pequeña (sin depender de internet).</p>
-<section id="datos-variación-en-una-tasa" class="level3" data-number="8.1.1">
-<h3 data-number="8.1.1" class="anchored" data-anchor-id="datos-variación-en-una-tasa"><span class="header-section-number">8.1.1</span> 1.1 Datos (variación en una tasa)</h3>
-<div id="73b63527" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Base de datos de "tasas de desperdicio" (TD) para una muestra de 20 empresas</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>TD87 <span class="op">=</span> np.array([<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">6</span>, <span class="fl">.45</span>, <span class="fl">1.25</span>, <span class="fl">1.3</span>, <span class="fl">1.06</span>, <span class="dv">3</span>, <span class="fl">8.18</span>, <span class="fl">1.67</span>, <span class="fl">.98</span>, <span class="dv">1</span>, <span class="fl">.45</span>, <span class="fl">5.03</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">18</span>, <span class="fl">.28</span>, <span class="dv">7</span>, <span class="fl">3.97</span>])</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>TD88 <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="fl">.5</span>, <span class="fl">1.54</span>, <span class="fl">1.5</span>, <span class="fl">.8</span>, <span class="dv">2</span>, <span class="fl">.67</span>, <span class="fl">1.17</span>, <span class="fl">.51</span>, <span class="fl">.5</span>, <span class="fl">.61</span>, <span class="fl">6.7</span>, <span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">19</span>, <span class="fl">.2</span>, <span class="dv">5</span>, <span class="fl">3.83</span>])</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>variacion <span class="op">=</span> TD88 <span class="op">-</span> TD87</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(variacion)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>baseTD <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Empresa"</span>: np.arange(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>),</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Tasa de desperdicio (1987)"</span>: TD87,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Tasa de desperdicio (1988)"</span>: TD88,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Variación"</span>: variacion</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>})</span>
+<section id="una-muestra-datos-y-objetivo" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="una-muestra-datos-y-objetivo"><span class="header-section-number">8.1</span> 1. Una muestra: datos y objetivo</h2>
+<p>Vamos a trabajar con una muestra pequeña (sin depender de internet).<br>
+Tenemos una medida en dos años y queremos analizar la <strong>variación</strong>.</p>
+<blockquote class="blockquote">
+<p>La parte “estadística” la asumes conocida. Aquí nos enfocamos en el <strong>código</strong> que implementa el procedimiento.</p>
+</blockquote>
+<hr>
+</section>
+<section id="construcción-de-la-base-y-variable-de-interés" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="construcción-de-la-base-y-variable-de-interés"><span class="header-section-number">8.2</span> 2. Construcción de la base y variable de interés</h2>
+<div id="971291e3" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>TD87 <span class="op">=</span> np.array([<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">6</span>, <span class="fl">.45</span>, <span class="fl">1.25</span>, <span class="fl">1.3</span>, <span class="fl">1.06</span>, <span class="dv">3</span>, <span class="fl">8.18</span>, <span class="fl">1.67</span>, <span class="fl">.98</span>, <span class="dv">1</span>, <span class="fl">.45</span>, <span class="fl">5.03</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">18</span>, <span class="fl">.28</span>, <span class="dv">7</span>, <span class="fl">3.97</span>])</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>TD88 <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="fl">.5</span>, <span class="fl">1.54</span>, <span class="fl">1.5</span>, <span class="fl">.8</span>, <span class="dv">2</span>, <span class="fl">.67</span>, <span class="fl">1.17</span>, <span class="fl">.51</span>, <span class="fl">.5</span>, <span class="fl">.61</span>, <span class="fl">6.7</span>, <span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">19</span>, <span class="fl">.2</span>, <span class="dv">5</span>, <span class="fl">3.83</span>])</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>variacion <span class="op">=</span> TD88 <span class="op">-</span> TD87</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(variacion)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>baseTD <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Empresa"</span>: np.arange(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Tasa (1987)"</span>: TD87,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Tasa (1988)"</span>: TD88,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Variación"</span>: variacion</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>baseTD.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
@@ -314,8 +324,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th">Empresa</th>
-<th data-quarto-table-cell-role="th">Tasa de desperdicio (1987)</th>
-<th data-quarto-table-cell-role="th">Tasa de desperdicio (1988)</th>
+<th data-quarto-table-cell-role="th">Tasa (1987)</th>
+<th data-quarto-table-cell-role="th">Tasa (1988)</th>
 <th data-quarto-table-cell-role="th">Variación</th>
 </tr>
 </thead>
@@ -367,27 +377,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave
+<span class="screen-reader-only">Note</span>Sintaxis clave (lo mínimo que debes dominar)
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><code>np.array([...])</code> crea un arreglo numérico.</li>
-<li><code>variacion = TD88 - TD87</code> resta elemento a elemento.</li>
-<li><code>len(variacion)</code> devuelve el tamaño de la muestra.</li>
-<li><code>pd.DataFrame({...})</code> crea una tabla con columnas.</li>
+<li><code>np.array([...])</code>: crea un arreglo numérico.</li>
+<li><code>TD88 - TD87</code>: resta <strong>elemento a elemento</strong> (vectorizada).</li>
+<li><code>np.arange(1, n+1)</code>: números 1,2,…,n.</li>
+<li><code>pd.DataFrame({...})</code>: arma una tabla por columnas.</li>
 </ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Tip rápido
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si <code>TD87</code> y <code>TD88</code> no tienen el mismo tamaño, la resta falla.<br>
+Chequea con <code>len(TD87)</code> y <code>len(TD88)</code> antes de restar.</p>
 </div>
 </div>
 <hr>
 </section>
-<section id="promedio-muestral" class="level3" data-number="8.1.2">
-<h3 data-number="8.1.2" class="anchored" data-anchor-id="promedio-muestral"><span class="header-section-number">8.1.2</span> 1.2 Promedio muestral</h3>
-<div id="1b7f47b0" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>promedio_var <span class="op">=</span> np.mean(variacion)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Variación promedio: </span><span class="sc">{</span>promedio_var<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Variación promedio: -1.1545</code></pre>
+<section id="intervalo-de-confianza-para-el-promedio-con-t" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="intervalo-de-confianza-para-el-promedio-con-t"><span class="header-section-number">8.3</span> 3. Intervalo de confianza para el promedio (con t)</h2>
+<section id="promedio-desviación-estándar-y-error-estándar" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="promedio-desviación-estándar-y-error-estándar"><span class="header-section-number">8.3.1</span> 3.1 Promedio, desviación estándar y error estándar</h3>
+<div id="1f3cd4c8" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>promedio <span class="op">=</span> np.mean(variacion)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> np.std(variacion, ddof<span class="op">=</span><span class="dv">1</span>)        <span class="co"># desviación estándar muestral</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>se <span class="op">=</span> s <span class="op">/</span> np.sqrt(n)                 <span class="co"># error estándar del promedio</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>promedio, s, se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>(np.float64(-1.1544999999999999),
+ np.float64(2.4006391144640498),
+ np.float64(0.5367992249386514))</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -396,36 +427,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave (promedio)
+<span class="screen-reader-only">Note</span>Cómo leer esta sintaxis
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
 <li><code>np.mean(x)</code> calcula el promedio de <code>x</code>.</li>
-<li><code>f"..."</code> (f-string) permite formatear con decimales: <code>{valor:.4f}</code>.</li>
+<li><code>np.std(x, ddof=1)</code> usa <strong>ddof=1</strong>: esto es la desviación estándar <strong>muestral</strong> (no poblacional).</li>
+<li><code>se = s / sqrt(n)</code> es el error estándar del promedio.</li>
 </ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Error común #1: olvidar <code>ddof=1</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si usas <code>np.std(x)</code> sin <code>ddof=1</code>, obtienes la desviación estándar <strong>poblacional</strong>.<br>
+Para inferencia típica con muestra, eso te cambia el SE y el IC.</p>
 </div>
 </div>
 <hr>
 </section>
-<section id="desviación-estándar-error-estándar-y-cuantil-t" class="level3" data-number="8.1.3">
-<h3 data-number="8.1.3" class="anchored" data-anchor-id="desviación-estándar-error-estándar-y-cuantil-t"><span class="header-section-number">8.1.3</span> 1.3 Desviación estándar, error estándar y cuantil t</h3>
-<div id="e102d78e" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Desviación estándar muestral (ddof=1)</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dest_var <span class="op">=</span> np.std(variacion, ddof<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Desviación estándar muestral: </span><span class="sc">{</span>dest_var<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Error estándar del promedio: s / sqrt(n)</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>se_var <span class="op">=</span> dest_var <span class="op">/</span> np.sqrt(n)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Error estándar del promedio: </span><span class="sc">{</span>se_var<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Cuantil 0.975 de t(n-1) para IC 95% bilateral</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> stats.t.ppf(<span class="fl">0.975</span>, n <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Cuantil t(0.975, </span><span class="sc">{</span>n<span class="op">-</span><span class="dv">1</span><span class="sc">}</span><span class="ss">): </span><span class="sc">{</span>c<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Desviación estándar muestral: 2.4006
-Error estándar del promedio: 0.5368
-Cuantil t(0.975, 19): 2.0930</code></pre>
+<section id="cuantil-t-y-el-ic-95-bilateral" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="cuantil-t-y-el-ic-95-bilateral"><span class="header-section-number">8.3.2</span> 3.2 Cuantil t y el IC 95% (bilateral)</h3>
+<p>Para un IC 95% bilateral:</p>
+<ul>
+<li>α = 0.05</li>
+<li>colas: α/2 = 0.025 en cada cola</li>
+<li>por eso el cuantil es <strong>0.975</strong> (1 − 0.025)</li>
+</ul>
+<div id="9a0c22ca" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> stats.t.ppf(<span class="fl">0.975</span>, n <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>LI95 <span class="op">=</span> promedio <span class="op">-</span> c <span class="op">*</span> se</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>LS95 <span class="op">=</span> promedio <span class="op">+</span> c <span class="op">*</span> se</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>LI95, LS95</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>(np.float64(-2.2780336901843095), np.float64(-0.030966309815690485))</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -434,48 +477,48 @@ Cuantil t(0.975, 19): 2.0930</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave (std, SE y ppf)
+<span class="screen-reader-only">Note</span>Sintaxis clave (ppf)
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><code>np.std(x, ddof=1)</code> usa la desviación estándar <strong>muestral</strong>.</li>
-<li><code>np.sqrt(n)</code> es la raíz cuadrada de <code>n</code>.</li>
 <li><code>stats.t.ppf(q, df)</code> devuelve el cuantil <code>q</code> de una t con <code>df</code> grados de libertad.</li>
+<li>Para IC bilateral al 95%: <code>q = 0.975</code>, <code>df = n - 1</code>.</li>
 </ul>
 </div>
 </div>
-<hr>
-</section>
-<section id="intervalo-de-confianza-al-95" class="level3" data-number="8.1.4">
-<h3 data-number="8.1.4" class="anchored" data-anchor-id="intervalo-de-confianza-al-95"><span class="header-section-number">8.1.4</span> 1.4 Intervalo de confianza al 95%</h3>
-<div id="2b645b91" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>LI95 <span class="op">=</span> promedio_var <span class="op">-</span> c <span class="op">*</span> se_var</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>LS95 <span class="op">=</span> promedio_var <span class="op">+</span> c <span class="op">*</span> se_var</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IC 95%: [</span><span class="sc">{</span>LI95<span class="sc">:.4f}</span><span class="ss">, </span><span class="sc">{</span>LS95<span class="sc">:.4f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>IC 95%: [-2.2780, -0.0310]</code></pre>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Error común #2: usar 0.95 en vez de 0.975
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para IC bilateral necesitas 0.975, no 0.95.<br>
+Usar 0.95 te da un IC <strong>más estrecho</strong> de lo correcto.</p>
 </div>
 </div>
 <hr>
 </section>
 </section>
-<section id="prueba-t-manual-una-cola" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="prueba-t-manual-una-cola"><span class="header-section-number">8.2</span> 2. Prueba t (manual): una cola</h2>
-<p>Queremos contrastar si el promedio es <strong>menor que 0</strong> (una cola a la izquierda).</p>
-<section id="estadístico-t-y-valor-crítico" class="level3" data-number="8.2.1">
-<h3 data-number="8.2.1" class="anchored" data-anchor-id="estadístico-t-y-valor-crítico"><span class="header-section-number">8.2.1</span> 2.1 Estadístico t y valor crítico</h3>
-<div id="6240bf28" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estadístico t: (promedio - mu0) / SE; aquí mu0 = 0</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>est_t_manual <span class="op">=</span> promedio_var <span class="op">/</span> se_var</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"t (manual): </span><span class="sc">{</span>est_t_manual<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Valor crítico a una cola (izquierda) al 5%</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>valc_1cola_izq <span class="op">=</span> stats.t.ppf(<span class="fl">0.05</span>, n <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Valor crítico (1 cola, izq, 5%): </span><span class="sc">{</span>valc_1cola_izq<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>t (manual): -2.1507
-Valor crítico (1 cola, izq, 5%): -1.7291</code></pre>
+<section id="prueba-t-manual-una-cola-a-la-izquierda" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="prueba-t-manual-una-cola-a-la-izquierda"><span class="header-section-number">8.4</span> 4. Prueba t “manual” (una cola a la izquierda)</h2>
+<p>Ahora probamos si el promedio de la variación es <strong>menor que 0</strong>:</p>
+<ul>
+<li>H0: μ = 0</li>
+<li>H1: μ &lt; 0</li>
+</ul>
+<section id="estadístico-t" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="estadístico-t"><span class="header-section-number">8.4.1</span> 4.1 Estadístico t</h3>
+<div id="387f2a02" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mu0 <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>t_manual <span class="op">=</span> (promedio <span class="op">-</span> mu0) <span class="op">/</span> se</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>t_manual</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>np.float64(-2.150711003973493)</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -484,25 +527,53 @@ Valor crítico (1 cola, izq, 5%): -1.7291</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave (t y valor crítico)
+<span class="screen-reader-only">Note</span>Sintaxis clave (estadístico t)
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><code>stats.t.ppf(0.05, df)</code> da el cuantil del 5% (cola izquierda).</li>
-<li>La regla típica (cola izquierda): rechazar si <code>t</code> es <strong>menor</strong> que el valor crítico.</li>
+<li>La forma es <code>(promedio - mu0) / SE</code>.</li>
+<li>Si <code>promedio</code> es negativo, <code>t_manual</code> tiende a ser negativo.</li>
 </ul>
 </div>
 </div>
 <hr>
 </section>
-<section id="valor-p-manual-una-cola" class="level3" data-number="8.2.2">
-<h3 data-number="8.2.2" class="anchored" data-anchor-id="valor-p-manual-una-cola"><span class="header-section-number">8.2.2</span> 2.2 Valor p (manual): una cola</h3>
-<div id="95a6f0d7" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>valorp_manual <span class="op">=</span> stats.t.cdf(est_t_manual, n <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Valor p (1 cola, izq): </span><span class="sc">{</span>valorp_manual<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Valor p (1 cola, izq): 0.0223</code></pre>
+<section id="valor-crítico-cola-izquierda-al-5" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="valor-crítico-cola-izquierda-al-5"><span class="header-section-number">8.4.2</span> 4.2 Valor crítico (cola izquierda al 5%)</h3>
+<div id="9cccac9e" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>val_critico <span class="op">=</span> stats.t.ppf(<span class="fl">0.05</span>, n <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>val_critico</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>np.float64(-1.7291328115213678)</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Regla de decisión (cola izquierda)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Rechazas H0 si:</p>
+<ul>
+<li><code>t_manual &lt; val_critico</code></li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+<section id="valor-p-cola-izquierda" class="level3" data-number="8.4.3">
+<h3 data-number="8.4.3" class="anchored" data-anchor-id="valor-p-cola-izquierda"><span class="header-section-number">8.4.3</span> 4.3 Valor p (cola izquierda)</h3>
+<p>En cola izquierda, el valor p se puede calcular con la CDF:</p>
+<div id="1dec8e95" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p_una_cola <span class="op">=</span> stats.t.cdf(t_manual, n <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>p_una_cola</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>np.float64(0.02229062646839212)</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -511,72 +582,83 @@ Valor crítico (1 cola, izq, 5%): -1.7291</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave (valor p)
+<span class="screen-reader-only">Note</span>Por qué esto funciona (en código)
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><code>stats.t.cdf(t, df)</code> devuelve <code>P(T ≤ t)</code> si <code>T ~ t(df)</code>.</li>
-<li>En cola izquierda, ese valor es exactamente el <strong>valor p</strong>.</li>
+<li><code>stats.t.cdf(t, df)</code> te da <code>P(T ≤ t)</code>.</li>
+<li>En cola izquierda, “más extremo” significa “más pequeño”.</li>
 </ul>
 </div>
 </div>
-<hr>
-</section>
-</section>
-<section id="prueba-t-automática-ttest_1samp" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="prueba-t-automática-ttest_1samp"><span class="header-section-number">8.3</span> 3. Prueba t automática (<code>ttest_1samp</code>)</h2>
-<div id="959811dc" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>test_auto <span class="op">=</span> stats.ttest_1samp(variacion, popmean<span class="op">=</span><span class="dv">0</span>)  <span class="co"># por defecto: bilateral</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>est_t_auto <span class="op">=</span> test_auto.statistic</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Para una cola (izquierda), si esperas un t negativo:</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>valorp_1cola <span class="op">=</span> test_auto.pvalue <span class="op">/</span> <span class="dv">2</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"t (automático): </span><span class="sc">{</span>est_t_auto<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"valor p (bilateral): </span><span class="sc">{</span>test_auto<span class="sc">.</span>pvalue<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"valor p (una cola): </span><span class="sc">{</span>valorp_1cola<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>t (automático): -2.1507
-valor p (bilateral): 0.0446
-valor p (una cola): 0.0223</code></pre>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave (<code>ttest_1samp</code>)
+<span class="screen-reader-only">Warning</span>Error común #3: usar dos colas por accidente
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<ul>
-<li><code>stats.ttest_1samp(muestra, popmean=mu0)</code> hace una t con 1 muestra.</li>
-<li>Devuelve un objeto con <code>.statistic</code> y <code>.pvalue</code>.</li>
-<li>Si tu hipótesis es de <strong>una cola</strong>, normalmente divides entre 2 (con el signo correcto).</li>
-</ul>
+<p>Si tu hipótesis es <strong>μ &lt; 0</strong>, el valor p es de <strong>una cola</strong>.<br>
+Usar dos colas te da un p-value distinto y puede cambiar tu conclusión.</p>
 </div>
 </div>
 <hr>
 </section>
-<section id="ejemplo-práctico-con-una-base-tipo-auditoría-local" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="ejemplo-práctico-con-una-base-tipo-auditoría-local"><span class="header-section-number">8.4</span> 4. Ejemplo práctico con una base “tipo auditoría” (local)</h2>
-<p>Aquí usamos un ejemplo pequeño con una variable <code>y</code> que toma valores <code>-1, 0, 1</code>:</p>
-<ul>
-<li><code>y = -1</code>: favorece al grupo A</li>
-<li><code>y = 0</code>: decisión igual</li>
-<li><code>y = 1</code>: favorece al grupo B</li>
-</ul>
-<div id="a00eef61" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>audit_like <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"y"</span>: [<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>          <span class="dv">0</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>          <span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>]</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>audit_like[<span class="st">"y"</span>].value_counts()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="prueba-t-automática-ttest_1samp" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="prueba-t-automática-ttest_1samp"><span class="header-section-number">8.5</span> 5. Prueba t automática (<code>ttest_1samp</code>)</h2>
+<div id="901d8dca" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> stats.ttest_1samp(variacion, popmean<span class="op">=</span><span class="dv">0</span>)  <span class="co"># por defecto es bilateral</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>t_auto <span class="op">=</span> test.statistic</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>p_bilateral <span class="op">=</span> test.pvalue</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>t_auto, p_bilateral</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>(np.float64(-2.150711003973493), np.float64(0.04458125293678424))</code></pre>
+</div>
+</div>
+<p>Para una cola (izquierda), si <code>t_auto</code> es negativo:</p>
+<div id="65fbf774" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p_una_cola_auto <span class="op">=</span> p_bilateral <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>p_una_cola_auto</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>np.float64(0.02229062646839212)</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Tip: valida el signo antes de dividir entre 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dividir entre 2 solo tiene sentido si el estadístico va “en la dirección” de tu H1.<br>
+Para H1: μ &lt; 0, esperas <code>t</code> <strong>negativo</strong>.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="ejemplo-práctico-con-una-variable-y-en--1-0-1-local" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="ejemplo-práctico-con-una-variable-y-en--1-0-1-local"><span class="header-section-number">8.6</span> 6. Ejemplo práctico con una variable <code>y</code> en {-1, 0, 1} (local)</h2>
+<p>Aquí usamos un ejemplo tipo “auditoría” con una variable de decisión:</p>
+<ul>
+<li><code>-1</code>, <code>0</code>, <code>1</code> (tres resultados posibles).</li>
+</ul>
+<div id="78c65b6c" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>audit_like <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"y"</span>: [<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>          <span class="dv">0</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>          <span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>]</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>audit_like[<span class="st">"y"</span>].value_counts()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>y
  0    18
 -1     7
@@ -584,31 +666,26 @@ valor p (una cola): 0.0223</code></pre>
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<hr>
-<section id="intervalos-de-confianza-95-y-99-usando-normalidad" class="level3" data-number="8.4.1">
-<h3 data-number="8.4.1" class="anchored" data-anchor-id="intervalos-de-confianza-95-y-99-usando-normalidad"><span class="header-section-number">8.4.1</span> 4.1 Intervalos de confianza (95% y 99%) usando normalidad</h3>
-<div id="4e44d0bf" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> audit_like[<span class="st">"y"</span>]</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>promedio_y <span class="op">=</span> np.mean(y)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(y)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>desv_est_y <span class="op">=</span> np.std(y, ddof<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>se_y <span class="op">=</span> desv_est_y <span class="op">/</span> np.sqrt(n)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>c95 <span class="op">=</span> stats.norm.ppf(<span class="fl">0.975</span>)</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>c99 <span class="op">=</span> stats.norm.ppf(<span class="fl">0.995</span>)</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>LI95 <span class="op">=</span> promedio_y <span class="op">-</span> c95 <span class="op">*</span> se_y</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>LS95 <span class="op">=</span> promedio_y <span class="op">+</span> c95 <span class="op">*</span> se_y</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>LI99 <span class="op">=</span> promedio_y <span class="op">-</span> c99 <span class="op">*</span> se_y</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>LS99 <span class="op">=</span> promedio_y <span class="op">+</span> c99 <span class="op">*</span> se_y</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IC 95%: [</span><span class="sc">{</span>LI95<span class="sc">:.4f}</span><span class="ss">, </span><span class="sc">{</span>LS95<span class="sc">:.4f}</span><span class="ss">]"</span>)</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IC 99%: [</span><span class="sc">{</span>LI99<span class="sc">:.4f}</span><span class="ss">, </span><span class="sc">{</span>LS99<span class="sc">:.4f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>IC 95%: [-0.2956, 0.1622]
-IC 99%: [-0.3675, 0.2342]</code></pre>
+<section id="ic-95-y-99-usando-cuantiles-normales" class="level3" data-number="8.6.1">
+<h3 data-number="8.6.1" class="anchored" data-anchor-id="ic-95-y-99-usando-cuantiles-normales"><span class="header-section-number">8.6.1</span> 6.1 IC 95% y 99% usando cuantiles normales</h3>
+<div id="64c412f5" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> audit_like[<span class="st">"y"</span>]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(y)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>promedio_y <span class="op">=</span> np.mean(y)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>s_y <span class="op">=</span> np.std(y, ddof<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>se_y <span class="op">=</span> s_y <span class="op">/</span> np.sqrt(n)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>c95 <span class="op">=</span> stats.norm.ppf(<span class="fl">0.975</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>c99 <span class="op">=</span> stats.norm.ppf(<span class="fl">0.995</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>IC95 <span class="op">=</span> (promedio_y <span class="op">-</span> c95 <span class="op">*</span> se_y, promedio_y <span class="op">+</span> c95 <span class="op">*</span> se_y)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>IC99 <span class="op">=</span> (promedio_y <span class="op">-</span> c99 <span class="op">*</span> se_y, promedio_y <span class="op">+</span> c99 <span class="op">*</span> se_y)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>IC95, IC99</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>((np.float64(-0.29557037914190526), np.float64(0.1622370458085719)),
+ (np.float64(-0.36749713852006516), np.float64(0.23416380518673185)))</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -617,91 +694,74 @@ IC 99%: [-0.3675, 0.2342]</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sintaxis clave (cuantiles normales)
+<span class="screen-reader-only">Note</span>Sintaxis clave (normal)
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><code>stats.norm.ppf(0.975)</code> es el cuantil para IC 95% bilateral (≈ 1.96).</li>
-<li><code>stats.norm.ppf(0.995)</code> es el cuantil para IC 99% bilateral (≈ 2.576).</li>
+<li><code>stats.norm.ppf(0.975)</code> ≈ 1.96 (IC 95% bilateral).</li>
+<li><code>stats.norm.ppf(0.995)</code> ≈ 2.576 (IC 99% bilateral).</li>
 </ul>
 </div>
 </div>
 <hr>
 </section>
-<section id="prueba-t-sobre-el-promedio-de-y" class="level3" data-number="8.4.2">
-<h3 data-number="8.4.2" class="anchored" data-anchor-id="prueba-t-sobre-el-promedio-de-y"><span class="header-section-number">8.4.2</span> 4.2 Prueba t sobre el promedio de <code>y</code></h3>
-<div id="dcee447f" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>test_auto <span class="op">=</span> stats.ttest_1samp(y, popmean<span class="op">=</span><span class="dv">0</span>)  <span class="co"># bilateral</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>est_t_auto <span class="op">=</span> test_auto.statistic</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>valorp_auto <span class="op">=</span> test_auto.pvalue</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>valc_2colas <span class="op">=</span> stats.t.ppf(<span class="fl">0.025</span>, n <span class="op">-</span> <span class="dv">1</span>)  <span class="co"># cuantil de cola izquierda</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"promedio_y: </span><span class="sc">{</span>promedio_y<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"t (automático): </span><span class="sc">{</span>est_t_auto<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"valor crítico (2 colas): </span><span class="sc">{</span>valc_2colas<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"valor p (2 colas): </span><span class="sc">{</span>valorp_auto<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>promedio_y: -0.0667
-t (automático): -0.5708
-valor crítico (2 colas): -2.0452
-valor p (2 colas): 0.5725</code></pre>
+<section id="prueba-t-dos-colas-para-y" class="level3" data-number="8.6.2">
+<h3 data-number="8.6.2" class="anchored" data-anchor-id="prueba-t-dos-colas-para-y"><span class="header-section-number">8.6.2</span> 6.2 Prueba t (dos colas) para <code>y</code></h3>
+<div id="37f0f15f" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>test_y <span class="op">=</span> stats.ttest_1samp(y, popmean<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>test_y.statistic, test_y.pvalue</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>(np.float64(-0.5708263279047432), np.float64(0.5725145639415321))</code></pre>
 </div>
 </div>
 <hr>
 </section>
 </section>
-<section id="aplicación-con-datos-reales-opcional-online" class="level2" data-number="8.5">
-<h2 data-number="8.5" class="anchored" data-anchor-id="aplicación-con-datos-reales-opcional-online"><span class="header-section-number">8.5</span> 5. Aplicación con datos reales (opcional, online)</h2>
-<p>Si quieres replicar este flujo con un dataset real, puedes usar paquetes de datasets educativos.<br>
-Este bloque queda desactivado en Quarto (para no depender de internet o instalación).</p>
-<div id="2d351fb8" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># En VSCode: pip install wooldridge</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># En Colab:  !pip -q install wooldridge</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> wooldridge <span class="im">as</span> woo</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>audit <span class="op">=</span> woo.dataWoo(<span class="st">"audit"</span>)</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> audit[<span class="st">"y"</span>]</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>promedio_y <span class="op">=</span> np.mean(y)</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(y)</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>desv_est_y <span class="op">=</span> np.std(y, ddof<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>se_y <span class="op">=</span> desv_est_y <span class="op">/</span> np.sqrt(n)</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>c95 <span class="op">=</span> stats.norm.ppf(<span class="fl">0.975</span>)</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>LI95 <span class="op">=</span> promedio_y <span class="op">-</span> c95 <span class="op">*</span> se_y</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>LS95 <span class="op">=</span> promedio_y <span class="op">+</span> c95 <span class="op">*</span> se_y</span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IC 95%: [</span><span class="sc">{</span>LI95<span class="sc">:.4f}</span><span class="ss">, </span><span class="sc">{</span>LS95<span class="sc">:.4f}</span><span class="ss">]"</span>)</span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>test_auto <span class="op">=</span> stats.ttest_1samp(y, popmean<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test_auto)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="aplicación-con-datos-reales-opcional-online" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="aplicación-con-datos-reales-opcional-online"><span class="header-section-number">8.7</span> 7. Aplicación con datos reales (opcional, online)</h2>
+<div id="6b678b4b" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># En VSCode: pip install wooldridge</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># En Colab:  !pip -q install wooldridge</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> wooldridge <span class="im">as</span> woo</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>audit <span class="op">=</span> woo.dataWoo(<span class="st">"audit"</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> audit[<span class="st">"y"</span>]</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>promedio_y <span class="op">=</span> np.mean(y)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(y)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>se_y <span class="op">=</span> np.std(y, ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">/</span> np.sqrt(n)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>c95 <span class="op">=</span> stats.norm.ppf(<span class="fl">0.975</span>)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"IC 95%:"</span>, promedio_y <span class="op">-</span> c95<span class="op">*</span>se_y, promedio_y <span class="op">+</span> c95<span class="op">*</span>se_y)</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(stats.ttest_1samp(y, popmean<span class="op">=</span><span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr>
 </section>
-<section id="ejercicios-propuestos" class="level2" data-number="8.6">
-<h2 data-number="8.6" class="anchored" data-anchor-id="ejercicios-propuestos"><span class="header-section-number">8.6</span> Ejercicios propuestos</h2>
+<section id="ejercicios-propuestos" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="ejercicios-propuestos"><span class="header-section-number">8.8</span> Ejercicios propuestos</h2>
 <ol type="1">
-<li><p><strong>IC al 95%</strong><br>
-Con la variable <code>variacion</code>, calcula el IC 95% usando t (<code>ppf(0.975, n-1)</code>).</p>
+<li><p><strong>IC 95% (t)</strong><br>
+Con <code>variacion</code>, calcula el IC 95% usando <code>ppf(0.975, n-1)</code>.</p>
 <p><strong>Respuesta esperada:</strong> dos números (LI, LS).</p></li>
-<li><p><strong>Prueba t (manual)</strong><br>
-Con <code>variacion</code>, calcula <code>t = promedio / SE</code> y el valor crítico de cola izquierda al 5%.</p>
-<p><strong>Respuesta esperada:</strong> un <code>t</code> (negativo) y un valor crítico (negativo).</p></li>
-<li><p><strong>Valor p (una cola)</strong><br>
-Con tu <code>t</code> manual, calcula <code>stats.t.cdf(t, n-1)</code>.</p>
-<p><strong>Respuesta esperada:</strong> un número pequeño (menor que 0.05 si hay evidencia).</p></li>
-<li><p><strong>Automático vs manual</strong><br>
-Compara el <code>t</code> manual con <code>stats.ttest_1samp(variacion, 0).statistic</code>.</p>
-<p><strong>Respuesta esperada:</strong> valores muy cercanos (diferencias por redondeo).</p></li>
+<li><p><strong>t manual</strong><br>
+Calcula <code>t_manual = (promedio - 0) / se</code>.</p>
+<p><strong>Respuesta esperada:</strong> un número (signo depende del promedio).</p></li>
+<li><p><strong>Valor crítico (cola izquierda)</strong><br>
+Calcula <code>stats.t.ppf(0.05, n-1)</code>.</p>
+<p><strong>Respuesta esperada:</strong> un número negativo.</p></li>
+<li><p><strong>Valor p (cola izquierda)</strong><br>
+Calcula <code>stats.t.cdf(t_manual, n-1)</code>.</p>
+<p><strong>Respuesta esperada:</strong> número entre 0 y 1.</p></li>
+<li><p><strong>Automático</strong><br>
+Calcula <code>stats.ttest_1samp(variacion, 0).statistic</code>.</p>
+<p><strong>Respuesta esperada:</strong> muy cercano a <code>t_manual</code>.</p></li>
 <li><p><strong>IC 99% (normal)</strong><br>
-Con <code>audit_like["y"]</code>, calcula el IC 99% usando <code>stats.norm.ppf(0.995)</code>.</p>
+Para <code>audit_like["y"]</code>, calcula IC 99% con <code>stats.norm.ppf(0.995)</code>.</p>
 <p><strong>Respuesta esperada:</strong> intervalo más ancho que el IC 95%.</p></li>
-<li><p><strong>Dos colas</strong><br>
-Con <code>audit_like["y"]</code>, ejecuta <code>ttest_1samp(y, 0)</code> y reporta el <code>pvalue</code>.</p>
-<p><strong>Respuesta esperada:</strong> un número entre 0 y 1.</p></li>
 </ol>
 <hr>
 
