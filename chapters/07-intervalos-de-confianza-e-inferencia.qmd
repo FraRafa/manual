@@ -281,6 +281,11 @@ IC95, IC99
 ```{python}
 test_y = stats.ttest_1samp(y, popmean=0)
 test_y.statistic, test_y.pvalue
+valc_2colas = stats.t.ppf(0.025, n - 1)
+print(f"t (automático): {test_y.statistic:.4f}")
+print(f"valor crítico (2 colas): {valc_2colas:.4f}")
+print(f"valor p (2 colas): {test_y.pvalue:.4f}")
+
 ```
 
 ---
