@@ -34,7 +34,7 @@ Al finalizar, vas a poder:
 
 ---
 
-[📄 Descargar PDF oficial](Manual-de-Python.pdf){.btn .btn-danger target="_blank"}
+[📄 Descargar PDF oficial](https://github.com/FraRafa/manual/blob/main/_site/Manual-de-Python.pdf){.btn .btn-danger target="_blank"}
 
 ---
 
